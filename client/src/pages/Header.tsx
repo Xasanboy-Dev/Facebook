@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import System from "./SearchingSystem";
 export default function Header() {
-  const [text, setText] = useState("");
+  const [letter, setText] = useState("");
+  let disp
+  if (letter == "") {
+    disp = "none"
+  } else {
+    disp = 'flex'
+  }
   const handleChange = (e: any) => {
     setText(e.target.value);
-    if (text.length >= 0) {
-    }
   };
 
   function searchFunc() {
-    alert(text);
+    alert(letter);
   }
   return (
     <nav>
@@ -18,31 +23,43 @@ export default function Header() {
           <a className="text-bold-500 mx-5 text-xl font-bold">Facebook</a>
         </li>
         <li className="inline-flex gap-2">
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control rounded-full"
-              placeholder="Username"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            ></input>
-            <span className="input-group-text" id="basic-addon1">
-              <svg
-                onClick={searchFunc}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 rounded-full"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
-            </span>
+          <div>
+            <div className="input-group mb-3">
+              <input
+                type="text"
+                onChange={handleChange}
+                className="form-control rounded-full"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+              ></input>
+              <span className="input-group-text" id="basic-addon1">
+                <svg
+                  onClick={searchFunc}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 rounded-full"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div style={{ display: disp }}>
+              <System />
+              <div>
+                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                </span>
+              </div>
+            </div>
           </div>
         </li>
         <li className="flex gap-2 items-center">
@@ -100,6 +117,6 @@ export default function Header() {
           </Link>
         </li>
       </ul>
-    </nav>
+    </nav >
   );
 }
