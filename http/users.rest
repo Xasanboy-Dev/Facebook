@@ -1,1 +1,23 @@
 GET http://localhost:8080 HTTP/1.1
+
+###
+DELETE http://localhost:8080/7
+
+###
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "name":"Xasanboy",
+    "lastname":"Abdurasulov",
+    "email":"hasanbojabdurasulov@gmail.com",
+    "password":"1234"
+}
+###
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+    "email":"hasanbojabdurasulov@gmail.com",
+    "password":"1234"
+}
