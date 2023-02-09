@@ -4,3 +4,14 @@
     top: -100%;
     left: 0;
 }
+
+.img {
+    background-color: brown;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    cursor: pointer;
+}

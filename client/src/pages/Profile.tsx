@@ -1,3 +1,13 @@
 export default function Profile() {
-  return <div>Hello World</div>;
+  const token = localStorage.getItem('token')
+  if (!token) {
+    window.location.href = '/login'
+    return <div></div>
+  }
+  return (
+    <div>
+      <div className="img">
+      </div>
+    </div>
+  )
 }

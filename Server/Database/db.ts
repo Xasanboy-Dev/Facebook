@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET || "SECRET";
 const prisma = new PrismaClient();
 type User = {
@@ -44,4 +45,8 @@ export async function seeAll() {
 
 export async function deleteUs(id: number) {
   return await prisma.user.delete({ where: { id } });
+}
+
+export async function jwtSign(email: string, id: number) {
+  return jwt.sign({ email, id }, SECRET);
 }

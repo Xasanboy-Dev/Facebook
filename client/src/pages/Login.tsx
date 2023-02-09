@@ -19,7 +19,9 @@ export default function Login() {
           return;
         }
         alert("Good!");
-        return;
+        const { token } = res.data
+        localStorage.setItem('token', token)
+        return window.location.href = "/profile"
       })
       .catch((error) => {
         console.log(error);

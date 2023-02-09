@@ -2,12 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import System from "./SearchingSystem";
 export default function Header() {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    return window.location.href = '/login'
+  }
+
+
+  let one: number = 0
+
   const [letter, setText] = useState("");
   let disp
   if (letter == "") {
     disp = "none"
+    localStorage.removeItem('letter')
   } else {
-    disp = 'flex'
+    localStorage.setItem('letter', letter)
+    disp = 'block'
   }
   const handleChange = (e: any) => {
     setText(e.target.value);
@@ -19,13 +29,14 @@ export default function Header() {
   return (
     <nav>
       <ul className="flex items-center justify-between p-2 mx-2 mt-1  border ">
-        <li>
+        <li onClick={() => window.location.href = '/'} className='btn'>
           <a className="text-bold-500 mx-5 text-xl font-bold">Facebook</a>
         </li>
-        <li className="inline-flex gap-2">
+        <li className="block gap-2">
           <div>
-            <div className="input-group mb-3">
+            <div className="input-group mb-3 w-96">
               <input
+                title="Searching system"
                 type="text"
                 onChange={handleChange}
                 className="form-control rounded-full"
@@ -33,7 +44,7 @@ export default function Header() {
                 aria-label="Username"
                 aria-describedby="basic-addon1"
               ></input>
-              <span className="input-group-text" id="basic-addon1">
+              <span className="input-group-text" title="Searching button" id="basic-addon1">
                 <svg
                   onClick={searchFunc}
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,20 +62,16 @@ export default function Header() {
                 </svg>
               </span>
             </div>
-            <div style={{ display: disp }}>
+            <div style={{ display: disp }} className='w-96'>
               <System />
               <div>
-                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                </span>
               </div>
             </div>
           </div>
         </li>
         <li className="flex gap-2 items-center">
           <div className="p-2 border rounded-full">
-            <a className="text-9xl">
+            <a className="text-9xl" title={'Messages'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -80,7 +87,7 @@ export default function Header() {
             </a>
           </div>
           <div className="p-2 border rounded-full">
-            <a>
+            <a title={'Notifications'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -96,8 +103,8 @@ export default function Header() {
             </a>
           </div>
           <Link
-            to={"/profile"}
-            className="p-2 border rounded-full ac"
+            to={token ? '/profile' : '/login'}
+            className={`p-2 border rounded-full`}
             title="Account"
           >
             <a>
