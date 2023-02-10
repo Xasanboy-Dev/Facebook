@@ -14,3 +14,11 @@ cd Server/
 ``` shell
 npm run dev
 ```
+# And then you need to path here:
+``` shel
+cd clent/
+```
+``` shell
+npm run dev
+```
+And then relax 👍
