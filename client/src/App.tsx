@@ -15,6 +15,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<System />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/system" element={<System />} />
       </Routes>
     </div>
   );

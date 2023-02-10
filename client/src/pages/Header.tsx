@@ -4,13 +4,10 @@ import System from "./SearchingSystem";
 export default function Header() {
   const token = localStorage.getItem('token')
   if (!token) {
-    return window.location.href = '/login'
+    window.location.href = '/login'
+    return <div></div>
   }
-
-
-  let one: number = 0
-
-  const [letter, setText] = useState("");
+ const [letter, setText] = useState("");
   let disp
   if (letter == "") {
     disp = "none"
