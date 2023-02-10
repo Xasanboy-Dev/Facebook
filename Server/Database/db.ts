@@ -50,3 +50,10 @@ export async function deleteUs(id: number) {
 export async function jwtSign(email: string, id: number) {
   return jwt.sign({ email, id }, SECRET);
 }
+
+export async function jwtVerify(token: string) {
+  return jwt.verify(token, SECRET)
+}
+
+export async function SearchAccountByLetter(text: string) {
+}

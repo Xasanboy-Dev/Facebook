@@ -1,5 +1,10 @@
-import { Request, Response } from "express";
-import { CheckUserExist } from "../Database/db";
+import { Request, Response, NextFunction } from "express";
+import { CheckUserExist, jwtVerify } from "../Database/db";
+
+interface User {
+  email: string
+  id: number
+}
 
 export async function CheckUser(req: Request, res: Response, next: any) {
   try {
@@ -37,3 +42,18 @@ export async function CheckingRegisteringUser(
     res.status(500).json({ message: "Error in Creating User!" });
   }
 }
+
+export async function CheckToken(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { token } = req.body
+    try {
+      const userData = await jwtVerify(token)
+      
+    } catch (error) {
+      return res.status(201).json({ message: "Please login again!" })
+    }
+  } catch (error: any) {
+    console.log(error)
+    res.status(500).json({ message: "Error at Checkin token!" })
+  }
+}  

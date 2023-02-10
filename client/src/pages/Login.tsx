@@ -20,7 +20,9 @@ export default function Login() {
         }
         alert("Good!");
         const { token } = res.data
+        console.log(res.data)
         localStorage.setItem('token', token)
+        localStorage.setItem('name', res.data.user.name)
         return window.location.href = "/profile"
       })
       .catch((error) => {

@@ -5,6 +5,8 @@ import Header from "./pages/Header";
 import Profile from "./pages/Profile";
 import System from "./pages/SearchingSystem";
 import RegisterPage from "./pages/RegisterPage";
+import UnderProfile from "./Others/UnderProfileIcon";
+import CreatingPost from "./pages/CreatePost";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/search" element={<System />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/system" element={<System />} />
+        <Route path="/under" element={<UnderProfile />} />
+        <Route path="/createPost" element={<CreatingPost />} />
       </Routes>
     </div>
   );

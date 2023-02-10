@@ -8,7 +8,7 @@ import {
   RegisterUser,
   Searching,
 } from "./../Functions/Funtions";
-import { CheckingRegisteringUser } from "../MiddleWare/MiddleWare";
+import { CheckingRegisteringUser, CheckToken } from "../MiddleWare/MiddleWare";
 dotenv.config();
 const server = express();
 server.use(cors());
@@ -24,7 +24,9 @@ server.post("/register", CheckingRegisteringUser, RegisterUser);
 
 server.delete("/:id", DeleteUse);
 
-server.get("/searching/:id", Searching);
+server.post("/searching/:id", Searching);
+
+server.post('/data', CheckToken)
 
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);

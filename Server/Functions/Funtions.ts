@@ -15,7 +15,7 @@ export async function LoginUser(req: Request, res: Response) {
     let user: any = await Login(email, password);
     user = user[0];
     if (!user) {
-      res.status(201).json({ message: "User Not Found!" });
+      res.status(201).json({ message: 'User not found!' })
       return;
     }
     const token: any = await jwtSign(user.email, user.id);
@@ -61,7 +61,21 @@ export async function DeleteUse(req: Request, res: Response) {
 export async function Searching(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    console.log(id);
+    const { posts, hashtag, video } = req.body
+    let arr: string[] = []
+
+    if (posts) {
+      arr.push('posts')
+    }
+
+    if (hashtag) {
+      arr.push('hashtag')
+    }
+
+    if (video) {
+      arr.push("videos")
+    }
+  
     res.status(200).json({ message: id });
   } catch (error: any) {
     console.log(error);
