@@ -12,7 +12,7 @@ export default function System() {
             })
     }
     return (
-        <div className=" bg-red-500 rounded-lg justify-content-center  items-center flex justify-between">
+        <div className=" bg-blue-500 rounded-lg justify-content-center  items-center flex justify-between">
             <h4 className="text-white">Search by this:</h4>
             <div className="flex p-2">
                 <input type={'checkbox'} onChange={(e) => setPosts(e.target.checked)} className='w-5 accent-stone-500' />

@@ -5,7 +5,8 @@ type User = {
   lastname: string;
   password: string;
 };
-import { Request, Response } from "express";
+import multer from "multer";
+import { request, Request, Response } from "express";
 import { CreateUser, deleteUs, Login, seeAll } from "../Database/db";
 import { jwtSign } from "../Database/db";
 
@@ -15,7 +16,7 @@ export async function LoginUser(req: Request, res: Response) {
     let user: any = await Login(email, password);
     user = user[0];
     if (!user) {
-      res.status(201).json({ message: 'User not found!' })
+      res.status(201).json({ message: "User not found!" });
       return;
     }
     const token: any = await jwtSign(user.email, user.id);
@@ -61,24 +62,33 @@ export async function DeleteUse(req: Request, res: Response) {
 export async function Searching(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { posts, hashtag, video } = req.body
-    let arr: string[] = []
+    const { posts, hashtag, video } = req.body;
+    let arr: string[] = [];
 
     if (posts) {
-      arr.push('posts')
+      arr.push("posts");
     }
 
     if (hashtag) {
-      arr.push('hashtag')
+      arr.push("hashtag");
     }
 
     if (video) {
-      arr.push("videos")
+      arr.push("videos");
     }
-  
+
     res.status(200).json({ message: id });
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Internal Error" });
+  }
+}
+
+export default function createImagePost(req: Request, res: Response) {
+  try {
+    res.status(201).json({ message: "Succes upload" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Bad Reuqest" });
   }
 }

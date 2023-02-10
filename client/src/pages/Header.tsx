@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
 import UnderProfile from "../Others/UnderProfileIcon";
 import System from "./SearchingSystem";
 export default function Header() {
@@ -9,7 +8,8 @@ export default function Header() {
     window.location.href = '/login'
     return <div></div>
   }
-  let profileDisplay = 'none'
+  let profileDisplay: any
+  let disp: any
 
 
   function GetDataWithToken(token: string) {
@@ -25,7 +25,6 @@ export default function Header() {
 
 
   let [letter, setText] = useState("");
-  let disp
   if (letter == "") {
     disp = "none"
     localStorage.removeItem('letter')
@@ -38,25 +37,25 @@ export default function Header() {
     setText(e.target.value);
   };
 
-  function searchFunc() {
+  function funcForSearching() {
     GetDataWithToken(token)
     alert(letter)
   }
 
-  function defaultClick() {
-    letter = ""
-    setText("")
-  }
-
-  function other(text: any) {
-    text == 'none' ? 'block' : 'none'
-    return profileDisplay = 'block'
+  function Display(type: string) {
+    if (type == 'none') {
+      profileDisplay = 'flex'
+      return "flex"
+    } else {
+      profileDisplay = 'none'
+      return "none"
+    }
   }
   return (
     <nav>
       <ul className="flex  justify-between p-2 mx-2 mt-1 ">
         <li onClick={() => window.location.href = '/'} className='btn'>
-          <a className="text-bold-500 mx-5 text-2xl font-bold">Facebook</a>
+          <a className="text-bold-500 mx-5 text-2xl text-blue-500 font-bold">Facebook</a>
         </li>
         <li className="block gap-2">
           <div>
@@ -72,7 +71,7 @@ export default function Header() {
               ></input>
               <span className="input-group-text" title="Searching button" id="basic-addon1">
                 <svg
-                  onClick={searchFunc}
+                  onClick={funcForSearching}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -125,7 +124,7 @@ export default function Header() {
               </a>
             </div>
             <div
-              onClick={defaultClick}
+              onClick={() => alert(Display(profileDisplay))}
               className={`cursor-pointer p-2 border rounded-full`}
               title="Account"
             >
@@ -156,10 +155,8 @@ export default function Header() {
           </div>
         </li>
       </ul>
-      <div onClick={defaultClick} style={{ display: other(profileDisplay) }}>
-        <div className="flex justify-end px-5">
-          <UnderProfile />
-        </div>
+      <div style={{ display: Display(profileDisplay) }}>
+        <UnderProfile />
       </div>
     </nav >
   );
