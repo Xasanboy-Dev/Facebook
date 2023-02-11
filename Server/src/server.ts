@@ -7,6 +7,7 @@ import createImagePost, {
   LoginUser,
   RegisterUser,
   Searching,
+  SeeAllPublishedUsers,
 } from "./../Functions/Funtions";
 import {
   CheckingRegisteringUser,
@@ -17,7 +18,7 @@ dotenv.config();
 const server = express();
 server.use(cors());
 server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: false }));
 const PORT = process.env.PORT;
 
 server.get("/", aboutAllUser);
@@ -34,6 +35,9 @@ server.post("/data", CheckToken);
 
 server.post("/post/image", upload.single("Image"), createImagePost);
 
+server.get('/users',SeeAllPublishedUsers)
+
+server.get('/posts',)
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

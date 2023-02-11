@@ -7,7 +7,16 @@ type User = {
 };
 import multer from "multer";
 import { request, Request, Response } from "express";
-import { CreateUser, deleteUs, Login, seeAll } from "../Database/db";
+import {
+  AllPosts,
+  CreateUser,
+  deleteUs,
+  EditUser,
+  Login,
+  SearchAccountByLetter,
+  seeAll,
+  SeeAllUsers,
+} from "../Database/db";
 import { jwtSign } from "../Database/db";
 
 export async function LoginUser(req: Request, res: Response) {
@@ -19,7 +28,8 @@ export async function LoginUser(req: Request, res: Response) {
       res.status(201).json({ message: "User not found!" });
       return;
     }
-    const token: any = await jwtSign(user.email, user.id);
+    const { name }: any = user;
+    const token: any = await jwtSign(user.email, user.id, name);
     user = {
       id: user.id,
       name: user.name,
@@ -76,8 +86,15 @@ export async function Searching(req: Request, res: Response) {
     if (video) {
       arr.push("videos");
     }
-
-    res.status(200).json({ message: id });
+    if (arr.length !== 0) {
+      for (let r in arr) {
+        const data = await SearchAccountByLetter(arr[r], id);
+        res.status(200).json({ message: "Users", data });
+      }
+    } else {
+      const data = await SearchAccountByLetter("", id);
+      res.status(200).json({ message: "Messages", data });
+    }
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Internal Error" });
@@ -90,5 +107,27 @@ export default function createImagePost(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Bad Reuqest" });
+  }
+}
+
+export async function SeeAllPublishedUsers(req: Request, res: Response) {
+  try {
+    const { name } = req.body;
+    const Users = await SeeAllUsers(name);
+    console.log(Users);
+    const UpdatdUser = await EditUser(name);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function AllPostsForUser(req: Request, res: Response) {
+  try {
+    const posts = await AllPosts();
+    console.log(posts);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error in Getting all posts!" });
   }
 }

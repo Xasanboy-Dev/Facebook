@@ -1,14 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
-import UnderProfile from "../Others/UnderProfileIcon";
+import { Link } from "react-router-dom";
 import System from "./SearchingSystem";
 export default function Header() {
   const token = localStorage.getItem('token')!
-  if (!token) {
-    window.location.href = '/login'
-    return <div></div>
-  }
-  let profileDisplay: any
   let disp: any
 
 
@@ -17,6 +12,7 @@ export default function Header() {
       .then(res => {
         if (res.status !== 200) {
           localStorage.removeItem('token')
+          localStorage.removeItem('name')
           window.location.href = '/login'
           return
         }
@@ -25,6 +21,7 @@ export default function Header() {
 
 
   let [letter, setText] = useState("");
+
   if (letter == "") {
     disp = "none"
     localStorage.removeItem('letter')
@@ -32,31 +29,21 @@ export default function Header() {
     localStorage.setItem('letter', letter)
     disp = 'block'
   }
+
   const handleChange = (e: any) => {
-    profileDisplay = ' none '
     setText(e.target.value);
   };
 
   function funcForSearching() {
     GetDataWithToken(token)
-    alert(letter)
-  }
-
-  function Display(type: string) {
-    if (type == 'none') {
-      profileDisplay = 'flex'
-      return "flex"
-    } else {
-      profileDisplay = 'none'
-      return "none"
-    }
+    console.log(letter)
   }
   return (
     <nav>
       <ul className="flex  justify-between p-2 mx-2 mt-1 ">
-        <li onClick={() => window.location.href = '/'} className='btn'>
+        <Link to={'/'} className='btn'>
           <a className="text-bold-500 mx-5 text-2xl text-blue-500 font-bold">Facebook</a>
-        </li>
+        </Link>
         <li className="block gap-2">
           <div>
             <div className="input-group mb-3 w-96">
@@ -123,8 +110,7 @@ export default function Header() {
                 </svg>
               </a>
             </div>
-            <div
-              onClick={() => alert(Display(profileDisplay))}
+            <Link to={'/profile'}
               className={`cursor-pointer p-2 border rounded-full`}
               title="Account"
             >
@@ -143,7 +129,7 @@ export default function Header() {
                 </svg>
                 <p>{localStorage.getItem('name')}</p>
               </a>
-            </div>
+            </Link>
           </li>
         </div>
       </ul>
@@ -155,9 +141,6 @@ export default function Header() {
           </div>
         </li>
       </ul>
-      <div style={{ display: Display(profileDisplay) }}>
-        <UnderProfile />
-      </div>
     </nav >
   );
 }

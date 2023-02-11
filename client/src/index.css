@@ -1,0 +1,10 @@
+.img {
+    display: flex;
+    border: 2px solid black;
+    height: 30vh;
+}
+
+.image {
+    width: 15vh;
+    height: 15vh;
+}

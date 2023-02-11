@@ -1,20 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import { CheckUserExist, jwtVerify } from "../Database/db";
+import crypto from "crypto";
 import multer from "multer";
 import path from "path";
-import uuid from "uuid";
 interface User {
   email: string;
   id: number;
 }
 let storage: any = multer.diskStorage({
   destination: (req: Request, files: any, cb: any) => {
-    cb(null, "./Facebook/../Server/Images");
+    cb(null, "./Facebook/../Images");
   },
   filename: (req: Request, file: any, cb: any) => {
-    let name = uuid;
-    console.log(name);
-    return;
+    let name = crypto.randomUUID();
     console.log(file);
     cb(null, name + path.extname(file.originalname));
   },
@@ -68,6 +66,13 @@ export async function CheckToken(
     const { token } = req.body;
     try {
       const userData = await jwtVerify(token);
+      if (userData == "invalid signature") {
+        return res
+          .status(400)
+          .json({ message: "Your account not found!. Please go out!" });
+      } else {
+        return res.status(200).json({ message: "Token", token: userData });
+      }
     } catch (error) {
       return res.status(201).json({ message: "Please login again!" });
     }

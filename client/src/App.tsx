@@ -8,19 +8,19 @@ import RegisterPage from "./pages/RegisterPage";
 import UnderProfile from "./Others/UnderProfileIcon";
 import CreatingPost from "./pages/CreatePost";
 import Uploading from "./Others/UploadingImage";
+import IndexPage from "./pages/IndexPage";
+import Layot from "./pages/Layout";
 
 function App() {
   return (
     <div>
       <Routes>
-        <Route index path="/" element={<Header />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/search" element={<System />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/system" element={<System />} />
-        <Route path="/under" element={<UnderProfile />} />
-        <Route path="/createPost" element={<Uploading />} />
+        <Route path="/" element={<Layot />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
     </div>
   );

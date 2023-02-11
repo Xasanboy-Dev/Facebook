@@ -8,12 +8,15 @@ datasource db {
 }
 
 model user {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String
-  lastname  String
-  password  String
-  published Boolean @default(false)
+  id            Int     @id @default(autoincrement())
+  name          String
+  email         String
+  lastname      String
+  password      String
+  published     Boolean @default(false)
+  userLike      Int?
+  userDislike   String?
+  userFavorites Int?
 }
 
 model Images {
@@ -22,6 +25,8 @@ model Images {
   authorId  Int
   createdAt DateTime @default(now())
   title     String
+  likes     Int
+  dislikes  Int
 }
 
 model Videos {
@@ -31,4 +36,6 @@ model Videos {
   imageName String
   createdAt DateTime @default(now())
   title     String
+  likes     Int
+  dislikes  Int
 }
