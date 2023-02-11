@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import UnderProfile from "../Others/UnderProfileIcon";
 import System from "./SearchingSystem";
 export default function Header() {
   const token = localStorage.getItem('token')!
@@ -29,7 +30,7 @@ export default function Header() {
     localStorage.setItem('letter', letter)
     disp = 'block'
   }
-
+  let r = 0
   const handleChange = (e: any) => {
     setText(e.target.value);
   };
@@ -37,6 +38,18 @@ export default function Header() {
   function funcForSearching() {
     GetDataWithToken(token)
     console.log(letter)
+  }
+
+  const point: HTMLBodyElement | null = document.querySelector('.point')
+  const li: HTMLBodyElement | null = document.querySelector('.li')
+  li!.style.display = 'none'
+  function ForClick() {
+    r++
+    if (r % 2 == 1) {
+      return li!.style.display = 'flex'
+    } else {
+      li!.style.display = 'none'
+    }
   }
   return (
     <nav>
@@ -110,8 +123,7 @@ export default function Header() {
                 </svg>
               </a>
             </div>
-            <Link to={'/profile'}
-              className={`cursor-pointer p-2 border rounded-full`}
+            <div onClick={ForClick} className="point cursor-pointer p-2 border rounded-full"
               title="Account"
             >
               <a className="d-flex items-center">
@@ -129,7 +141,7 @@ export default function Header() {
                 </svg>
                 <p>{localStorage.getItem('name')}</p>
               </a>
-            </Link>
+            </div>
           </li>
         </div>
       </ul>
@@ -141,6 +153,9 @@ export default function Header() {
           </div>
         </li>
       </ul>
+      <div className="li">
+        <UnderProfile />
+      </div>
     </nav >
   );
 }
