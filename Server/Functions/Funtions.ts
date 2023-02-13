@@ -103,7 +103,8 @@ export async function Searching(req: Request, res: Response) {
 
 export default function createImagePost(req: Request, res: Response) {
   try {
-    res.status(201).json({ message: "Succes upload" });
+    console.log(req.body)
+    // res.status(201).json(req.file);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Bad Reuqest" });
@@ -131,3 +132,4 @@ export async function AllPostsForUser(req: Request, res: Response) {
     res.status(500).json({ message: "Internal error in Getting all posts!" });
   }
 }
+

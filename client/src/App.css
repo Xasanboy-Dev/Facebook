@@ -8,3 +8,54 @@
 .btn {
     cursor: pointer;
 }
+
+.btn-warning {
+    position: relative;
+    padding: 11px 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 3px;
+    border: 0;
+    overflow: hidden;
+    background: black;
+    color: white;
+    margin: 15px;
+    width: 150%;
+}
+
+.btn1-warning {
+    position: relative;
+    padding: 11px 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 3px;
+    border: 0;
+    overflow: hidden;
+    background: black;
+    color: white;
+    margin: 15px;
+}
+
+.btn1-warning input[type='file'] {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: scale(5);
+    opacity: 0;
+}
+
+.btn-warning input[type='file'] {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: scale(5);
+    opacity: 0;
+}
+
+.profileIMage {
+    width: 50vh;
+    height: 15vh;
+    border-radius: 150px;
+}

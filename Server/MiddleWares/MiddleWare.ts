@@ -3,18 +3,18 @@ import { CheckUserExist, jwtVerify } from "../Database/db";
 import crypto from "crypto";
 import multer from "multer";
 import path from "path";
+
 interface User {
   email: string;
   id: number;
 }
 let storage: any = multer.diskStorage({
   destination: (req: Request, files: any, cb: any) => {
-    cb(null, "./Facebook/../Images");
+    cb(null, "./../images");
   },
   filename: (req: Request, file: any, cb: any) => {
-    let name = crypto.randomUUID();
-    console.log(file);
-    cb(null, name + path.extname(file.originalname));
+    let { name } = req.body
+    cb(null, name + '_profile');
   },
 });
 
@@ -79,5 +79,15 @@ export async function CheckToken(
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Error at Checkin token!" });
+  }
+}
+
+
+export function UploadImagesForProfile(req: Request, res: Response) {
+  try {
+
+  } catch (error: any) {
+    console.log(error)
+    res.status(500).json({ message: "Error in uploadung image for profile!" })
   }
 }

@@ -39,18 +39,6 @@ export default function Header() {
     GetDataWithToken(token)
     console.log(letter)
   }
-
-  const point: HTMLBodyElement | null = document.querySelector('.point')
-  const li: HTMLBodyElement | null = document.querySelector('.li')
-  li!.style.display = 'none'
-  function ForClick() {
-    r++
-    if (r % 2 == 1) {
-      return li!.style.display = 'flex'
-    } else {
-      li!.style.display = 'none'
-    }
-  }
   return (
     <nav>
       <ul className="flex  justify-between p-2 mx-2 mt-1 ">
@@ -123,7 +111,7 @@ export default function Header() {
                 </svg>
               </a>
             </div>
-            <div onClick={ForClick} className="point cursor-pointer p-2 border rounded-full"
+            <Link to={'/profile'} className="point cursor-pointer p-2 border rounded-full"
               title="Account"
             >
               <a className="d-flex items-center">
@@ -141,7 +129,7 @@ export default function Header() {
                 </svg>
                 <p>{localStorage.getItem('name')}</p>
               </a>
-            </div>
+            </Link>
           </li>
         </div>
       </ul>
@@ -153,9 +141,6 @@ export default function Header() {
           </div>
         </li>
       </ul>
-      <div className="li">
-        <UnderProfile />
-      </div>
     </nav >
   );
 }

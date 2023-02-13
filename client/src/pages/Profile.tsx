@@ -1,8 +1,12 @@
 import axios from "axios"
+import { useCallback, useState } from "react"
+import logo from "./logo.png"
 
 export default function Profile() {
+  const [img, setImg] = useState(null)
+  const [avatar, setAvatar] = useState(null)
   let token = localStorage.getItem('token')
-  let name: any
+  const [name, useName] = useState("")
   if (!token) {
     window.location.href = '/login'
     return
@@ -14,45 +18,59 @@ export default function Profile() {
           localStorage.removeItem("token")
           return <div>Hello</div>
         } else {
-          name = res.data.token.name
+          useName(res.data.token.name)
         }
       })
-    const div: HTMLBodyElement | null = document.querySelector(`.FIRST`)
-    const IconImage: HTMLBodyElement | null = document.querySelector(".iconImage")
-    hello(IconImage)
-    async function hello(str: HTMLBodyElement | null) {
-      str!.style.color = 'white'
+  }
+  async function sendFile() {
+    try {
+      const data = new FormData()
+      data.append("Images", img!)
+      await axios.post("http://localhost:8080/profile/image", { data, name: name }, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+        })
+    } catch (error: any) {
+      console.log(error)
     }
-    div?.addEventListener('mouseover', (ev) => {
-      IconImage!.style.color = 'black'
-    })
-    div?.addEventListener('mouseleave', (ev) => {
-      IconImage!.style.color = 'white'
-    })
   }
   return (
     <div>
-      <div className="img m-2 rounded-xl">
-        <ul className="flex items-end mb-4">
+      <div className="img flex items-end justify-content-between  m-2 rounded-xl">
+        <ul className="flex justigy-between w-24 items-end mb-4">
           <li className="p-2">
             <div className="flex items-end">
-              <div className="FIRST flex justify-content-center items-end rounded-full image border cursor-pointer">
-                <div className="hover iconImage">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20  h-20">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-                  </svg>
-                </div>
-                <div className="">
-                  <img src="" />
-                </div>
+              <div className="flex FIRST bg-red-500 flex justify-content-center items-end rounded-full image border cursor-pointer">
+                {
+                  avatar
+                    ?
+                    <img className="logo" src={`${avatar}`} alt='avatar' />
+                    :
+                    <img src={`${logo}`} className='profileIMage' alt="your image" />
+                }
               </div>
-              <a className="border  p-2 cursor-pointer rounded-full">Name of User</a>
             </div>
+            <a className="border p-2 mx-14 cursor-pointer rounded-full">{name}</a>
           </li>
-          <li className="">
-            <a>Hello</a>
+          <li>
+            <button type="submit" onClick={sendFile} className="btn-warning">
+              <i className="bi bi-image-fill"></i>Change your image!
+              <input onChange={e => setImg(e.target.files[0])} accept="image/*" className="file" type='file' />
+            </button>
           </li>
         </ul>
+        <div className="">
+          <form action="http://localhost:8080/profile/dashboard/image">
+            <button type="submit" className="btn1-warning mx-2">
+              <input accept="image/*" className="file" type='file' />
+              <i className="bi bi-image-fill"></i>Change dashboard image!
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   )

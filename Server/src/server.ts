@@ -1,3 +1,4 @@
+import path from "path"
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -18,8 +19,10 @@ dotenv.config();
 const server = express();
 server.use(cors());
 server.use(express.json());
-server.use(express.urlencoded({ extended: false }));
+server.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT;
+
+server.use('./../images', express.static(path.join(__dirname, 'images')))
 
 server.get("/", aboutAllUser);
 
@@ -33,10 +36,12 @@ server.post("/searching/:id", Searching);
 
 server.post("/data", CheckToken);
 
-server.post("/post/image", upload.single("Image"), createImagePost);
+server.post("/profile/image",// upload.single("Image"),
+  createImagePost);
 
-server.get('/users',SeeAllPublishedUsers)
+server.get('/users', SeeAllPublishedUsers)
 
+server.post('/profile/image')
 server.get('/posts',)
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
