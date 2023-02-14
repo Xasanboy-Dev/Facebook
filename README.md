@@ -3,8 +3,9 @@
 import multer from "multer"
 const storage = multer.diskStorage({
   destination:(req:Request,file:any,cb:any)=>{
-    cb(null,)
-  }
+    cb(null,"Images")
+  },
+  filename:
 })
 ```
 First you nedd to run server of Backend
