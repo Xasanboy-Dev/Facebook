@@ -1,7 +1,12 @@
 # Facebook
-
-It is not a very good?
-
+``` ts
+import multer from "multer"
+const storage = multer.diskStorage({
+  destination:(req:Request,file:any,cb:any)=>{
+    cb(null,)
+  }
+})
+```
 First you nedd to run server of Backend
 ### Terminal
 ``` shell
