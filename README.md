@@ -6,6 +6,7 @@ const storage = multer.diskStorage({
     cb(null,"Images")
   },
   filename:(req:Request,file:any,cb)=>{
+      let {name} = req.body
   console.log(file)
   cb(null,name+"_profileImage")
   }
