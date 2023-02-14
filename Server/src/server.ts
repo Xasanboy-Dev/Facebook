@@ -1,4 +1,4 @@
-import path from "path"
+import path from "path";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -10,19 +10,19 @@ import createImagePost, {
   Searching,
   SeeAllPublishedUsers,
 } from "./../Functions/Funtions";
-import {
-  CheckingRegisteringUser,
-  upload,
-  CheckToken,
-} from "../MiddleWares/MiddleWare";
+import { CheckingRegisteringUser, CheckToken } from "../MiddleWares/MiddleWare";
+import { storage } from "../MiddleWares/MiddleWare";
+import multer from "multer";
 dotenv.config();
+
 const server = express();
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+
 const PORT = process.env.PORT;
 
-server.use('./../images', express.static(path.join(__dirname, 'images')))
+server.use("/images", express.static("./Images"));
 
 server.get("/", aboutAllUser);
 
@@ -35,14 +35,16 @@ server.delete("/:id", DeleteUse);
 server.post("/searching/:id", Searching);
 
 server.post("/data", CheckToken);
+const upload = multer({ storage });
+server.post(
+  "/profile/image",
+  upload.single("Images"), 
+  createImagePost
+);
 
-server.post("/profile/image",// upload.single("Image"),
-  createImagePost);
+server.get("/users", SeeAllPublishedUsers);
 
-server.get('/users', SeeAllPublishedUsers)
-
-server.post('/profile/image')
-server.get('/posts',)
+server.get("/posts");
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

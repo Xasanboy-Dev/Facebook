@@ -6,7 +6,7 @@ type User = {
   password: string;
 };
 import multer from "multer";
-import { request, Request, Response } from "express";
+import { Request, Response } from "express";
 import {
   AllPosts,
   CreateUser,
@@ -18,7 +18,7 @@ import {
   SeeAllUsers,
 } from "../Database/db";
 import { jwtSign } from "../Database/db";
-
+import { storage } from "../MiddleWares/MiddleWare";
 export async function LoginUser(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
@@ -100,11 +100,11 @@ export async function Searching(req: Request, res: Response) {
     res.status(500).json({ message: "Internal Error" });
   }
 }
-
 export default function createImagePost(req: Request, res: Response) {
   try {
-    console.log(req.body)
-    // res.status(201).json(req.file);
+    const email = req.headers.authorization;
+   
+    res.status(201).json();
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Bad Reuqest" });
@@ -133,3 +133,26 @@ export async function AllPostsForUser(req: Request, res: Response) {
   }
 }
 
+// export async function postTypes(req: Request, res: Response) {
+//   try {
+//     const errorsv = validationResult(req)
+//       if(!errorsv.isEmpty()){
+//           const{errors} = Object(errorsv)
+//           const {msg} = errors[0]
+//           return res.status(400).json({message: msg})
+//       }
+//       const body:Types = req.body
+
+//       const img = String(req.file?.path)
+//       if(img === null){res.status(400).json({message: "Must be type_img"})}
+//       const {name, categories_id} = body
+//       if(categories_id === null){
+//         res.status(400).json({message: "You must write categories_id "})
+//       }
+//       await client.types.create({data:{name: name, img:img,categoriesId:Number(categories_id)}})
+
+//    res.status(200).json({message: "Type has writed"})
+//   } catch (error) {
+//    res.status(400).json({message: "Error with write type " + error})
+//   }
+// }

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET || "SECRET";
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 type User = {
   name: string;
   lastname: string;

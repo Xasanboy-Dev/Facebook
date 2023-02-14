@@ -1,24 +1,25 @@
 import { Request, Response, NextFunction } from "express";
 import { CheckUserExist, jwtVerify } from "../Database/db";
-import crypto from "crypto";
 import multer from "multer";
-import path from "path";
 
 interface User {
   email: string;
   id: number;
 }
-let storage: any = multer.diskStorage({
-  destination: (req: Request, files: any, cb: any) => {
-    cb(null, "./../images");
+
+
+export const storage = multer.diskStorage({
+  destination: (req: Request, file: any, cb: any) => {
+    cb(null, "Images");
   },
-  filename: (req: Request, file: any, cb: any) => {
-    let { name } = req.body
-    cb(null, name + '_profile');
+  filename: (req: Request, file: any, cb) => {
+    let email = req.headers.authorization;
+    cb(null, email + ".png");
   },
 });
 
-export const upload = multer({ storage });
+
+
 
 export async function CheckUser(req: Request, res: Response, next: any) {
   try {
@@ -79,15 +80,5 @@ export async function CheckToken(
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Error at Checkin token!" });
-  }
-}
-
-
-export function UploadImagesForProfile(req: Request, res: Response) {
-  try {
-
-  } catch (error: any) {
-    console.log(error)
-    res.status(500).json({ message: "Error in uploadung image for profile!" })
   }
 }
