@@ -5,7 +5,10 @@ const storage = multer.diskStorage({
   destination:(req:Request,file:any,cb:any)=>{
     cb(null,"Images")
   },
-  filename:
+  filename:(req:Request,file:any,cb)=>{
+  console.log(file)
+  cb(null,name+"_profileImage")
+  }
 })
 ```
 First you nedd to run server of Backend
