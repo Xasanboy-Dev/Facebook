@@ -7,7 +7,6 @@ interface User {
   id: number;
 }
 
-
 export const storage = multer.diskStorage({
   destination: (req: Request, file: any, cb: any) => {
     cb(null, "Images");
@@ -17,9 +16,6 @@ export const storage = multer.diskStorage({
     cb(null, email + ".png");
   },
 });
-
-
-
 
 export async function CheckUser(req: Request, res: Response, next: any) {
   try {
@@ -61,21 +57,16 @@ export async function CheckingRegisteringUser(
 export async function CheckToken(
   req: Request,
   res: Response,
-  next: NextFunction
 ) {
   try {
     const { token } = req.body;
-    try {
-      const userData = await jwtVerify(token);
-      if (userData == "invalid signature") {
-        return res
-          .status(400)
-          .json({ message: "Your account not found!. Please go out!" });
-      } else {
-        return res.status(200).json({ message: "Token", token: userData });
-      }
-    } catch (error) {
-      return res.status(201).json({ message: "Please login again!" });
+    const userData = await jwtVerify(token);
+    if (userData == "invalid signature") {
+      return res
+        .status(400)
+        .json({ message: "Your account not found!. Please go out!" });
+    } else {
+      return res.status(200).json({ message: "Token", token: userData });
     }
   } catch (error: any) {
     console.log(error);

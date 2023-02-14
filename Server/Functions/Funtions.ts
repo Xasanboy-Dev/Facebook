@@ -5,8 +5,7 @@ type User = {
   lastname: string;
   password: string;
 };
-import multer from "multer";
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import {
   AllPosts,
   CreateUser,
@@ -18,7 +17,8 @@ import {
   SeeAllUsers,
 } from "../Database/db";
 import { jwtSign } from "../Database/db";
-import { storage } from "../MiddleWares/MiddleWare";
+import { getImagetoProgile, UpdateImagePath } from "../Database/image";
+import { FindSomeOneWithEmail } from "../Database/user";
 export async function LoginUser(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
@@ -29,7 +29,7 @@ export async function LoginUser(req: Request, res: Response) {
       return;
     }
     const { name }: any = user;
-    const token: any = await jwtSign(user.email, user.id, name);
+    const token: any = await jwtSign(user.email, user.id, name, user.imageUrl);
     user = {
       id: user.id,
       name: user.name,
@@ -79,10 +79,6 @@ export async function Searching(req: Request, res: Response) {
       arr.push("posts");
     }
 
-    if (hashtag) {
-      arr.push("hashtag");
-    }
-
     if (video) {
       arr.push("videos");
     }
@@ -100,11 +96,12 @@ export async function Searching(req: Request, res: Response) {
     res.status(500).json({ message: "Internal Error" });
   }
 }
-export default function createImagePost(req: Request, res: Response) {
+export default async function createImagePost(req: Request, res: Response) {
   try {
-    const email = req.headers.authorization;
-   
-    res.status(201).json();
+    let path = req.file?.path;
+    let email = req.headers.authorization;
+    let result = await UpdateImagePath(email!, path);
+    res.status(201).json(req.file);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Bad Reuqest" });
@@ -132,27 +129,29 @@ export async function AllPostsForUser(req: Request, res: Response) {
     res.status(500).json({ message: "Internal error in Getting all posts!" });
   }
 }
+export async function GetImageOfProfile(req: Request, res: Response) {
+  try {
+    const { email } = req.params;
+    const result = await getImagetoProgile(email);
+    console.log(result);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Error at getting image to profile!" });
+  }
+}
 
-// export async function postTypes(req: Request, res: Response) {
-//   try {
-//     const errorsv = validationResult(req)
-//       if(!errorsv.isEmpty()){
-//           const{errors} = Object(errorsv)
-//           const {msg} = errors[0]
-//           return res.status(400).json({message: msg})
-//       }
-//       const body:Types = req.body
-
-//       const img = String(req.file?.path)
-//       if(img === null){res.status(400).json({message: "Must be type_img"})}
-//       const {name, categories_id} = body
-//       if(categories_id === null){
-//         res.status(400).json({message: "You must write categories_id "})
-//       }
-//       await client.types.create({data:{name: name, img:img,categoriesId:Number(categories_id)}})
-
-//    res.status(200).json({message: "Type has writed"})
-//   } catch (error) {
-//    res.status(400).json({message: "Error with write type " + error})
-//   }
-// }
+export async function FindUserByEmail(req: Request, res: Response) {
+  try {
+    const { email } = req.params;
+    if ((await FindSomeOneWithEmail(email)) == "Internal error") {
+      return res.status(500).json({ message: "Internal error" });
+    }
+    res.status(200).json({
+      message: "Good work.",
+      posts: await FindSomeOneWithEmail(email),
+    });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
+  }
+}

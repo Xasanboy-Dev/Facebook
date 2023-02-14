@@ -47,8 +47,13 @@ export async function deleteUs(id: number) {
   return await prisma.user.delete({ where: { id } });
 }
 
-export async function jwtSign(email: string, id: number, name: string) {
-  return jwt.sign({ email, id, name }, SECRET);
+export async function jwtSign(
+  email: string,
+  id: number,
+  name: string,
+  imageUrl: string
+) {
+  return jwt.sign({ email, id, name, imageUrl }, SECRET);
 }
 
 export async function jwtVerify(token: string) {

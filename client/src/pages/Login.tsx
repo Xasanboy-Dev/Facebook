@@ -6,6 +6,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  localStorage.removeItem("name")
+  localStorage.removeItem("token")
+
   async function Submit() {
     if (email.length == 0 || password.length == 0) {
       alert("Please fill all the gaps!");
