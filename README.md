@@ -12,6 +12,15 @@ const storage = multer.diskStorage({
   }
 })
 ```
+Then 
+``` ts
+const upload = multer({storage})
+server.post('/profile/image',upload.single('image'),(req:Request,res:Response)=>{
+
+  body of post method 
+
+})
+```
 First you nedd to run server of Backend
 ### Terminal
 ``` shell
