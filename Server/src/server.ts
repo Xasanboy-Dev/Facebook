@@ -15,7 +15,12 @@ import createImagePost, {
 import { CheckingRegisteringUser, CheckToken } from "../MiddleWares/MiddleWare";
 import { storage } from "../MiddleWares/MiddleWare";
 import multer from "multer";
-import { GetAllPostsByUserEmail } from "../Functions/Posts";
+import {
+  creaetNewPost,
+  GetAllPosts,
+  GetAllPostsByUserEmail,
+  removePostById,
+} from "../Functions/Posts";
 dotenv.config();
 
 const server = express();
@@ -48,6 +53,12 @@ server.get("/image/:email", GetImageOfProfile);
 server.get("/data/:email", FindUserByEmail);
 
 server.get("/posts/:email", GetAllPostsByUserEmail);
+
+server.post("/newPost", creaetNewPost);
+
+server.get("/posts", GetAllPosts);
+
+server.delete("/removePost/:id", removePostById);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

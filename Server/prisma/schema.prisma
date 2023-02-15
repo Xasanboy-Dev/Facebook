@@ -45,3 +45,13 @@ model Videos {
   likes       Int
   dislikes    Int
 }
+
+model Posts {
+  id                    Int    @id @default(autoincrement())
+  title                 String
+  type_of_post          String
+  user_Id               Int
+  user_name             String
+  likes_of_this_Post    Int[]
+  dislikes_of_this_Post Int[]
+}
