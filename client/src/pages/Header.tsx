@@ -4,46 +4,45 @@ import { Link } from "react-router-dom";
 import UnderProfile from "../Others/UnderProfileIcon";
 import System from "./SearchingSystem";
 export default function Header() {
-  const token = localStorage.getItem('token')!
-  let disp: any
-
+  const token = localStorage.getItem("token")!;
+  let disp: any;
 
   function GetDataWithToken(token: string) {
-    axios.post('http://localhost:8080/data', { token })
-      .then(res => {
-        if (res.status !== 200) {
-          localStorage.removeItem('token')
-          localStorage.removeItem('name')
-          window.location.href = '/login'
-          return
-        }
-      })
+    axios.post("http://localhost:8080/data", { token }).then((res) => {
+      if (res.status !== 200) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("name");
+        window.location.href = "/login";
+        return;
+      }
+    });
   }
-
 
   let [letter, setText] = useState("");
 
   if (letter == "") {
-    disp = "none"
-    localStorage.removeItem('letter')
+    disp = "none";
+    localStorage.removeItem("letter");
   } else {
-    localStorage.setItem('letter', letter)
-    disp = 'block'
+    localStorage.setItem("letter", letter);
+    disp = "block";
   }
-  let r = 0
+  let r = 0;
   const handleChange = (e: any) => {
     setText(e.target.value);
   };
 
   function funcForSearching() {
-    GetDataWithToken(token)
-    console.log(letter)
+    GetDataWithToken(token);
+    console.log(letter);
   }
   return (
     <nav>
       <ul className="flex  justify-between p-2 mx-2 mt-1 ">
-        <Link to={'/'} className='btn'>
-          <a className="text-bold-500 mx-5 text-2xl text-blue-500 font-bold">Facebook</a>
+        <Link to={"/"} className="">
+          <a className="text-bold-500 mx-5 text-2xl text-blue-500 font-bold">
+            Facebook
+          </a>
         </Link>
         <li className="block gap-2">
           <div>
@@ -57,7 +56,11 @@ export default function Header() {
                 aria-label="Username"
                 aria-describedby="basic-addon1"
               ></input>
-              <span className="input-group-text" title="Searching button" id="basic-addon1">
+              <span
+                className="input-group-text"
+                title="Searching button"
+                id="basic-addon1"
+              >
                 <svg
                   onClick={funcForSearching}
                   xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +83,7 @@ export default function Header() {
         <div>
           <li className="flex gap-2">
             <div className="p-2 border rounded-full">
-              <a className="text-9xl" title={'Messages'}>
+              <a className="text-9xl" title={"Messages"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -96,7 +99,7 @@ export default function Header() {
               </a>
             </div>
             <div className="p-2 border rounded-full">
-              <a title={'Notifications'}>
+              <a title={"Notifications"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -111,7 +114,9 @@ export default function Header() {
                 </svg>
               </a>
             </div>
-            <Link to={'/profile'} className="point cursor-pointer p-2 border rounded-full"
+            <Link
+              to={"/profile"}
+              className="point cursor-pointer p-2 border rounded-full"
               title="Account"
             >
               <a className="d-flex items-center">
@@ -127,7 +132,7 @@ export default function Header() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <p>{localStorage.getItem('name')}</p>
+                <p>{localStorage.getItem("name")}</p>
               </a>
             </Link>
           </li>
@@ -136,11 +141,11 @@ export default function Header() {
       <div className="border"></div>
       <ul className="flex justify-center">
         <li>
-          <div style={{ display: disp }} className='rounded-full w-96'>
+          <div style={{ display: disp }} className="rounded-full w-96">
             <System />
           </div>
         </li>
       </ul>
-    </nav >
+    </nav>
   );
 }

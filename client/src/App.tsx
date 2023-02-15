@@ -12,6 +12,7 @@ import Photos from "./Posts/Photos";
 import Friends from "./Posts/Friends";
 import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
+import Search from "./Posts/Search";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path='/test' element={<Test />} />
+        <Route path="/test" element={<Test />} />
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>
@@ -29,6 +30,7 @@ function App() {
             <Route path="/profile/friends" element={<Friends />} />
             <Route path="/profile/information" element={<Information />} />
             <Route path="/profile/likes" element={<ClickOnLikes />} />
+            <Route path="/profile/search" element={<Search />} />
           </Route>
         </Route>
       </Routes>

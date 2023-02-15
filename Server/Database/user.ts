@@ -8,3 +8,11 @@ export async function FindSomeOneWithEmail(email: string) {
     return "Internal error";
   }
 }
+
+export async function FindUser(email: string) {
+  try {
+    return prisma.user.findUnique({ where: { email } })
+  } catch (error: any) {
+    console.log(error.message);
+  }
+}
