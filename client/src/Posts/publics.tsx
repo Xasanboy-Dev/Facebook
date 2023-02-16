@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+import { Emoji } from "../Emoji/emoji";
 export default function Publics() {
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export default function Publics() {
   let display: string = "none";
   let warning: string = "none";
   let textForUser: any;
-  let max = 50;
+  let max = 3;
   if (letter.length >= max) {
     display = "flex";
   } else {
@@ -70,6 +71,28 @@ export default function Publics() {
                 }
                 placeholder={`Anything new ?`}
               />
+            </div>
+            <div className="text-red-900  items-center flex justify-content-center mb-2">
+              <h4>Add some emoji</h4>
+              <button className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-8 h-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
+                  />
+                </svg>
+              </button>
+              <div className="fixed mb-[85px] bg-white shadow-md p-3 ">
+                <Emoji />
+              </div>
             </div>
             <div
               style={{ display: warning }}
