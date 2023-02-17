@@ -40,4 +40,7 @@ cd clent/
 ``` shell
 npm run dev
 ```
+```ts
+And after more days you can to POST and LOGIN and others
+```
 And then relax 👍
