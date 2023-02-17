@@ -1,21 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Emoji } from "../Emoji/emoji";
-export default function Publics() {
+import { setTrue } from "../Ts_files/publics";
+export function Publics() {
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
   let [letter, setLetter] = useState("");
-
-  let [getImage, setGettingImage] = useState("");
-  if (getImage) {
-    console.log(getImage);
-  }
-
+  let [displayOfVideo, setDisplay] = useState("");
+  let [posting, setPost] = useState();
   let display: string = "none";
   let warning: string = "none";
   let textForUser: any;
   let max = 3;
+
   if (letter.length >= max) {
     display = "flex";
   } else {
@@ -55,6 +54,53 @@ export default function Publics() {
     });
   }
   getAllPostsOfUser(email);
+
+  let postImageSrc: any = document.getElementById("postImage");
+  let postVideoSrc: any = document.getElementById(`postVideo`);
+  let postingImagetoServer: any;
+  let postingVideotoServer: any;
+  function getSrcFromVideoTag(str: any) {
+    try {
+      setDisplay("flex");
+      postingVideotoServer = str;
+      setPost(str);
+      let [file] = str;
+      let link = URL.createObjectURL(file);
+      postVideoSrc.src = link;
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+  function getSrcFromImageTag(str: any) {
+    try {
+      setDisplay("none");
+      postingImagetoServer = str;
+      setPost(str);
+      let [file] = str;
+      let link = URL.createObjectURL(file);
+      postImageSrc.src = link;
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
+  async function BtnPublish() {
+    let images = ["jpg", "jpeg", "img", "png"];
+    let name = posting![0].name;
+    name = name.split(".");
+    name = name[name.length - 1];
+    const data = new FormData();
+    data.append("Images", posting![0]);
+    await axios
+      .post("http://localhost:8080/post/postImages", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: email,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  }
   return (
     <div>
       <div>
@@ -73,8 +119,30 @@ export default function Publics() {
               />
             </div>
             <div className="text-red-900  items-center flex justify-content-center mb-2">
+              <div className="w-75 drop-shadow-2xl h-50 img text-center  flex mx-auto mt-[10px] mb-[10px] border m-5">
+                <div className="flex">
+                  <img
+                    style={{
+                      display:
+                        displayOfVideo == "flex" || displayOfVideo == undefined
+                          ? "none"
+                          : "flex",
+                    }}
+                    className="w-full h-full"
+                    id="postImage"
+                  />
+                  <video
+                    style={{
+                      display: displayOfVideo ? displayOfVideo : "none",
+                    }}
+                    controls
+                    className={" w-full"}
+                    id="postVideo"
+                  ></video>
+                </div>
+              </div>
               <h4>Add some emoji</h4>
-              <button className="">
+              <button onClick={() => setTrue()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -90,8 +158,14 @@ export default function Publics() {
                   />
                 </svg>
               </button>
-              <div className="fixed mb-[85px] bg-white shadow-md p-3 ">
-                <Emoji />
+              <div
+                style={{
+                  display:
+                    localStorage.getItem("click") == "false" ? "none" : "flex",
+                }}
+                className="fixed mb-[85px] bg-white shadow-md p-3 "
+              >
+                <Emoji></Emoji>
               </div>
             </div>
             <div
@@ -124,7 +198,8 @@ export default function Publics() {
                     <b>Create a new Foto</b>
                     <input
                       type="file"
-                      onChange={(e) => setGettingImage(e.target.files[0])}
+                      accept="image/*"
+                      onChange={(e) => getSrcFromImageTag(e.target.files)}
                     />
                   </button>
                 </li>
@@ -142,14 +217,26 @@ export default function Publics() {
                       d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
                     />
                   </svg>
-                  <b>Create a new Video</b>
+                  <button className="btn">
+                    Create a new Video
+                    <input
+                      type="file"
+                      accept="video/*"
+                      onChange={(e) => getSrcFromVideoTag(e.target.files)}
+                    />
+                  </button>
                 </li>
               </ul>
               <div
                 style={{ display }}
                 className="flex justify-content-center mx-5 rounded-full mt-5 mb-3 p-2 bg-green-900  border "
               >
-                <button className="text-white text-xl">Publish</button>
+                <button
+                  onClick={() => BtnPublish()}
+                  className="text-white text-xl"
+                >
+                  Publish
+                </button>
               </div>
             </div>
           </li>

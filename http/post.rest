@@ -1,0 +1,9 @@
+@url=http://localhost:8080/post
+
+POST  {{url}}/postImages
+Content-Type: application/json
+Authorization:hasan@gmail.com
+
+{
+  "files":"Hello"
+}

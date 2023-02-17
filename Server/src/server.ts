@@ -1,5 +1,6 @@
-import path from "path";
 import express from "express";
+import { Router } from "express";
+const router = Router();
 import cors from "cors";
 import dotenv from "dotenv";
 import createImagePost, {
@@ -29,6 +30,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT;
+
+server.use("/post", require("./postImages"));
 
 server.use("/images", express.static("./Images"));
 
@@ -62,3 +65,5 @@ server.delete("/removePost/:id", removePostById);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });
+
+module.exports = { router };

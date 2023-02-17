@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Request, Response, NextFunction } from "express";
 import { CheckUserExist, jwtVerify } from "../Database/db";
 import multer from "multer";
@@ -54,10 +55,7 @@ export async function CheckingRegisteringUser(
   }
 }
 
-export async function CheckToken(
-  req: Request,
-  res: Response,
-) {
+export async function CheckToken(req: Request, res: Response) {
   try {
     const { token } = req.body;
     const userData = await jwtVerify(token);
@@ -73,3 +71,14 @@ export async function CheckToken(
     res.status(500).json({ message: "Error at Checkin token!" });
   }
 }
+
+export const storageForPost = multer.diskStorage({
+  destination: (req: Request, file: any, cb: any) => {
+    cb(null, "Posts");
+  },
+  filename: (req: Request, file: any, cb) => {
+    console.log(file);
+    let email = req.headers.authorization;
+    cb(null, crypto.randomUUID() + `_${email}.png`);
+  },
+});

@@ -5,7 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import IndexPage from "./pages/IndexPage";
 import Layot from "./pages/Layout";
 import Test from "./pages/test";
-import Publics from "./Posts/publics";
+import { Publics } from "./Posts/publics";
 import ProfileLayout from "./pages/LayoutProfile";
 import Videos from "./Posts/Videos";
 import Photos from "./Posts/Photos";

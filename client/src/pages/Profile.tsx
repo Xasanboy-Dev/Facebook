@@ -1,7 +1,7 @@
 import axios from "axios";
 import logo from "./logo.png";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function Profile() {
   const [img, setImg] = useState(null);
   const [email, useEmail] = useState("");
@@ -44,7 +44,6 @@ export default function Profile() {
       }
     });
   }
-  async function sendFile() {}
   let split = window.location.href.split("/");
   function linkClasses(type: string) {
     let classes =
