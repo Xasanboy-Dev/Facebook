@@ -15,7 +15,7 @@ export default function Photos() {
             console.log(title + "_" + email)
         })
     return (
-        <div>
+        <div >
             {photos.map((result: any) => {
                 return <div className="text-center border border-dark ">
                     <div className="w-25 justify-start flex">
