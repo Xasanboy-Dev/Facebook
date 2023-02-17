@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { isFunctionDeclaration, reduceEachTrailingCommentRange } from "typescript";
 import { Emoji } from "../Emoji/emoji";
 import { setTrue } from "../Ts_files/publics";
+import Photos from "./Photos";
 export function Publics() {
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
@@ -15,14 +16,55 @@ export function Publics() {
   let textForUser: any;
   let max = 3;
 
+  async function BtnPublish() {
+    try {
+      let images = ["jpg", "jpeg", "img", "png", "tif", "tiff", "bmp", "gif", "eps"];
+      let videos = ["mp4", "m4a", "m4p", "m4b", "m4r", "m4v"]
+      if (posting) {
+        let name = posting[0].name.split(".")
+        name = name[name.length - 1]
+        if (images.includes(name)) {
+          const data = new FormData();
+          data.append("Images", posting![0]);
+          await axios.post("http://localhost:8080/post/postImages", data, { headers: { "Accept": letter, "Content-Type": "multipart/form-data", "Authorization": email } })
+            .then((res) => {
+              if (res.status == 201) {
+                alert("Created succesfully")
+                return window.location.href = '/profile'
+              }
+            }).catch(err => {
+              alert(err.message)
+            })
+        } else {
+          if (videos.includes(name)) {
+            const data = new FormData()
+            data.append("Videos", posting![0]);
+            await axios.post("http://localhost:8080/post/postVideos", data, { headers: { "Accept": letter, "Content-Type": "multipart/form-data", "Authorization": email } })
+              .then(res => {
+                if (res.status == 201) {
+                  alert("Added succesfully")
+                  return window.location.href = '/profile'
+                }
+              })
+          } else {
+            alert("You must to select PHOTO or VIDEO")
+          }
+        }
+      } else {
+        alert(letter)
+      }
+    } catch (error: any) {
+      alert(error.message)
+    }
+  }
+
   if (letter.length >= max) {
     display = "flex";
   } else {
     if (letter.length > 0) {
       warning = "flex";
-      textForUser = `You must write more than ${
-        max - letter.length
-      } letter to publish`;
+      textForUser = `You must write more than ${max - letter.length
+        } letter to publish`;
     }
   }
   try {
@@ -83,24 +125,6 @@ export function Publics() {
       console.log(error.message);
     }
   }
-  async function BtnPublish() {
-    let images = ["jpg", "jpeg", "img", "png"];
-    let name = posting![0].name;
-    name = name.split(".");
-    name = name[name.length - 1];
-    const data = new FormData();
-    data.append("Images", posting![0]);
-    await axios
-      .post("http://localhost:8080/post/postImages", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: email,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-  }
   return (
     <div>
       <div>
@@ -141,23 +165,25 @@ export function Publics() {
                   ></video>
                 </div>
               </div>
-              <h4>Add some emoji</h4>
-              <button onClick={() => setTrue()}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-8 h-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
-                  />
-                </svg>
-              </button>
+              <div className="flex" style={{ display: "" }}>
+                <h4>Add some emoji</h4>
+                <button onClick={() => setTrue()}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
+                    />
+                  </svg>
+                </button>
+              </div>
               <div
                 style={{
                   display:
@@ -229,10 +255,10 @@ export function Publics() {
               </ul>
               <div
                 style={{ display }}
+                onClick={() => BtnPublish()}
                 className="flex justify-content-center mx-5 rounded-full mt-5 mb-3 p-2 bg-green-900  border "
               >
                 <button
-                  onClick={() => BtnPublish()}
                   className="text-white text-xl"
                 >
                   Publish
@@ -241,6 +267,7 @@ export function Publics() {
             </div>
           </li>
         </ul>
+        <Photos/>
       </div>
     </div>
   );

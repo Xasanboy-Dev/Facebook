@@ -1,4 +1,4 @@
-  generator client {
+generator client {
   provider = "prisma-client-js"
 }
 
@@ -36,22 +36,27 @@ model Images {
 
 model Videos {
   id          Int      @id @default(autoincrement())
-  published   Boolean  @default(false)
+  published   Boolean  @default(true)
   authorId    Int
   authorEmail String
   imageName   String
   createdAt   DateTime @default(now())
   title       String
-  likes       Int
-  dislikes    Int
+  likes       Int[]
+  dislikes    Int[]
+  text        String
 }
 
 model Posts {
-  id                    Int    @id @default(autoincrement())
+  id                    Int      @id @default(autoincrement())
+  published             Boolean  @default(true)
   title                 String
+  email                 String
   type_of_post          String
   user_Id               Int
   user_name             String
   likes_of_this_Post    Int[]
   dislikes_of_this_Post Int[]
+  text                  String
+  createdAt             DateTime @default(now())
 }

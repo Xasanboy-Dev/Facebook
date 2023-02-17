@@ -133,7 +133,11 @@ export async function GetImageOfProfile(req: Request, res: Response) {
   try {
     const { email } = req.params;
     const result = await getImagetoProgile(email);
-    console.log(result);
+    if (!result) {
+      return res.status(500).json({ message: "Pleas login again!" });
+    }else{
+      res.status(200).json({ message: "All your photots!", Photos: result,email });
+    }
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Error at getting image to profile!" });

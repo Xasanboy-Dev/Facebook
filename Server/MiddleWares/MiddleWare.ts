@@ -74,11 +74,19 @@ export async function CheckToken(req: Request, res: Response) {
 
 export const storageForPost = multer.diskStorage({
   destination: (req: Request, file: any, cb: any) => {
-    cb(null, "Posts");
+    cb(null, "postImages");
   },
   filename: (req: Request, file: any, cb) => {
-    console.log(file);
     let email = req.headers.authorization;
-    cb(null, crypto.randomUUID() + `_${email}.png`);
+    cb(null, file.originalname + `_${email}.png`);
+  },
+});
+export const uploadForVideos = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "postVideos");
+  },
+  filename: function (req, file, cb) {
+    let email = req.headers.authorization;
+    cb(null, file.originalname + `_${email}.mp4`);
   },
 });

@@ -1,6 +1,5 @@
 import express from "express";
 import { Router } from "express";
-const router = Router();
 import cors from "cors";
 import dotenv from "dotenv";
 import createImagePost, {
@@ -24,6 +23,7 @@ import {
 } from "../Functions/Posts";
 dotenv.config();
 
+const router = Router();
 const server = express();
 server.use(cors());
 server.use(express.json());
@@ -34,6 +34,8 @@ const PORT = process.env.PORT;
 server.use("/post", require("./postImages"));
 
 server.use("/images", express.static("./Images"));
+server.use("/posts", express.static("./postImages"));
+server.use("/videos", express.static("./postVideos"));
 
 server.get("/", aboutAllUser);
 
