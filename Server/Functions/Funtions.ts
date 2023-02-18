@@ -100,11 +100,28 @@ export default async function createImagePost(req: Request, res: Response) {
   try {
     let path = req.file?.path;
     let email = req.headers.authorization;
-    let result = await UpdateImagePath(email!, path);
+    let result = await UpdateImagePath(email!);
+    if (!result) {
+      return res.status(400).json({ message: "Please login again!" });
+    }
     res.status(201).json(req.file);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Bad Reuqest" });
+  }
+}
+
+export async function createDashboardImage(req: Request, res: Response) {
+  try {
+    let email = req.headers.authorization;
+    let result = await UpdateImagePath(email!);
+    if (!result) {
+      return res.status(400).json({ message: "Please login again!" });
+    }
+    res.status(200).json({ message: "Pasted succesfully!" });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
   }
 }
 
@@ -135,8 +152,10 @@ export async function GetImageOfProfile(req: Request, res: Response) {
     const result = await getImagetoProgile(email);
     if (!result) {
       return res.status(500).json({ message: "Pleas login again!" });
-    }else{
-      res.status(200).json({ message: "All your photots!", Photos: result,email });
+    } else {
+      res
+        .status(200)
+        .json({ message: "All your photots!", Photos: result, email });
     }
   } catch (error: any) {
     console.log(error);

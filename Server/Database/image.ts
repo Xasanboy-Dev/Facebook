@@ -2,12 +2,12 @@ import { PrismaClient, user } from "@prisma/client";
 import { TokenExpiredError } from "jsonwebtoken";
 import { jwtSign, jwtVerify } from "./db";
 const prisma = new PrismaClient();
-export async function UpdateImagePath(email: string, path: string | undefined) {
+export async function UpdateImagePath(email: string) {
   let user = await prisma.user.findFirst({ where: { email } });
   if (!user) {
-    return "Noe found!";
+    return false;
   }
-  return prisma.user.update({ where: { email }, data: { imageUrl: path } });
+  return true;
 }
 
 export async function getImagetoProgile(email: string) {

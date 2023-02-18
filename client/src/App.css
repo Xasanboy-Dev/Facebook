@@ -84,3 +84,6 @@
   outline: none;
   resize: none;
 }
+.dashboard{
+  overflow: hidden;
+}

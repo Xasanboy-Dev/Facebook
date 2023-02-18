@@ -7,10 +7,19 @@ interface User {
   email: string;
   id: number;
 }
+export const dashBoardImage = multer.diskStorage({
+  destination: (req: Request, file: any, cb: any) => {
+    cb(null, "dashboardImages");
+  },
+  filename: (req: Request, file: any, cb) => {
+    let email = req.headers.authorization;
+    cb(null, email + ".png");
+  },
+});
 
 export const storage = multer.diskStorage({
   destination: (req: Request, file: any, cb: any) => {
-    cb(null, "Images");
+    cb(null, "profileImages");
   },
   filename: (req: Request, file: any, cb) => {
     let email = req.headers.authorization;

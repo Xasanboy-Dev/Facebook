@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import createImagePost, {
   aboutAllUser,
+  createDashboardImage,
   DeleteUse,
   FindUserByEmail,
   GetImageOfProfile,
@@ -12,7 +13,11 @@ import createImagePost, {
   Searching,
   SeeAllPublishedUsers,
 } from "./../Functions/Funtions";
-import { CheckingRegisteringUser, CheckToken } from "../MiddleWares/MiddleWare";
+import {
+  CheckingRegisteringUser,
+  CheckToken,
+  dashBoardImage,
+} from "../MiddleWares/MiddleWare";
 import { storage } from "../MiddleWares/MiddleWare";
 import multer from "multer";
 import {
@@ -33,10 +38,10 @@ const PORT = process.env.PORT;
 
 server.use("/post", require("./postImages"));
 
-server.use("/images", express.static("./Images"));
+server.use("/images", express.static("./profileImages"));
 server.use("/posts", express.static("./postImages"));
 server.use("/videos", express.static("./postVideos"));
-
+server.use("/dashboard", express.static("./dashboardImages"));
 server.get("/", aboutAllUser);
 
 server.post("/login", LoginUser);
@@ -50,6 +55,13 @@ server.post("/searching/:id", Searching);
 server.post("/data", CheckToken);
 const upload = multer({ storage });
 server.post("/profile/image", upload.single("Images"), createImagePost);
+
+const uploadDashboard = multer({ storage: dashBoardImage });
+server.post(
+  "/dashboard",
+  uploadDashboard.single("DashboardImage"),
+  createDashboardImage
+);
 
 server.get("/users", SeeAllPublishedUsers);
 
