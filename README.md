@@ -42,6 +42,6 @@ npm run dev
 ```
 ```shell
 And after more days you can to POST and LOGIN and others
-And you can to   
+And you can to   POST  a new VIDIO and a new POST
 ```
 And then relax 👍
