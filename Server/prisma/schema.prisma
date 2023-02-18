@@ -39,7 +39,7 @@ model Videos {
   published   Boolean  @default(true)
   authorId    Int
   authorEmail String
-  imageName   String
+  VideoName   String
   createdAt   DateTime @default(now())
   title       String
   likes       Int[]

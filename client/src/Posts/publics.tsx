@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { isFunctionDeclaration, reduceEachTrailingCommentRange } from "typescript";
 import { Emoji } from "../Emoji/emoji";
 import { setTrue } from "../Ts_files/publics";
 import Photos from "./Photos";
 export function Publics() {
+  // Context API
+
+  const [showEmoji, setShowEmoji] = useState(false);
+
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
   let [letter, setLetter] = useState("");
@@ -18,43 +21,68 @@ export function Publics() {
 
   async function BtnPublish() {
     try {
-      let images = ["jpg", "jpeg", "img", "png", "tif", "tiff", "bmp", "gif", "eps"];
-      let videos = ["mp4", "m4a", "m4p", "m4b", "m4r", "m4v"]
+      let images = [
+        "jpg",
+        "jpeg",
+        "img",
+        "png",
+        "tif",
+        "tiff",
+        "bmp",
+        "gif",
+        "eps",
+      ];
+      let videos = ["mp4", "m4a", "m4p", "m4b", "m4r", "m4v"];
       if (posting) {
-        let name = posting[0].name.split(".")
-        name = name[name.length - 1]
-        if (images.includes(name)) {
+        let name: any = posting[0].name.split(".");
+        name = name[name.length - 1];
+        if (images.includes(name.toLowerCase())) {
           const data = new FormData();
           data.append("Images", posting![0]);
-          await axios.post("http://localhost:8080/post/postImages", data, { headers: { "Accept": letter, "Content-Type": "multipart/form-data", "Authorization": email } })
+          await axios
+            .post("http://localhost:8080/post/postImages", data, {
+              headers: {
+                Accept: letter,
+                "Content-Type": "multipart/form-data",
+                Authorization: email,
+              },
+            })
             .then((res) => {
               if (res.status == 201) {
-                alert("Created succesfully")
-                return window.location.href = '/profile'
+                alert("Created succesfully");
+                return (window.location.href = "/profile");
               }
-            }).catch(err => {
-              alert(err.message)
             })
+            .catch((err) => {
+              alert(err.message);
+            });
         } else {
-          if (videos.includes(name)) {
-            const data = new FormData()
+          if (videos.includes(name.toLowerCase())) {
+            const data = new FormData();
             data.append("Videos", posting![0]);
-            await axios.post("http://localhost:8080/post/postVideos", data, { headers: { "Accept": letter, "Content-Type": "multipart/form-data", "Authorization": email } })
-              .then(res => {
-                if (res.status == 201) {
-                  alert("Added succesfully")
-                  return window.location.href = '/profile'
-                }
+            await axios
+              .post("http://localhost:8080/post/postVideos", data, {
+                headers: {
+                  Accept: letter,
+                  "Content-Type": "multipart/form-data",
+                  Authorization: email,
+                },
               })
+              .then((res) => {
+                if (res.status == 201) {
+                  alert("Added succesfully");
+                  return (window.location.href = "/profile");
+                }
+              });
           } else {
-            alert("You must to select PHOTO or VIDEO")
+            alert("You must to select PHOTO or VIDEO");
           }
         }
       } else {
-        alert(letter)
+        alert(letter);
       }
     } catch (error: any) {
-      alert(error.message)
+      alert(error.message);
     }
   }
 
@@ -63,8 +91,9 @@ export function Publics() {
   } else {
     if (letter.length > 0) {
       warning = "flex";
-      textForUser = `You must write more than ${max - letter.length
-        } letter to publish`;
+      textForUser = `You must write more than ${
+        max - letter.length
+      } letter to publish`;
     }
   }
   try {
@@ -167,7 +196,7 @@ export function Publics() {
               </div>
               <div className="flex" style={{ display: "" }}>
                 <h4>Add some emoji</h4>
-                <button onClick={() => setTrue()}>
+                <button onClick={() => setShowEmoji(true)}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -185,13 +214,11 @@ export function Publics() {
                 </button>
               </div>
               <div
-                style={{
-                  display:
-                    localStorage.getItem("click") == "false" ? "none" : "flex",
-                }}
-                className="fixed mb-[85px] bg-white shadow-md p-3 "
+                className={`fixed mb-[85px] bg-white shadow-md p-3 ${
+                  showEmoji ? "block" : "hidden"
+                }`}
               >
-                <Emoji></Emoji>
+                <Emoji showEmoji={setShowEmoji}></Emoji>
               </div>
             </div>
             <div
@@ -258,16 +285,12 @@ export function Publics() {
                 onClick={() => BtnPublish()}
                 className="flex justify-content-center mx-5 rounded-full mt-5 mb-3 p-2 bg-green-900  border "
               >
-                <button
-                  className="text-white text-xl"
-                >
-                  Publish
-                </button>
+                <button className="text-white text-xl">Publish</button>
               </div>
             </div>
           </li>
         </ul>
-        <Photos/>
+        <Photos />
       </div>
     </div>
   );

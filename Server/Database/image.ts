@@ -53,7 +53,7 @@ export async function postVideoFromUser(
       title: name,
       authorEmail: User!.email,
       authorId: User!.id,
-      imageName: name,
+      VideoName: name,
       text: letter,
     },
   });

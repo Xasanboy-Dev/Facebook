@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { updateVideoText, Videos } from "../Database/videos";
 import { GetPosts, removerPostById } from "./../Database/post";
 export async function GetAllPostsByUserEmail(req: Request, res: Response) {
   try {
@@ -38,5 +39,27 @@ export async function removePostById(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Intrenal error" });
+  }
+}
+
+export async function getVideos(req: Request, res: Response) {
+  try {
+    const videos = await Videos();
+    res.status(200).json({ message: "All videos", videos });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function editVideosText(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const body: Videos = req.body;
+    const updatedVideo = updateVideoText(+id, body);
+    res.status(201).json({ message: "Updated succesfully", updatedVideo });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
   }
 }

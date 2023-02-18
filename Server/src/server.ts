@@ -22,8 +22,10 @@ import { storage } from "../MiddleWares/MiddleWare";
 import multer from "multer";
 import {
   creaetNewPost,
+  editVideosText,
   GetAllPosts,
   GetAllPostsByUserEmail,
+  getVideos,
   removePostById,
 } from "../Functions/Posts";
 dotenv.config();
@@ -76,6 +78,10 @@ server.post("/newPost", creaetNewPost);
 server.get("/posts", GetAllPosts);
 
 server.delete("/removePost/:id", removePostById);
+
+server.get("/videos", getVideos);
+
+server.put("/videos/:id", editVideosText);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

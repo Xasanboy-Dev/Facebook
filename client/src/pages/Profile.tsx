@@ -8,22 +8,22 @@ export default function Profile() {
   const [avatar, setAvatar] = useState("");
   let token = localStorage.getItem("token");
   const [name, useName] = useState("");
-  let [dashboardImage, setDashboardImage] = useState(null)
+  let [dashboardImage, setDashboardImage] = useState(null);
   if (dashboardImage) {
     async function SelectedDashBoardImage() {
-      const data = new FormData()
-      data.append("DashboardImage", dashboardImage!)
-      await axios.post("http://localhost:8080/dashboard", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: email
-        }
-      })
-        .then(res => {
+      const data = new FormData();
+      data.append("DashboardImage", dashboardImage!);
+      await axios
+        .post("http://localhost:8080/dashboard", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: email,
+          },
         })
+        .then((res) => {});
     }
-    SelectedDashBoardImage()
-    window.location.href = window.location.href
+    SelectedDashBoardImage();
+    window.location.href = window.location.href;
   }
 
   if (img) {
@@ -71,9 +71,12 @@ export default function Profile() {
     return classes;
   }
   return (
-    <div className="">
-      <div className="w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl">
-        <img className="border-none dashboard w-4/5  h-[250px] z-[-15]" src={`http://localhost:8080/dashboard/${email}.png`} />
+    <div>
+      <div className="flex w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl">
+        {/* <img
+          className="border-none dashboard w-4/5  h-[250px] z-[-15]"
+          src={`http://localhost:8080/dashboard/${email}.png`}
+        /> */}
         <ul className="flex justigy-between w-24 items-end mb-4">
           <li className="p-2">
             <div className="flex items-end">
@@ -122,7 +125,12 @@ export default function Profile() {
             action="http://localhost:8080/profile/dashboard/image"
           >
             <button type="submit" className="btn1-warning mx-2">
-              <input accept="image/*" onChange={(e) => setDashboardImage(e.target.files[0])} className="file" type="file" />
+              <input
+                accept="image/*"
+                onChange={(e) => setDashboardImage(e.target.files[0])}
+                className="file"
+                type="file"
+              />
               <i className="bi bi-image-fill"></i>Change dashboard image!
             </button>
           </form>

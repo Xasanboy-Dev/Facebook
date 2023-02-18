@@ -4,7 +4,6 @@ import "./App.css";
 import RegisterPage from "./pages/RegisterPage";
 import IndexPage from "./pages/IndexPage";
 import Layot from "./pages/Layout";
-import Test from "./pages/test";
 import { Publics } from "./Posts/publics";
 import ProfileLayout from "./pages/LayoutProfile";
 import Videos from "./Posts/Videos";
@@ -20,7 +19,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/test" element={<Test />} />
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>

@@ -1,13 +1,11 @@
-import { setFalse } from "../Ts_files/publics";
-
-export function Emoji() {
+export function Emoji({ showEmoji }: { showEmoji : (show: boolean) => void }) {
   function clicked(str: string) {
     alert(str);
   }
   return (
     <div className="cursor-pointer">
       <ul className="flex text-center">
-        <h4 onClick={setFalse} className="border rounded-full fixed ml-[105px]">
+        <h4 onClick={() => showEmoji(false) } className="border rounded-full fixed ml-[105px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
