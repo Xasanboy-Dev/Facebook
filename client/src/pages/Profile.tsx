@@ -72,11 +72,9 @@ export default function Profile() {
   }
   return (
     <div>
-      <div className="flex w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl">
-        {/* <img
-          className="border-none dashboard w-4/5  h-[250px] z-[-15]"
-          src={`http://localhost:8080/dashboard/${email}.png`}
-        /> */}
+      <div
+        className="flex w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl"
+      >
         <ul className="flex justigy-between w-24 items-end mb-4">
           <li className="p-2">
             <div className="flex items-end">

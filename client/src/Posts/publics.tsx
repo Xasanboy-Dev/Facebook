@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { Emoji } from "../Emoji/emoji";
+import { Emoji } from "../Settings/emoji";
 import { setTrue } from "../Ts_files/publics";
 import Photos from "./Photos";
 export function Publics() {
@@ -31,6 +31,7 @@ export function Publics() {
         "bmp",
         "gif",
         "eps",
+        "avif",
       ];
       let videos = ["mp4", "m4a", "m4p", "m4b", "m4r", "m4v"];
       if (posting) {
