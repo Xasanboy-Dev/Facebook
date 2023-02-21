@@ -1,5 +1,6 @@
 @url=http://localhost:8080/post
 
+# CREATE NEW LETTER IMAGE
 POST  {{url}}/postImages HTTP/1.1
 Content-Type: application/json
 Authorization:hasan@gmail.com
@@ -10,6 +11,7 @@ Authorization:hasan@gmail.com
 
 
 ###
+# CREATE NEW LETTER POST
 POST {{url}}/Text HTTP/1.1
 Content-Type: application/json
 
@@ -18,12 +20,24 @@ Content-Type: application/json
   "email":"hasan@gmail.com"
 }
 ###
+# GET POSTS by USER ID
 GET {{url}}s/hasan@gmail.com HTTP/1.1
 ###
 GET http://localhost:8080/posts HTTP/1.1
 Authorization: hasan@gmail.com
 ###
-POST http://localhost:8080/post/likee/1
+# LIKE
+POST http://localhost:8080/post/likee/11
+Content-Type: application/json
+
+{
+  "email":"hasan@gmail.com"
+}
+
+
+### 
+# DISLIKE
+POST http://localhost:8080/post/dislikee/1
 Content-Type: application/json
 
 {

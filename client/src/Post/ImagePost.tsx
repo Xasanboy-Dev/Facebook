@@ -1,4 +1,3 @@
-import { Route } from "react-router-dom"
 import { Posts } from "./../Ts_files/types"
 export default function ImagePost({ showPost, PostBio }: { showPost: (show: boolean) => void, PostBio: Posts }) {
     let result: Posts = PostBio
@@ -25,15 +24,13 @@ export default function ImagePost({ showPost, PostBio }: { showPost: (show: bool
                 <div className="text w-full">
                     <ul>
                         <li>
-                            <button onClick={()=>}></button>
+                            <button onClick={() =>{}}></button>
                         </li>
                     </ul>
                 </div>
             </div>
         )
     } else {
-        return (
-            <div>{PostBio.text}</div>
-        )
+        return <div></div>
     }
 }
