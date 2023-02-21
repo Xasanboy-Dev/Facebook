@@ -22,11 +22,7 @@ export default function Profile() {
             Authorization: email,
           },
         })
-<<<<<<< HEAD
         .then((res) => { });
-=======
-        .then((res) => {});
->>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
     }
     SelectedDashBoardImage();
     window.location.href = window.location.href;
@@ -113,7 +109,7 @@ export default function Profile() {
             >
               <button type="submit">
                 <input
-                  onChange={(e) => setImg(e.target.files[0])}
+                  onChange={(e: any) => setImg(e.target.files[0])}
                   accept="image/*"
                   className="file"
                   type="file"
@@ -131,7 +127,7 @@ export default function Profile() {
             <button type="submit" className="btn1-warning mx-2">
               <input
                 accept="image/*"
-                onChange={(e) => setDashboardImage(e.target.files[0])}
+                onChange={(e: any) => setDashboardImage(e.target.files[0])}
                 className="file"
                 type="file"
               />

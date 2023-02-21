@@ -1,15 +1,24 @@
 import axios from "axios";
-
+import ImagePost from "../Post/ImagePost";
+import { useState } from "react";
 export default function IndexPage() {
-    axios.get('https://localhost:8080/posts')
+    let [arr, setArr] = useState([])
+    let showIcon: boolean = false
+    function show() {
+        showIcon = true
+    }
+
+    axios.get('http://localhost:8080/posts', { headers: { Authorization: localStorage.getItem('email') } })
         .then(res => {
-            console.log(res.data)
+            setArr(res.data.posts)
+        }).catch(err => {
+            alert(err.message)
         })
     return (
         <div>
-            <div className="border">
-                <h1>Hello This is a Index Page</h1>
-            </div>
+            {arr.map(numbers =>
+                <ImagePost PostBio={numbers} showPost={show} />
+            )}
         </div>
     )
 }

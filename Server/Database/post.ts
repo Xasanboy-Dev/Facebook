@@ -50,7 +50,7 @@ export async function deleteWithId(id: number) {
 export async function getPosts_WhereLikeMore() {
   try {
     const posts = await prisma.posts.findMany({
-      orderBy: { likes_of_this_Post: "desc" },
+      orderBy: { createdAt: "desc" },
     });
     return posts;
   } catch (error: any) {

@@ -12,25 +12,16 @@ import Friends from "./Posts/Friends";
 import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
 import Search from "./Posts/Search";
-<<<<<<< HEAD
-import Settings from "./Post/postSetting";
 import POSTS from "./Post/postVideo_and_Photo";
-=======
 import Hamburger from "./Settings/services";
->>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
-
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
-<<<<<<< HEAD
-        <Route path="/test" element={<Test />} />
         <Route path="/post" element={<POSTS />} />
-=======
         <Route path="/service" element={<Hamburger />} />
->>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>

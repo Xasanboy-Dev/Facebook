@@ -1,18 +1,13 @@
 import { Request, Response } from "express";
-<<<<<<< HEAD
 import { CheckUserExist } from "../Database/user";
+import { updateVideoText, Videos } from "../Database/videos";
 import {
   checkPostExist,
   deleteWithId,
-  GetPosts,
   getPosts_WhereLikeMore,
   postText,
-  removerPostById,
 } from "./../Database/post";
-=======
-import { updateVideoText, Videos } from "../Database/videos";
 import { GetPosts, removerPostById } from "./../Database/post";
->>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
 export async function GetAllPostsByUserEmail(req: Request, res: Response) {
   try {
     let { email } = req.params;
@@ -53,7 +48,6 @@ export async function removePostById(req: Request, res: Response) {
   }
 }
 
-<<<<<<< HEAD
 export async function postLetter(req: Request, res: Response) {
   try {
     let { letter, email } = req.body;
@@ -110,7 +104,8 @@ export async function allPostsWithoutFilter_InOreder(
   } catch (error: any) {
     console.log(error.message);
     return res.status(500).json({ message: "Internal Error" });
-=======
+  }
+}
 export async function getVideos(req: Request, res: Response) {
   try {
     const videos = await Videos();
@@ -130,6 +125,5 @@ export async function editVideosText(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error);
     res.status(500).json({ message: "Internal error" });
->>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
   }
 }
