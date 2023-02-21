@@ -21,11 +21,10 @@ export default function Login() {
           alert("Your email is not valid or password!");
           return;
         }
-        alert("Good!");
         const { token } = res.data
-        console.log(res.data)
         localStorage.setItem('token', token)
         localStorage.setItem('name', res.data.user.name)
+        localStorage.setItem('email', res.data.user.email)
         return window.location.href = "/profile"
       })
       .catch((error) => {

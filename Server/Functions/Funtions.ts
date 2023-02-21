@@ -7,10 +7,10 @@ type User = {
 };
 import e, { Request, Response } from "express";
 import {
-  AllPosts,
   CreateUser,
   deleteUs,
   EditUser,
+  jwtVerify,
   Login,
   SearchAccountByLetter,
   seeAll,
@@ -18,7 +18,7 @@ import {
 } from "../Database/db";
 import { jwtSign } from "../Database/db";
 import { getImagetoProgile, UpdateImagePath } from "../Database/image";
-import { FindSomeOneWithEmail } from "../Database/user";
+import { FindSomeOneWithEmail, PostsByEmail } from "../Database/user";
 export async function LoginUser(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
@@ -137,15 +137,6 @@ export async function SeeAllPublishedUsers(req: Request, res: Response) {
   }
 }
 
-export async function AllPostsForUser(req: Request, res: Response) {
-  try {
-    const posts = await AllPosts();
-    console.log(posts);
-  } catch (error: any) {
-    console.log(error);
-    res.status(500).json({ message: "Internal error in Getting all posts!" });
-  }
-}
 export async function GetImageOfProfile(req: Request, res: Response) {
   try {
     const { email } = req.params;
@@ -153,9 +144,11 @@ export async function GetImageOfProfile(req: Request, res: Response) {
     if (!result) {
       return res.status(500).json({ message: "Pleas login again!" });
     } else {
-      res
-        .status(200)
-        .json({ message: "All your photots!", Photos: result, email });
+      res.status(200).json({
+        message: "All your photots!",
+        posts: result.posts,
+        texts: result.texts,
+      });
     }
   } catch (error: any) {
     console.log(error);
@@ -165,16 +158,36 @@ export async function GetImageOfProfile(req: Request, res: Response) {
 
 export async function FindUserByEmail(req: Request, res: Response) {
   try {
-    const { email } = req.params;
-    if ((await FindSomeOneWithEmail(email)) == "Internal error") {
-      return res.status(500).json({ message: "Internal error" });
+    const { token } = req.params;
+    let userData = jwtVerify(token);
+    if (!userData) {
+      return res.status(400).json({ message: "Please login again!" });
+    }
+    if (!FindSomeOneWithEmail(token)) {
+      return res.status(500).json({ message: "You must Login!" });
     }
     res.status(200).json({
       message: "Good work.",
-      posts: await FindSomeOneWithEmail(email),
+      posts: await FindSomeOneWithEmail(token),
     });
   } catch (error: any) {
     console.log(error);
-    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function getPostsByEmail(req: Request, res: Response) {
+  try {
+    let { email } = req.params;
+    let result: { Videos: any; Photos: any; Letters: any } | undefined =
+      await PostsByEmail(email);
+    res.status(200).json({
+      videos: result!.Videos,
+      photos: result!.Photos,
+      letters: result!.Letters,
+      message: "All posts with filter!",
+    });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
   }
 }

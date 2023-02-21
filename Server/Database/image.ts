@@ -1,6 +1,4 @@
 import { PrismaClient, user } from "@prisma/client";
-import { TokenExpiredError } from "jsonwebtoken";
-import { jwtSign, jwtVerify } from "./db";
 const prisma = new PrismaClient();
 export async function UpdateImagePath(email: string) {
   let user = await prisma.user.findFirst({ where: { email } });
@@ -11,15 +9,15 @@ export async function UpdateImagePath(email: string) {
 }
 
 export async function getImagetoProgile(email: string) {
-  let jwt = await jwtVerify(email);
-  let coorectEmail: string;
-  if (jwt == "jwt malformed") {
-    return false;
-  } else {
-    coorectEmail = jwt.email;
-  }
-  const user = await prisma.user.findUnique({ where: { email: coorectEmail } });
-  return prisma.posts.findMany({ where: { user_Id: user?.id } });
+  const user = await prisma.user.findUnique({ where: { email } });
+  return {
+    posts: await prisma.posts.findMany({
+      where: { user_Id: user?.id },
+    }),
+    texts: await prisma.posts.findMany({
+      where: { type_of_post: "TEXT" },
+    }),
+  };
 }
 
 export async function postPhotoFromUser(
@@ -39,6 +37,14 @@ export async function postPhotoFromUser(
       text: letter,
     },
   });
+  await prisma.images.create({
+    data: {
+      authorEmail: email,
+      authorId: User!.id,
+      postId: (await newPost).id,
+      title: "new Photo",
+    },
+  });
   return { Post: await newPost };
 }
 
@@ -48,6 +54,16 @@ export async function postVideoFromUser(
   letter: string
 ) {
   const User = await prisma.user.findUnique({ where: { email } });
+  let post = await prisma.posts.create({
+    data: {
+      email,
+      text: letter,
+      title: letter,
+      type_of_post: "Video",
+      user_Id: User!.id,
+      user_name: User!.name,
+    },
+  });
   const newPost = prisma.videos.create({
     data: {
       title: name,
@@ -55,6 +71,7 @@ export async function postVideoFromUser(
       authorId: User!.id,
       imageName: name,
       text: letter,
+      postId: post.id,
     },
   });
   return { Post: await newPost };

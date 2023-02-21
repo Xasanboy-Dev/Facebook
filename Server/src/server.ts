@@ -8,6 +8,7 @@ import createImagePost, {
   DeleteUse,
   FindUserByEmail,
   GetImageOfProfile,
+  getPostsByEmail,
   LoginUser,
   RegisterUser,
   Searching,
@@ -21,9 +22,10 @@ import {
 import { storage } from "../MiddleWares/MiddleWare";
 import multer from "multer";
 import {
+  allPostsWithoutFilter_InOreder,
   creaetNewPost,
-  GetAllPosts,
-  GetAllPostsByUserEmail,
+  deletePostById,
+  postLetter,
   removePostById,
 } from "../Functions/Posts";
 dotenv.config();
@@ -67,15 +69,19 @@ server.get("/users", SeeAllPublishedUsers);
 
 server.get("/image/:email", GetImageOfProfile);
 
-server.get("/data/:email", FindUserByEmail);
-
-server.get("/posts/:email", GetAllPostsByUserEmail);
+server.get("/data/:token", FindUserByEmail);
 
 server.post("/newPost", creaetNewPost);
 
-server.get("/posts", GetAllPosts);
-
 server.delete("/removePost/:id", removePostById);
+
+server.post("/post/Text", postLetter);
+
+server.get("/posts/:email", getPostsByEmail);
+
+server.delete("/post/:id", deletePostById); //   ID in req.params   AND email in request body
+
+server.get("/posts", allPostsWithoutFilter_InOreder);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

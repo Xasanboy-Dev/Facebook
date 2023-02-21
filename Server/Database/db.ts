@@ -25,7 +25,7 @@ export async function Login(email: string, password: string) {
 
 export async function CheckUserExist(email: string) {
   const user = await prisma.user.findMany({ where: { email } });
-  return user.length == 0;
+  return user.length == 0
 }
 
 export async function CreateUser(
@@ -60,7 +60,7 @@ export async function jwtVerify(token: string) {
   try {
     return jwt.verify(token, SECRET);
   } catch (error: any) {
-    return error.message;
+    return false
   }
 }
 
@@ -130,11 +130,4 @@ export async function EditUser(name: string) {
     await prisma.user.update({ where: { id }, data: { published: true } });
     console.log("Updated Succesfully");
   }
-}
-
-export async function AllPosts() {
-  return {
-    images: await prisma.images.findMany(),
-    vidoes: await prisma.videos.findMany(),
-  };
 }

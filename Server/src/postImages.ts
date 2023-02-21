@@ -28,6 +28,7 @@ router.post(
     let email = req.headers.authorization;
     let name = req.file!.originalname;
     let letter = req.headers.accept;
+    console.log("Get");
     res.status(201).json({
       message: "Created a new Video",
       Video: await postVideoFromUser(email!, name, letter!),

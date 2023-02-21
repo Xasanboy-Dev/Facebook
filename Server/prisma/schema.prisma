@@ -24,14 +24,15 @@ model user {
 }
 
 model Images {
-  id          Int      @id @default(autoincrement())
-  published   Boolean  @default(false)
-  authorId    Int
-  authorEmail String
-  createdAt   DateTime @default(now())
-  title       String
-  likes       Int
-  dislikes    Int
+  id                    Int      @id @default(autoincrement())
+  published             Boolean  @default(false)
+  authorId              Int
+  authorEmail           String
+  createdAt             DateTime @default(now())
+  title                 String
+  likes_of_this_Post    Int[]
+  dislikes_of_this_Post Int[]
+  postId                Int      @unique
 }
 
 model Videos {
@@ -45,6 +46,7 @@ model Videos {
   likes       Int[]
   dislikes    Int[]
   text        String
+  postId      Int      @unique
 }
 
 model Posts {

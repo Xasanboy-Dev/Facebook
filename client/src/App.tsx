@@ -13,6 +13,8 @@ import Friends from "./Posts/Friends";
 import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
 import Search from "./Posts/Search";
+import Settings from "./Post/postSetting";
+import POSTS from "./Post/postVideo_and_Photo";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/post" element={<POSTS />} />
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>
