@@ -1,9 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
+<<<<<<< HEAD
 import { Emoji } from "./../Post/emoji";
 import Photos from "./Photos";
 export function Publics() {
+=======
+import { Emoji } from "../Settings/emoji";
+import { setTrue } from "../Ts_files/publics";
+import Photos from "./Photos";
+export function Publics() {
+  // Context API
+
+  const [showEmoji, setShowEmoji] = useState(false);
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
 
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
@@ -88,8 +98,9 @@ export function Publics() {
   } else {
     if (letter.length > 0) {
       warning = "flex";
-      textForUser = `You must write more than ${max - letter.length
-        } letter to publish`;
+      textForUser = `You must write more than ${
+        max - letter.length
+      } letter to publish`;
     }
   }
   try {
@@ -192,7 +203,11 @@ export function Publics() {
               </div>
               <div className="flex" style={{ display: "" }}>
                 <h4>Add some emoji</h4>
+<<<<<<< HEAD
                 <button onClick={() => alert("Some emojji")}>
+=======
+                <button onClick={() => setShowEmoji(true)}>
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -209,8 +224,17 @@ export function Publics() {
                   </svg>
                 </button>
               </div>
+<<<<<<< HEAD
               <div className="border border-dark rounded p-2" >
                 <Emoji />
+=======
+              <div
+                className={`fixed mb-[85px] bg-white shadow-md p-3 ${
+                  showEmoji ? "block" : "hidden"
+                }`}
+              >
+                <Emoji showEmoji={setShowEmoji}></Emoji>
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
               </div>
             </div>
             <div

@@ -24,8 +24,15 @@ import multer from "multer";
 import {
   allPostsWithoutFilter_InOreder,
   creaetNewPost,
+<<<<<<< HEAD
   deletePostById,
   postLetter,
+=======
+  editVideosText,
+  GetAllPosts,
+  GetAllPostsByUserEmail,
+  getVideos,
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
   removePostById,
 } from "../Functions/Posts";
 dotenv.config();
@@ -75,6 +82,7 @@ server.post("/newPost", creaetNewPost);
 
 server.delete("/removePost/:id", removePostById);
 
+<<<<<<< HEAD
 server.post("/post/Text", postLetter);
 
 server.get("/posts/:email", getPostsByEmail);
@@ -82,6 +90,11 @@ server.get("/posts/:email", getPostsByEmail);
 server.delete("/post/:id", deletePostById); //   ID in req.params   AND email in request body
 
 server.get("/posts", allPostsWithoutFilter_InOreder);
+=======
+server.get("/videos", getVideos);
+
+server.put("/videos/:id", editVideosText);
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

@@ -1,5 +1,8 @@
+import axios from "axios";
+
 export default function Videos() {
-    return (
-        <div>This is a videos page!</div>
-    )
+  function getVideos() {
+    axios.get("");
+  }
+  return <div></div>;
 }

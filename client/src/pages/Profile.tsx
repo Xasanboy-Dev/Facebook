@@ -22,7 +22,11 @@ export default function Profile() {
             Authorization: email,
           },
         })
+<<<<<<< HEAD
         .then((res) => { });
+=======
+        .then((res) => {});
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
     }
     SelectedDashBoardImage();
     window.location.href = window.location.href;

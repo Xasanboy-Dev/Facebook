@@ -1,0 +1,18 @@
+@url=http://localhost:8080/videos
+GET {{url}}
+###
+PUT {{url}}/1
+Content-Type: application/json
+
+  {
+    "id": 1,
+    "published": true,
+    "authorId": 1,
+    "authorEmail": 'hasan@gmail.com',
+    "VideoName": 'l1xa8q1n2pa19ngfvq.mp4',
+    "createdAt": 2023-02-18T15:22:54.352Z,
+    "title": 'l1xa8q1n2pa19ngfvq.mp4',
+    "likes": [],
+    "dislikes": [],
+    "text": 'Hello World!'
+  }

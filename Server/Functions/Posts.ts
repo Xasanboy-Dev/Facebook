@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+<<<<<<< HEAD
 import { CheckUserExist } from "../Database/user";
 import {
   checkPostExist,
@@ -8,6 +9,10 @@ import {
   postText,
   removerPostById,
 } from "./../Database/post";
+=======
+import { updateVideoText, Videos } from "../Database/videos";
+import { GetPosts, removerPostById } from "./../Database/post";
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
 export async function GetAllPostsByUserEmail(req: Request, res: Response) {
   try {
     let { email } = req.params;
@@ -48,6 +53,7 @@ export async function removePostById(req: Request, res: Response) {
   }
 }
 
+<<<<<<< HEAD
 export async function postLetter(req: Request, res: Response) {
   try {
     let { letter, email } = req.body;
@@ -104,5 +110,26 @@ export async function allPostsWithoutFilter_InOreder(
   } catch (error: any) {
     console.log(error.message);
     return res.status(500).json({ message: "Internal Error" });
+=======
+export async function getVideos(req: Request, res: Response) {
+  try {
+    const videos = await Videos();
+    res.status(200).json({ message: "All videos", videos });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function editVideosText(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const body: Videos = req.body;
+    const updatedVideo = updateVideoText(+id, body);
+    res.status(201).json({ message: "Updated succesfully", updatedVideo });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ message: "Internal error" });
+>>>>>>> b656ae58bf0704d6cdca6b4c8797dd0587671cf7
   }
 }
