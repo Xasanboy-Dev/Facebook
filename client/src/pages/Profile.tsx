@@ -22,7 +22,9 @@ export default function Profile() {
             Authorization: email,
           },
         })
-        .then((res) => { });
+        .then((res) => {
+          window.location.href = window.location.href
+        });
     }
     SelectedDashBoardImage();
     window.location.href = window.location.href;
@@ -38,9 +40,9 @@ export default function Profile() {
             "Content-Type": "multipart/form-data",
             Authorization: email,
           },
-        });
-        let url = window.location.href;
-        window.location.href = url;
+        }).then(res => {
+          window.location.href = window.location.href;
+        })
       } catch (error: any) {
         console.log(error);
       }
@@ -59,7 +61,12 @@ export default function Profile() {
       } else {
         useName(localStorage.getItem("name")!);
         useEmail(res.data.token.email);
-        setAvatar(`http://localhost:8080/images/${email}.png`);
+        axios.get(`http://localhost:8080/images/${email}.png`)
+          .then(res => {
+            setAvatar(`http://localhost:8080/images/${email}.png`)
+          }).catch(err => {
+            setAvatar(`https://placeimg.com/380/230/nature`)
+          })
       }
     });
   }
@@ -72,6 +79,8 @@ export default function Profile() {
     }
     return classes;
   }
+
+
   return (
     <div>
       <div
@@ -80,20 +89,12 @@ export default function Profile() {
         <ul className="flex justigy-between w-24 items-end mb-4">
           <li className="p-2">
             <div className="flex items-end">
-              <div className="flex FIRST bg-red-500 flex justify-content-center items-end rounded-full image border cursor-pointer">
-                {avatar ? (
-                  <img
-                    className="z-1 border text-bold logo rounded-full h-full w-full"
-                    src={`${avatar}`}
-                    alt="Your foto"
-                  />
-                ) : (
-                  <img
-                    src={`${logo}`}
-                    className="profileIMage"
-                    alt="your image"
-                  />
-                )}
+              <div className="flex FIRST bg-red-900 flex justify-content-center items-end rounded-full image border cursor-pointer">
+                <img
+                  className="z-1 border text-bold logo rounded-full h-full w-full"
+                  src={`${avatar ? avatar : `${logo}`}`}
+                  alt="Your foto"
+                />
               </div>
             </div>
             <a className="bg-dark text-white border p-2 mx-14 cursor-pointer rounded-full">
@@ -101,12 +102,7 @@ export default function Profile() {
             </a>
           </li>
           <li>
-            <form
-              action="http://localhost:8080/profile/image"
-              method="POST"
-              encType="multipart/form-data"
-              className="btn-warning"
-            >
+            <form className="btn-warning">
               <button type="submit">
                 <input
                   onChange={(e: any) => setImg(e.target.files[0])}
@@ -120,10 +116,7 @@ export default function Profile() {
           </li>
         </ul>
         <div>
-          <form
-            method="POST"
-            action="http://localhost:8080/profile/dashboard/image"
-          >
+          <form>
             <button type="submit" className="btn1-warning mx-2">
               <input
                 accept="image/*"

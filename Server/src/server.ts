@@ -26,8 +26,6 @@ import {
   creaetNewPost,
   deletePostById,
   postLetter,
-  GetAllPosts,
-  GetAllPostsByUserEmail,
   removePostById,
   getVideos,
   editVideosText,

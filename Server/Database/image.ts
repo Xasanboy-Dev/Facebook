@@ -1,4 +1,4 @@
-import { PrismaClient, user } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 export async function UpdateImagePath(email: string) {
   let user = await prisma.user.findFirst({ where: { email } });
@@ -69,7 +69,7 @@ export async function postVideoFromUser(
       title: name,
       authorEmail: User!.email,
       authorId: User!.id,
-      imageName: name,
+      VideoName: name,
       text: letter,
       postId: post.id,
     },
