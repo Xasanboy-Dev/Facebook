@@ -22,3 +22,10 @@ GET {{url}}s/hasan@gmail.com HTTP/1.1
 ###
 GET http://localhost:8080/posts HTTP/1.1
 Authorization: hasan@gmail.com
+###
+POST http://localhost:8080/post/likee/1
+Content-Type: application/json
+
+{
+  "email":"hasan@gmail.com"
+}

@@ -58,7 +58,7 @@ export async function postVideoFromUser(
     data: {
       email,
       text: letter,
-      title: letter,
+      title: name,
       type_of_post: "Video",
       user_Id: User!.id,
       user_name: User!.name,

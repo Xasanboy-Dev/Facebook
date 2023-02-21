@@ -3,6 +3,10 @@ import multer from "multer";
 import { Request, Response } from "express";
 import { Router } from "express";
 import { postPhotoFromUser, postVideoFromUser } from "../Database/image";
+import { addDIsLikee, addLikee, checkPostExist } from "../Database/post";
+import { CheckUserExist } from "../Database/user";
+import { user } from "@prisma/client";
+import { getRounds } from "bcrypt";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -35,4 +39,48 @@ router.post(
     });
   }
 );
+
+router.post("/likee/:PostsId", async (req: Request, res: Response) => {
+  try {
+    let { PostsId } = req.params;
+    let { email } = req.body;
+    const userExist: user | false | null = await CheckUserExist(email);
+    const existPost = await checkPostExist(+PostsId);
+    if (!userExist || !existPost) {
+      return res.status(400).json({ message: "Post not Found!" });
+    }
+    const result: any = await addLikee(userExist.id, +PostsId);
+    if (!result) {
+      return res
+        .status(200)
+        .json({ message: "You have already liked!", post: result[1] });
+    }
+    res.status(200).json({ message: "Liked!", post: result });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
+router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
+  try {
+    let { PostsId } = req.params;
+    let { email } = req.body;
+    const userExist: user | false | null = await CheckUserExist(email);
+    const existPost = await checkPostExist(+PostsId);
+    if (!userExist || !existPost) {
+      return res.status(400).json({ message: "Post not Found!" });
+    }
+    const result: any = await addDIsLikee(userExist.id, +PostsId);
+    if (!result) {
+      return res
+        .status(200)
+        .json({ message: "You have already disliked!", post: result[1] });
+    }
+    res.status(200).json({ message: "Liked!", post: result });
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
 module.exports = router;

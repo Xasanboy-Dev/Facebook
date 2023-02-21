@@ -12,12 +12,14 @@ export default function IndexPage() {
         .then(res => {
             setArr(res.data.posts)
         }).catch(err => {
-            alert(err.message)
+            console.log(err.message)
         })
     return (
-        <div>
+        <div className="mx-auto text-center">
             {arr.map(numbers =>
-                <ImagePost PostBio={numbers} showPost={show} />
+                <div className="mx-auto w-[80%]  m-[50px] border border-dark">
+                    <ImagePost PostBio={numbers} showPost={show} />
+                </div>
             )}
         </div>
     )
