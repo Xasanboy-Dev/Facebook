@@ -98,7 +98,6 @@ export async function Searching(req: Request, res: Response) {
 }
 export default async function createImagePost(req: Request, res: Response) {
   try {
-    let path = req.file?.path;
     let email = req.headers.authorization;
     let result = await UpdateImagePath(email!);
     if (!result) {

@@ -1,11 +1,15 @@
-export function Emoji({ showEmoji }: { showEmoji : (show: boolean) => void }) {
-  function clicked(str: string) {
-    alert(str);
+export function Emoji({ setShowEmoji }: { setShowEmoji: (show: boolean) => void }) {
+  let li = document.querySelectorAll(".emoji")
+  length = li.length
+  for (let i = 1; i <= length; i++) {
+    li[i]?.addEventListener("mouseover", (e: any) => {
+      console.log(e.value)
+    })
   }
   return (
-    <div className="cursor-pointer">
-      <ul className="flex text-center">
-        <h4 onClick={() => showEmoji(false) } className="border rounded-full fixed ml-[105px]">
+    <div className="flex cursor-pointer">
+      <div className="ml-[25px]">
+        <h4 onClick={() => setShowEmoji(false)} className="border rounded-full fixed ml-[105px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,11 +25,16 @@ export function Emoji({ showEmoji }: { showEmoji : (show: boolean) => void }) {
             />
           </svg>
         </h4>
-        <li onClick={() => clicked("😀")}>&#128512;</li>
-        <li onClick={() => clicked("😄")}>&#128516;</li>
-        <li onClick={() => clicked(`&#128525;`)}>&#128525;</li>
+      </div>
+      <ul className="mr-[10px] grid grid-rows-2 grid-flow-col">
+        <li className="emoji">😀</li>
+        <li className="emoji">😃</li>
+        <li className="emoji">😄</li>
+        <li className="emoji">😁</li>
+        <li className="emoji">😆</li>
+        <li className="emoji">😅</li>
+        <li className="emoji">🤣</li>
       </ul>
-      &#128151;&#128512; &#128516; &#128525; &#128151;
     </div>
   );
 }

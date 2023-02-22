@@ -1,10 +1,11 @@
 import axios from "axios";
+import logo from "./../pages/logo.png"
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Emoji } from "../Settings/emoji";
 import Photos from "./Photos";
 export function Publics() {
-  const [showEmoji, setShowEmoji] = useState(false);
+  let [showEmoji, setShowEmoji] = useState(false);
   let [image, setImage] = useState("");
   let [email, setEmail] = useState("");
   let [letter, setLetter] = useState("");
@@ -14,6 +15,12 @@ export function Publics() {
   let warning: string = "none";
   let textForUser: any;
   let max = 3;
+  axios.get(`http://localhost:8080/images/${email}.png`)
+    .then(res => {
+      setImage(`http://localhost:8080/images/${email}.png`)
+    }).catch(err => {
+      setImage(`https://placeimg.com/380/230/nature`)
+    })
 
   async function BtnPublish() {
     try {
@@ -156,7 +163,7 @@ export function Publics() {
         <ul className="p-10">
           <li className="border justify-content-center rounded p-2 gap-2  mx-24 ">
             <div className="justify-content-center rounded p-2 gap-2 flex  items-center mx-24">
-              <img className="rounded-full w-16 h-16" src={`${image}`} />
+              <img className="rounded-full w-16 h-16" src={`${image ? image : logo}`} />
               <textarea
                 onChange={(e) => {
                   setLetter(e.target.value);
@@ -166,6 +173,12 @@ export function Publics() {
                 }
                 placeholder={`Anything new ?`}
               />
+            </div>
+            <div className="flex justify-center">
+              <h4 onClick={() => setShowEmoji(true)}><span style={{ display: showEmoji ? 'none' : 'flex' }}>Add some emoji</span></h4>
+              <div className="rounded text-2xl fixed z-2 border " style={{ display: showEmoji ? 'flex' : 'none' }}>
+                <Emoji setShowEmoji={setShowEmoji}></Emoji>
+              </div>
             </div>
             <div className="text-red-900  items-center flex justify-content-center mb-2">
               <div className="w-75 drop-shadow-2xl h-50 img text-center  flex mx-auto mt-[10px] mb-[10px] border m-5">
@@ -189,10 +202,6 @@ export function Publics() {
                     id="postVideo"
                   ></video>
                 </div>
-              </div>
-              <div className="flex" style={{ display: "" }}>
-                <h4>Add some emoji</h4>
-                <Emoji showEmoji={setShowEmoji}></Emoji>
               </div>
             </div>
             <div

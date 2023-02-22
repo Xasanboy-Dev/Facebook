@@ -41,7 +41,9 @@ export default function Profile() {
             Authorization: email,
           },
         }).then(res => {
-          window.location.href = window.location.href;
+          window.location.href = window.location.href
+        }).catch(err => {
+          alert(err.message)
         })
       } catch (error: any) {
         console.log(error);
