@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { CheckUserExist } from "../Database/user";
 import { updateVideoText, Videos } from "../Database/videos";
 import {
@@ -6,6 +6,7 @@ import {
   deleteWithId,
   getPosts_WhereLikeMore,
   postText,
+  writeComment,
 } from "./../Database/post";
 import { GetPosts, removerPostById } from "./../Database/post";
 export async function GetAllPostsByUserEmail(req: Request, res: Response) {
@@ -124,6 +125,25 @@ export async function editVideosText(req: Request, res: Response) {
     res.status(201).json({ message: "Updated succesfully", updatedVideo });
   } catch (error: any) {
     console.log(error);
+    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function postComment(req: Request, res: Response) {
+  try {
+    const { postID } = req.params;
+    const { email, text } = req.body;
+    const post = await checkPostExist(+postID);
+    const user = await CheckUserExist(email);
+    if (!post || !user) {
+      return res
+        .status(200)
+        .json({ message: "You must to login or SELECT exist post!" });
+    }
+    const comment = await writeComment(user.id, post.id, text);
+    
+  } catch (error: any) {
+    console.log(error.message);
     res.status(500).json({ message: "Internal error" });
   }
 }

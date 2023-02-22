@@ -130,3 +130,22 @@ export async function addDIsLikee(Userid: number, postId: number) {
     return false;
   }
 }
+
+export async function writeComment(
+  userId: number,
+  postID: number,
+  letter: string
+) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const post = await prisma.posts.findUnique({ where: { id: postID } });
+  const comments = await prisma.comments_of_posts.findUnique({
+    where: { postId: post?.id },
+  });
+  let arr = comments?.texts;
+  arr?.push(letter);
+  const updatedComment = await prisma.comments_of_posts.update({
+    where: { postId: postID },
+    data: { texts: arr },
+  });
+  console.log(updatedComment);
+}

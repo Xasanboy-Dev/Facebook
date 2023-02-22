@@ -62,3 +62,12 @@ model Posts {
   text                  String
   createdAt             DateTime @default(now())
 }
+
+model comments_of_posts {
+  id         Int      @id @unique @default(autoincrement())
+  postId     Int      @unique
+  typeOfPost String
+  userId     Int
+  userEmail  String
+  texts      String[]
+}

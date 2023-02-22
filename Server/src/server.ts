@@ -29,6 +29,7 @@ import {
   removePostById,
   getVideos,
   editVideosText,
+  postComment,
 } from "../Functions/Posts";
 import { removeSavedFromUser, SavePost } from "../Functions/User";
 dotenv.config();
@@ -90,10 +91,11 @@ server.get("/videos", getVideos);
 
 server.put("/videos/:id", editVideosText);
 
-server.post('/user/save/:id', SavePost)
+server.post("/user/save/:id", SavePost);
 
-server.post('/user/remove/:id', removeSavedFromUser)
+server.post("/user/remove/:id", removeSavedFromUser);
 
+server.post("/comment/:postID", postComment);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });
