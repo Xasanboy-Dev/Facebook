@@ -1,11 +1,11 @@
-import { prisma } from "./db";
-
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 export async function FindSomeOneWithEmail(email: string) {
   try {
-    let user = await prisma.user.findUnique({ where: { email } });
+    let user = await prisma.user.findUnique({ where: { email: email } });
     return { photos: user!.publishedPhotos, videos: user!.publishedVideos };
   } catch (error: any) {
-    return false
+    return false;
   }
 }
 
@@ -14,6 +14,7 @@ export async function FindUser(email: string) {
     return prisma.user.findUnique({ where: { email } });
   } catch (error: any) {
     console.log(error.message);
+    return false;
   }
 }
 
@@ -46,38 +47,43 @@ export async function CheckUserExist(email: string) {
 
 export async function SavePOST(userId: number, postID: number) {
   try {
-    let lastUser = await prisma.user.findUnique({ where: { id: userId } })
-    let arr = lastUser?.userFavorites
+    let lastUser = await prisma.user.findUnique({ where: { id: userId } });
+    let arr = lastUser?.userFavorites;
     if (!arr?.includes(postID)) {
-      arr?.push(postID)
-      return await prisma.user.update({ where: { id: userId }, data: { userFavorites: arr } })
+      arr?.push(postID);
+      return await prisma.user.update({
+        where: { id: userId },
+        data: { userFavorites: arr },
+      });
     }
-    return "Not Given"
+    return "Not Given";
   } catch (error: any) {
-    console.log(error)
-    return false
+    console.log(error);
+    return false;
   }
 }
 
 export async function removePostFromUser(userId: number, postID: number) {
   try {
-    const user = await prisma.user.findUnique({ where: { id: userId } })
-    let arr = user?.userFavorites
-    let newArr: number[] = []
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    let arr = user?.userFavorites;
+    let newArr: number[] = [];
     if (arr?.includes(postID)) {
-      newArr = []
+      newArr = [];
       for (let i in arr) {
         if (arr[i] !== postID) {
-          newArr.push(postID)
+          newArr.push(postID);
         }
       }
     }
-    const savedUser = await prisma.user.update({ where: { id: userId }, data: { userFavorites: newArr } })
-    
-    return savedUser
+    const savedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { userFavorites: newArr },
+    });
 
+    return savedUser;
   } catch (error: any) {
-    console.log(error.message)
-    return false
+    console.log(error.message);
+    return false;
   }
 }
