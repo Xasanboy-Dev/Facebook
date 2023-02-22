@@ -15,9 +15,9 @@ export default function IndexPage() {
             console.log(err.message)
         })
     return (
-        <div className="mx-auto text-center">
+        <div className="mx-auto text-center ">
             {arr.map((numbers: any) =>
-                <div className="mx-auto w-[80%]  m-[50px] border border-dark">
+                <div className="mx-auto rounded-[25px] w-[80%]  m-[50px] border border-dark">
                     <ImagePost PostBio={numbers} showPost={show} />
                 </div>
             )}

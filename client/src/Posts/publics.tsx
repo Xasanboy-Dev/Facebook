@@ -1,8 +1,9 @@
+import { Emoji } from "../Settings/emoji";
+
 import axios from "axios";
 import logo from "./../pages/logo.png"
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { Emoji } from "../Settings/emoji";
 import Photos from "./Photos";
 export function Publics() {
   let [showEmoji, setShowEmoji] = useState(false);
@@ -15,13 +16,13 @@ export function Publics() {
   let warning: string = "none";
   let textForUser: any;
   let max = 3;
+
   axios.get(`http://localhost:8080/images/${email}.png`)
     .then(res => {
       setImage(`http://localhost:8080/images/${email}.png`)
     }).catch(err => {
       setImage(`https://placeimg.com/380/230/nature`)
     })
-
   async function BtnPublish() {
     try {
       let images = [
@@ -168,18 +169,21 @@ export function Publics() {
                 onChange={(e) => {
                   setLetter(e.target.value);
                 }}
+                value={letter}
                 className={
                   "border textarea text-center text-lg w-full h-full  px-3 pt-2 pb-2 "
                 }
                 placeholder={`Anything new ?`}
               />
             </div>
-            <div className="flex justify-center">
+
+            {/* <div className="flex justify-center">
               <h4 onClick={() => setShowEmoji(true)}><span style={{ display: showEmoji ? 'none' : 'flex' }}>Add some emoji</span></h4>
               <div className="rounded text-2xl fixed z-2 border " style={{ display: showEmoji ? 'flex' : 'none' }}>
-                <Emoji setShowEmoji={setShowEmoji}></Emoji>
+                <Emoji  setimegFromOtgerPage={setLetter} setShowEmoji={setShowEmoji}></Emoji>
               </div>
-            </div>
+            </div> */}
+
             <div className="text-red-900  items-center flex justify-content-center mb-2">
               <div className="w-75 drop-shadow-2xl h-50 img text-center  flex mx-auto mt-[10px] mb-[10px] border m-5">
                 <div className="flex">

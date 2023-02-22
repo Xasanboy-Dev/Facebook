@@ -34,3 +34,19 @@ GET http://localhost:8080 HTTP/1.1
 
 ###
 GET http://localhost:8080/posts/hasan@gmail.com
+
+###
+POST http://localhost:8080/user/save/2
+Content-Type: application/json
+
+{
+    "email":"hasan@gmail.com"
+}
+
+###
+POST http://localhost:8080/user/remove/2
+Content-Type: application/json
+
+{
+    "email":"hasan@gmail.com"
+}

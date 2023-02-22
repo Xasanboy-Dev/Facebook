@@ -108,7 +108,7 @@ export default function Profile() {
               <button type="submit">
                 <input
                   onChange={(e: any) => setImg(e.target.files[0])}
-                  accept="image/*"
+                  accept="image/jpg, image/jpeg,image/img,image/png"
                   className="file"
                   type="file"
                 />

@@ -1,39 +1,39 @@
-export function Emoji({ setShowEmoji }: { setShowEmoji: (show: boolean) => void }) {
-  let li = document.querySelectorAll(".emoji")
-  length = li.length
-  for (let i = 1; i <= length; i++) {
-    li[i]?.addEventListener("mouseover", (e: any) => {
-      console.log(e.value)
+import another from "node-emoji"
+export function Emoji({ setShowEmoji, setimegFromOtgerPage }: { setShowEmoji: (show: boolean) => void, setimegFromOtgerPage: (letter: string) => void }) {
+  let ul = document.querySelector(".ul")
+  another.get("man-swimming")
+  let textarea = document.querySelector(".textarea")
+  for (let i = 0; i <= 100; i++) {
+    let li: any = document.createElement("li")
+    li.classList = 'cursor-pointer text-light border border-light rounded-full text-center'
+    let random = another.random()
+    li.textContent = random.emoji
+    li.addEventListener("click", () => {
+      let letter = textarea?.textContent
+      setimegFromOtgerPage(letter + random.emoji)
     })
+    ul?.append(li)
   }
+
   return (
-    <div className="flex cursor-pointer">
-      <div className="ml-[25px]">
-        <h4 onClick={() => setShowEmoji(false)} className="border rounded-full fixed ml-[105px]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </h4>
-      </div>
-      <ul className="mr-[10px] grid grid-rows-2 grid-flow-col">
-        <li className="emoji">😀</li>
-        <li className="emoji">😃</li>
-        <li className="emoji">😄</li>
-        <li className="emoji">😁</li>
-        <li className="emoji">😆</li>
-        <li className="emoji">😅</li>
-        <li className="emoji">🤣</li>
+    <div className="flex justify-space">
+      <h4 onClick={() => setShowEmoji(false)} className=" border">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="text-light fixed border rounded-full w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </h4>
+      <ul className="mr-[10px] grid grid-cols-6 bg-dark gap-4 w-[850px] h-[250px] overflow-x-scroll  ul">
       </ul>
     </div>
   );

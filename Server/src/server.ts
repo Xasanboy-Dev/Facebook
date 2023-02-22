@@ -30,6 +30,7 @@ import {
   getVideos,
   editVideosText,
 } from "../Functions/Posts";
+import { removeSavedFromUser, SavePost } from "../Functions/User";
 dotenv.config();
 
 const router = Router();
@@ -88,6 +89,11 @@ server.get("/posts", allPostsWithoutFilter_InOreder);
 server.get("/videos", getVideos);
 
 server.put("/videos/:id", editVideosText);
+
+server.post('/user/save/:id', SavePost)
+
+server.post('/user/remove/:id', removeSavedFromUser)
+
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });
