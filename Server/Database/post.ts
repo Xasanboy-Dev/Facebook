@@ -6,7 +6,10 @@ export async function GetPosts() {
 }
 
 export async function removerPostById(id: number) {
-  return await prisma.posts.delete({ where: { id } });
+  let post = await prisma.posts.delete({ where: { id } });
+  let image = await prisma.images.delete({ where: { postId: id } });
+  let video = await prisma.videos.delete({ where: { postId: id } });
+  return post;
 }
 
 export async function postText(text: string, email: string) {
@@ -37,14 +40,12 @@ export async function checkPostExist(id: number) {
 
 export async function deleteWithId(id: number) {
   let post = await prisma.posts.delete({ where: { id } });
-  if (post.type_of_post == "Letter") {
-    await prisma.posts.delete({ where: { id } });
-  } else if (post.type_of_post == "Video") {
-    await prisma.videos.delete({ where: { postId: id } });
-    return prisma.posts.delete({ where: { id } });
+  if (post.type_of_post == "Video") {
+    return await prisma.videos.delete({ where: { postId: id } });
   } else if (post.type_of_post == "Photo") {
-    await prisma.images.delete({ where: { postId: id } });
-    return prisma.posts.delete({ where: { id } });
+    return await prisma.images.delete({ where: { postId: id } });
+  } else {
+    return post;
   }
 }
 
@@ -67,70 +68,6 @@ export async function AllPosts() {
   };
 }
 
-export async function addLikee(Userid: number, postId: number) {
-  try {
-    const Post: any = await checkPostExist(postId);
-    let likes = Post.likes_of_this_Post;
-    let bool = likes.includes(Userid);
-    if (bool) {
-      return false;
-    }
-    likes.push(Userid);
-    if (!bool) {
-      const post = await prisma.posts.update({
-        where: { id: postId },
-        data: { likes_of_this_Post: likes },
-      });
-      if (post.type_of_post == "Photo") {
-        await prisma.images.update({
-          where: { postId },
-          data: { likes_of_this_Post: likes },
-        });
-        return post;
-      } else if (post.type_of_post == "Video") {
-        await prisma.videos.update({ where: { postId }, data: { likes } });
-        return post;
-      }
-      return post;
-    }
-  } catch (error: any) {
-    console.log(error);
-    return false;
-  }
-}
-
-export async function addDIsLikee(Userid: number, postId: number) {
-  try {
-    const Post: any = await checkPostExist(postId);
-    let dislikes = Post.dislikes_of_this_Post;
-    let bool = dislikes.includes(Userid);
-    if (bool) {
-      return false;
-    }
-    dislikes.push(Userid);
-    if (!bool) {
-      const post = await prisma.posts.update({
-        where: { id: postId },
-        data: { dislikes_of_this_Post: dislikes },
-      });
-      if (post.type_of_post == "Photo") {
-        await prisma.images.update({
-          where: { postId },
-          data: { dislikes_of_this_Post: dislikes },
-        });
-        return post;
-      } else if (post.type_of_post == "Video") {
-        await prisma.videos.update({ where: { postId }, data: { dislikes } });
-        return post;
-      }
-      return post;
-    }
-  } catch (error: any) {
-    console.log(error);
-    return false;
-  }
-}
-
 export async function writeComment(
   userId: number,
   postID: number,
@@ -148,4 +85,86 @@ export async function writeComment(
     data: { texts: arr },
   });
   console.log(updatedComment);
+}
+
+export async function checkUserLikedOrDisliked(UserId: number, postId: number) {
+  try {
+    const result = await prisma.posts.findUnique({ where: { id: postId } });
+    if (result?.likes_of_this_Post.includes(UserId)) {
+      return "LIKED";
+    } else if (result?.dislikes_of_this_Post.includes(UserId)) {
+      return "DISLIKED";
+    } else {
+      return "NOT";
+    }
+  } catch (error: any) {
+    return false;
+  }
+}
+
+export async function deleteLikee(UserId: number, postId: number) {
+  try {
+    const post = await prisma.posts.findUnique({ where: { id: postId } });
+    let arr: number[] = [];
+    arr = post!.likes_of_this_Post.filter((num) => num !== UserId);
+    const result = await prisma.posts.update({
+      where: { id: postId },
+      data: { likes_of_this_Post: arr },
+    });
+    return result;
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function deleteDislike(UserId: number, postId: number) {
+  try {
+    const post = await prisma.posts.findUnique({ where: { id: postId } });
+    let arr: number[] = [];
+    arr = post!.dislikes_of_this_Post.filter((ids) => ids !== UserId);
+    return await prisma.posts.update({
+      where: { id: postId },
+      data: { dislikes_of_this_Post: arr },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+export async function addLike(UserId: number, postID: number) {
+  try {
+    const post = await prisma.posts.findUnique({ where: { id: postID } });
+    const deletingDislike = await deleteDislike(UserId, postID);
+    let arr: number[] = [];
+    arr = post!.likes_of_this_Post;
+    arr.push(UserId);
+    return await prisma.posts.update({
+      where: { id: postID },
+      data: { likes_of_this_Post: arr },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function addDislikee(userId: number, postID: number) {
+  try {
+    const post = await prisma.posts.findUnique({ where: { id: postID } });
+    let arr = post!.dislikes_of_this_Post;
+    arr.push(userId);
+    return await prisma.posts.update({
+      where: { id: postID },
+      data: { dislikes_of_this_Post: arr },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function checkSaved(userId: number, postId: number) {
+  const result = await prisma.user.findUnique({ where: { id: userId } });
+  return result!.userFavorites.includes(postId);
 }

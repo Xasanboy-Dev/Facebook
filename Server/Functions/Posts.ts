@@ -44,6 +44,7 @@ export async function removePostById(req: Request, res: Response) {
 
     const existPost = await checkPostExist(+id);
     const existUser = await CheckUserExist(email);
+
     if (!existPost || !existUser || existPost.email !== existUser.email) {
       return res
         .status(409)

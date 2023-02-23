@@ -1,11 +1,23 @@
-import { storageForPost, uploadForVideos } from "./../MiddleWares/MiddleWare";
+import {
+  CheckUser,
+  storageForPost,
+  uploadForVideos,
+} from "./../MiddleWares/MiddleWare";
 import multer from "multer";
 import { Request, Response } from "express";
 import { Router } from "express";
 import { postPhotoFromUser, postVideoFromUser } from "../Database/image";
-import { addDIsLikee, addLikee, checkPostExist } from "../Database/post";
 import { CheckUserExist } from "../Database/user";
 import { user } from "@prisma/client";
+import {
+  addDislikee,
+  addLike,
+  checkPostExist,
+  checkSaved,
+  checkUserLikedOrDisliked,
+  deleteDislike,
+  deleteLikee,
+} from "../Database/post";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -41,46 +53,82 @@ router.post(
 
 router.post("/likee/:PostsId", async (req: Request, res: Response) => {
   try {
-    console.log("POst likee");
-    let { PostsId } = req.params;
-    let { email } = req.body;
-    const userExist: user | false | null = await CheckUserExist(email);
+    const { PostsId } = req.params;
+    const { email } = req.body;
+    const existUser = await CheckUserExist(email);
     const existPost = await checkPostExist(+PostsId);
-    if (!userExist || !existPost) {
-      return res.status(400).json({ message: "Post not Found!" });
+    if (!existPost || !existUser) {
+      return res.status(500).json({ message: "You have some problems!" });
     }
-    const result: any = await addLikee(userExist.id, +PostsId);
-    if (!result) {
-      return res
-        .status(200)
-        .json({ message: "You have already liked!", post: result[1] });
+    const result = await checkUserLikedOrDisliked(existUser.id, existPost.id);
+    if (result == "LIKED") {
+      const deletedLiking = await deleteLikee(existUser.id, existPost.id);
+      if (!deletedLiking) {
+        return res.status(500).json({ message: "You have some problems!" });
+      }
+      return res.status(200);
+    } else if (result == "DISLIKED") {
+      const addingLike = await addLike(existUser.id, existPost.id);
+      if (!addingLike) {
+        return res.status(500).json({ message: "You have some problems!" });
+      }
+      res.status(200).json({ message: "Added succesfully!" });
+    } else {
+      const added = await addLike(existUser.id, existPost.id);
     }
-    res.status(200).json({ message: "Liked!", post: result });
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).json({ message: "Internal Error" });
+    return res.status(500).json({ message: "Internal error!" });
   }
 });
 
 router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
   try {
-    let { PostsId } = req.params;
-    let { email } = req.body;
-    const userExist: user | false | null = await CheckUserExist(email);
+    const { PostsId } = req.params;
+    const { email } = req.body;
+
+    const existUser = await CheckUserExist(email);
     const existPost = await checkPostExist(+PostsId);
-    if (!userExist || !existPost) {
-      return res.status(400).json({ message: "Post not Found!" });
+    if (!existPost || !existUser) {
+      return res.status(500).json({ message: "You have some problems!" });
     }
-    const result: any = await addDIsLikee(userExist.id, +PostsId);
-    if (!result) {
-      return res
-        .status(200)
-        .json({ message: "You have already disliked!", post: result[1] });
+    const result = await checkUserLikedOrDisliked(existUser.id, existPost.id);
+    if (result == "DISLIKED") {
+      const removeDelete = await deleteDislike(existUser.id, existPost.id);
+      if (!removeDelete) {
+        return res.status(409).json({ message: "You have some problems!" });
+      }
+      return res.status(200).json({ message: "Deleted succesfully!" });
+    } else if (result == "LIKED") {
+      const removeLike = await deleteLikee(existUser.id, existPost.id);
+      if (!removeLike) {
+        return res.status(409).json({ message: "You have some problems!" });
+      }
+      const addingDislikee = await addDislikee(existUser.id, existPost.id);
+      return res.status(200).json({ message: "Added succesfully" });
+    } else {
+      const result = await addDislikee(existUser.id, existPost.id);
+      res.status(200).json({ message: "Added succesfully!" });
     }
-    res.status(200).json({ message: "Liked!", post: result });
   } catch (error: any) {
     console.log(error.message);
-    res.status(500).json({ message: "Internal Error" });
+    return res.status(500).json({ message: "Internal error" });
+  }
+});
+
+router.post("/check/:postID", async (req: Request, res: Response) => {
+  try {
+    const { postID } = req.params;
+    const { email } = req.body;
+    const existUser: boolean | null | user = await CheckUserExist(email);
+    const existPost = await checkPostExist(+postID);
+    if (existUser && existPost) {
+      const result = await checkSaved(existUser.id, existPost.id);
+      return res.status(200).json({ boolean: result });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Internal error" });
   }
 });
 module.exports = router;

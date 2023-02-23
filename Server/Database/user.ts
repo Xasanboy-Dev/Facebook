@@ -55,13 +55,26 @@ export async function SavePOST(userId: number, postID: number) {
         data: { userFavorites: arr },
       });
     }
-    return "Not Given";
+    return false;
   } catch (error: any) {
     console.log(error);
     return false;
   }
 }
 
+export async function UnsavePost(userId: number, postID: number) {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    let arr = user?.userFavorites.filter((ids) => ids !== postID);
+    return await prisma.user.update({
+      where: { id: userId },
+      data: { userFavorites: arr },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
 export async function removePostFromUser(userId: number, postID: number) {
   try {
     const user = await prisma.user.findUnique({ where: { id: userId } });
