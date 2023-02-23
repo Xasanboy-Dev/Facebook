@@ -1,8 +1,12 @@
 import axios from "axios";
-import { Posts, User } from "./../Ts_files/types";
-export async function postLikee(postId: number) {
+import { Posts } from "./../Ts_files/types";
+export async function postLikee(postId: number, email: string) {
+  if (!email) {
+    alert("You must to login!");
+    return (window.location.href = "/login");
+  }
   axios
-    .post(`http://localhost:8080/post/likee/${postId}`)
+    .post(`http://localhost:8080/post/likee/${postId}`, email)
     .then((res) => {
       alert(res.status);
     })
@@ -19,7 +23,7 @@ export async function saveThePost(PostBio: Posts, userEmail: string) {
       })
       .then((res) => {
         if (res.status == 201) {
-          console.log(res.data.message);
+          alert(res.data.message);
         }
       })
       .catch((err) => {

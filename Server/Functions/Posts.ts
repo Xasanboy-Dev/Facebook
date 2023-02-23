@@ -40,11 +40,20 @@ export async function GetAllPosts(req: Request, res: Response) {
 export async function removePostById(req: Request, res: Response) {
   try {
     const { id } = req.params;
+    const { email } = req.body;
+
+    const existPost = await checkPostExist(+id);
+    const existUser = await CheckUserExist(email);
+    if (!existPost || !existUser || existPost.email !== existUser.email) {
+      return res
+        .status(409)
+        .json({ message: "You have some problems. Please try again later!" });
+    }
     res
       .status(200)
       .json({ message: "Deleted!", deletedPost: await removerPostById(+id) });
   } catch (error: any) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json({ message: "Intrenal error" });
   }
 }
@@ -93,11 +102,6 @@ export async function allPostsWithoutFilter_InOreder(
   res: Response
 ) {
   try {
-    let email = req.headers.authorization;
-    let user = await CheckUserExist(email!);
-    if (!user) {
-      return res.status(400).json({ message: "You  must login!" });
-    }
     res.status(200).json({
       message: "Posts in order",
       posts: await getPosts_WhereLikeMore(),
@@ -141,7 +145,6 @@ export async function postComment(req: Request, res: Response) {
         .json({ message: "You must to login or SELECT exist post!" });
     }
     const comment = await writeComment(user.id, post.id, text);
-    
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "Internal error" });

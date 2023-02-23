@@ -6,7 +6,6 @@ import { postPhotoFromUser, postVideoFromUser } from "../Database/image";
 import { addDIsLikee, addLikee, checkPostExist } from "../Database/post";
 import { CheckUserExist } from "../Database/user";
 import { user } from "@prisma/client";
-import { getRounds } from "bcrypt";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -42,6 +41,7 @@ router.post(
 
 router.post("/likee/:PostsId", async (req: Request, res: Response) => {
   try {
+    console.log("POst likee");
     let { PostsId } = req.params;
     let { email } = req.body;
     const userExist: user | false | null = await CheckUserExist(email);

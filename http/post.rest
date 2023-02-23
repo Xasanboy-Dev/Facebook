@@ -43,3 +43,6 @@ Content-Type: application/json
 {
   "email":"hasan@gmail.com"
 }
+
+###
+DELETE http://localhost:8080

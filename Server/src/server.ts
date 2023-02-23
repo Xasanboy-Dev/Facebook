@@ -42,12 +42,12 @@ server.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT;
 
-server.use("/post", require("./postImages"));
+server.use("/posts", express.static("./postImages"));
 
 server.use("/images", express.static("./profileImages"));
-server.use("/posts", express.static("./postImages"));
 server.use("/videos", express.static("./postVideos"));
 server.use("/dashboard", express.static("./dashboardImages"));
+
 server.get("/", aboutAllUser);
 
 server.post("/login", LoginUser);
@@ -81,11 +81,11 @@ server.delete("/removePost/:id", removePostById);
 
 server.post("/post/Text", postLetter);
 
+server.get("/posts", allPostsWithoutFilter_InOreder);
+
 server.get("/posts/:email", getPostsByEmail);
 
 server.delete("/post/:id", deletePostById); //   ID in req.params   AND email in request body
-
-server.get("/posts", allPostsWithoutFilter_InOreder);
 
 server.get("/videos", getVideos);
 
@@ -96,6 +96,8 @@ server.post("/user/save/:id", SavePost);
 server.post("/user/remove/:id", removeSavedFromUser);
 
 server.post("/comment/:postID", postComment);
+
+server.delete("/post/:id", removePostById);
 server.listen(PORT, () => {
   console.log(`SERVER: http://localhost:${PORT}`);
 });

@@ -37,8 +37,7 @@ export async function PostsByEmail(email: string) {
 
 export async function CheckUserExist(email: string) {
   try {
-    let user = await prisma.user.findUnique({ where: { email } });
-    return user;
+    return await prisma.user.findUnique({ where: { email } });
   } catch (error: any) {
     console.log(error.message);
     return false;
