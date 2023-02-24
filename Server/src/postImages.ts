@@ -1,5 +1,4 @@
 import {
-  CheckUser,
   storageForPost,
   uploadForVideos,
 } from "./../MiddleWares/MiddleWare";
@@ -8,7 +7,6 @@ import { Request, Response } from "express";
 import { Router } from "express";
 import { postPhotoFromUser, postVideoFromUser } from "../Database/image";
 import { CheckUserExist } from "../Database/user";
-import { user } from "@prisma/client";
 import {
   addDislikee,
   addLike,
@@ -19,6 +17,7 @@ import {
   deleteLikee,
 } from "../Database/post";
 import { savePost_Or_Unsave } from "../Functions/Posts";
+import { addComment, getAllCoomentsdByPostId } from "../Functions/comment";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -117,7 +116,11 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
   }
 });
 
+router.post("/comment/:postID", addComment);
 
-router.post('/checkSaved/:postId', savePost_Or_Unsave)
+router.get("/comment/:postID", getAllCoomentsdByPostId);
+
+router.delete('/comment/:commentID')
+router.post("/checkSaved/:postId", savePost_Or_Unsave);
 
 module.exports = router;

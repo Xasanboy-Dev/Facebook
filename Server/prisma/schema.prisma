@@ -64,10 +64,11 @@ model Posts {
 }
 
 model comments_of_posts {
-  id         Int      @id @unique @default(autoincrement())
-  postId     Int      @unique
-  typeOfPost String
-  userId     Int
-  userEmail  String
-  texts      String[]
+  id          Int      @id @unique @default(autoincrement())
+  postId      Int
+  typeOfPost  String
+  userId      Int
+  userEmail   String
+  texts       String
+  createdDate DateTime @default(now())
 }

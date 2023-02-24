@@ -21,7 +21,6 @@ export async function GetAllPostsByUserEmail(req: Request, res: Response) {
   }
 }
 
-
 export async function GetAllPosts(req: Request, res: Response) {
   try {
     const posts = await GetPosts();
@@ -141,6 +140,7 @@ export async function postComment(req: Request, res: Response) {
         .json({ message: "You must to login or SELECT exist post!" });
     }
     const comment = await writeComment(user.id, post.id, text);
+    res.status(201).json({ message: "Added succesfully", comment });
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "Internal error" });
@@ -149,30 +149,34 @@ export async function postComment(req: Request, res: Response) {
 
 export async function savePost_Or_Unsave(req: Request, res: Response) {
   try {
-    const { postId } = req.params
-    const { email } = req.body
-    const user = await CheckUserExist(email)
-    const post = await checkPostExist(+postId)
+    const { postId } = req.params;
+    const { email } = req.body;
+    const user = await CheckUserExist(email);
+    const post = await checkPostExist(+postId);
     if (!user || !post) {
-      return res.status(409).json({ message: "You have some problems!" })
+      return res.status(409).json({ message: "You have some problems!" });
     }
-    const isTrue = await checkPostSave(user.email, post.id)
+    const isTrue = await checkPostSave(user.email, post.id);
     if (!isTrue) {
-      let saved = await savePost(user.email, post.id)
+      let saved = await savePost(user.email, post.id);
       if (saved) {
-        return res.status(201).json({ message: "Saved succesfully!", user: saved })
+        return res
+          .status(201)
+          .json({ message: "Saved succesfully!", user: saved });
       }
-      return res.status(409).json({ message: "You have some problems!" })
+      return res.status(409).json({ message: "You have some problems!" });
     } else {
-      let unsaved = await removeSaved(user.email, post.id)
+      let unsaved = await removeSaved(user.email, post.id);
       if (unsaved) {
-        return res.status(201).json({ message: "Unsaved succesfully!", user: unsaved })
+        return res
+          .status(201)
+          .json({ message: "Unsaved succesfully!", user: unsaved });
       } else {
-        return res.status(409).json({ message: "You have some problems!" })
+        return res.status(409).json({ message: "You have some problems!" });
       }
     }
   } catch (error: any) {
-    console.log(error.message)
-    res.status(500).json({ message: "Internall Error" })
+    console.log(error.message);
+    res.status(500).json({ message: "Internall Error" });
   }
 }

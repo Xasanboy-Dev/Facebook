@@ -74,17 +74,16 @@ export async function writeComment(
   letter: string
 ) {
   const user = await prisma.user.findUnique({ where: { id: userId } });
-  const post = await prisma.posts.findUnique({ where: { id: postID } });
-  const comments = await prisma.comments_of_posts.findUnique({
-    where: { postId: post?.id },
+  const post: any = await prisma.posts.findUnique({
+    where: { id: postID },
   });
-  let arr = comments?.texts;
-  arr?.push(letter);
-  const updatedComment = await prisma.comments_of_posts.update({
-    where: { postId: postID },
-    data: { texts: arr },
-  });
-  console.log(updatedComment);
+  if (user && post) {
+    let arr = letter;
+    return await prisma.comments_of_posts.update({
+      where: { id: postID },
+      data: { texts: arr },
+    });
+  }
 }
 
 export async function checkUserLikedOrDisliked(UserId: number, postId: number) {
@@ -171,35 +170,41 @@ export async function checkSaved(userId: number, postId: number) {
 
 export async function checkPostSave(userEmail: string, postId: number) {
   try {
-    const user = await prisma.user.findUnique({ where: { email: userEmail } })
-    return user?.userFavorites.includes(postId)
+    const user = await prisma.user.findUnique({ where: { email: userEmail } });
+    return user?.userFavorites.includes(postId);
   } catch (error: any) {
-    return "Internal Error"
+    return "Internal Error";
   }
 }
 
 export async function savePost(userEmail: string, postId: number) {
   try {
-    const user = await CheckUserExist(userEmail)
+    const user = await CheckUserExist(userEmail);
     if (user) {
-      let arr = user.userFavorites
-      arr.push(postId)
-      return await prisma.user.update({ where: { id: user.id }, data: { userFavorites: arr } })
+      let arr = user.userFavorites;
+      arr.push(postId);
+      return await prisma.user.update({
+        where: { id: user.id },
+        data: { userFavorites: arr },
+      });
     }
   } catch (error: any) {
-    return "Internal Error"
+    return "Internal Error";
   }
 }
 
 export async function removeSaved(userEmail: string, postId: number) {
   try {
-    const user = await CheckUserExist(userEmail)
+    const user = await CheckUserExist(userEmail);
     if (user) {
-      let arr = user.userFavorites
-      arr = arr.filter(ids => ids !== postId)
-      return await prisma.user.update({ where: { id: user.id }, data: { userFavorites: arr } })
+      let arr = user.userFavorites;
+      arr = arr.filter((ids) => ids !== postId);
+      return await prisma.user.update({
+        where: { id: user.id },
+        data: { userFavorites: arr },
+      });
     }
   } catch (error: any) {
-    return "Internal Error"
+    return "Internal Error";
   }
 }
