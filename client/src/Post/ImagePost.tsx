@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { checkSaved, postDisLikee, postLikee, saveThePost } from "../Ts_files/posts";
+import { postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
 import { Posts } from "./../Ts_files/types";
 import CommentOfPost from "./comments";
 import logos from "./../pages/logo.png";
@@ -33,24 +33,22 @@ export default function ImagePost({
     console.log(error.message);
   }
 
-  let [saved, setSaved] = useState(false)
-  checkSaved(localStorage.getItem('email')!, PostBio.id)
-    .then((res: boolean) => {
-      setSaved(res)
-      if (saved) {
-        setClasses(" bg-dark text-light ")
-      }
-    })
+  let [saved, setSaved] = useState(Boolean)
   let [classes, setClasses] = useState("");
-  async function Saved(classes: string) {
-    if (classes == "bg-dark text-light") {
-      return setClasses("");
+  async function Saved() {
+    if (!localStorage.getItem("email")) {
+      alert("You most to login!")
+      return window.location.href = '/login'
+    }
+    const userEmail = localStorage.getItem("email")
+    const postId = result.id
+    const anythingElse: string = await sendSavedOrUnsaved(userEmail!, postId)
+    if (anythingElse == "Saved succesfully!") {
+      setClasses("bg-dark text-light")
+      setSaved(true)
     } else {
-      if (!localStorage.getItem("email")) {
-        alert("You must to login");
-        return (window.location.href = "/login");
-      }
-      await saveThePost(PostBio, localStorage.getItem("email")!, setSaved, saved);
+      setClasses("")
+      setSaved(false)
     }
   }
 
@@ -95,7 +93,7 @@ export default function ImagePost({
           </div>
           <div className="gap-[10px] items-center flex mr-[2%]">
             <svg
-              onClick={() => Saved(classes)}
+              onClick={() => Saved()}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -138,15 +136,15 @@ export default function ImagePost({
         <hr className="border border-dark" />
         <div className="text w-full flex items-center m-2 ">
           <div className="w-[100%]">
-            <div className="flex justify-content-center items-center">
+            <div className="justify-content-center items-center">
               <textarea
                 onChange={(e: any) => setText(e.target.value)}
-                className="comment text-xl text-center p-2  border border-dark w-[80%] rounded-[10px]"
+                className=" comment text-xl text-center p-2  border border-dark w-[80%] rounded-[10px]"
                 placeholder="Write here somthing!"
               >
               </textarea>
-              <div className="flex justify-start">
-                <button className=" btn border border-dark" >Send</button>
+              <div className=" justify-start">
+                <button className="  btn border border-dark" >Send</button>
               </div>
             </div>
             <div className="flex justify-content-center gap-5">
@@ -222,7 +220,7 @@ export default function ImagePost({
           </div>
           <div
             className="gap-1 items-center flex mr-[2%]"
-            onClick={() => Saved(classes)}
+            onClick={() => Saved()}
           >
 
             <svg

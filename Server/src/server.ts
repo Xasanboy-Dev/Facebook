@@ -23,7 +23,6 @@ import { storage } from "../MiddleWares/MiddleWare";
 import multer from "multer";
 import {
   allPostsWithoutFilter_InOreder,
-  creaetNewPost,
   deletePostById,
   postLetter,
   removePostById,
@@ -75,7 +74,6 @@ server.get("/image/:email", GetImageOfProfile);
 
 server.get("/data/:token", FindUserByEmail);
 
-server.post("/newPost", creaetNewPost);
 
 server.delete("/removePost/:id", removePostById);
 

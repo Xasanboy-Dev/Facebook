@@ -75,21 +75,7 @@ export async function writeAcomment(
   }
 }
 
-export async function checkSaved(userEmail: string, postId: number) {
-  let [bool, setBool] = useState(false);
-  try {
-    if (!userEmail) {
-      return false;
-    }
-    await axios
-      .post("http://localhost:8080/post/check/" + postId, { email: userEmail })
-      .then((res) => {
-        setBool(res.data.boolean);
-      });
-    return bool;
-  } catch (error: any) {
-    console.log(error.message);
-    alert("You have some problms. Please try again later!");
-    return bool;
-  }
+export async function sendSavedOrUnsaved(userEmail: string, postId: number) {
+  const response = await axios.post(`http://localhost:8080/post/checkSaved/${postId}`, { email: userEmail })
+  return response.data.message
 }

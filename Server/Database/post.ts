@@ -1,6 +1,6 @@
 import { Posts } from "@prisma/client";
 import { prisma } from "./db";
-
+import { CheckUserExist } from "../Database/user";
 export async function GetPosts() {
   return prisma.posts.findMany();
 }
@@ -167,4 +167,39 @@ export async function addDislikee(userId: number, postID: number) {
 export async function checkSaved(userId: number, postId: number) {
   const result = await prisma.user.findUnique({ where: { id: userId } });
   return result!.userFavorites.includes(postId);
+}
+
+export async function checkPostSave(userEmail: string, postId: number) {
+  try {
+    const user = await prisma.user.findUnique({ where: { email: userEmail } })
+    return user?.userFavorites.includes(postId)
+  } catch (error: any) {
+    return "Internal Error"
+  }
+}
+
+export async function savePost(userEmail: string, postId: number) {
+  try {
+    const user = await CheckUserExist(userEmail)
+    if (user) {
+      let arr = user.userFavorites
+      arr.push(postId)
+      return await prisma.user.update({ where: { id: user.id }, data: { userFavorites: arr } })
+    }
+  } catch (error: any) {
+    return "Internal Error"
+  }
+}
+
+export async function removeSaved(userEmail: string, postId: number) {
+  try {
+    const user = await CheckUserExist(userEmail)
+    if (user) {
+      let arr = user.userFavorites
+      arr = arr.filter(ids => ids !== postId)
+      return await prisma.user.update({ where: { id: user.id }, data: { userFavorites: arr } })
+    }
+  } catch (error: any) {
+    return "Internal Error"
+  }
 }

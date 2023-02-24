@@ -18,6 +18,7 @@ import {
   deleteDislike,
   deleteLikee,
 } from "../Database/post";
+import { savePost_Or_Unsave } from "../Functions/Posts";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -104,7 +105,7 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
       if (!removeLike) {
         return res.status(409).json({ message: "You have some problems!" });
       }
-      const addingDislikee = await addDislikee(existUser.id, existPost.id);
+      await addDislikee(existUser.id, existPost.id);
       return res.status(200).json({ message: "Added succesfully" });
     } else {
       const result = await addDislikee(existUser.id, existPost.id);
@@ -116,19 +117,7 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/check/:postID", async (req: Request, res: Response) => {
-  try {
-    const { postID } = req.params;
-    const { email } = req.body;
-    const existUser: boolean | null | user = await CheckUserExist(email);
-    const existPost = await checkPostExist(+postID);
-    if (existUser && existPost) {
-      const result = await checkSaved(existUser.id, existPost.id);
-      return res.status(200).json({ boolean: result });
-    }
-  } catch (error: any) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Internal error" });
-  }
-});
+
+router.post('/checkSaved/:postId', savePost_Or_Unsave)
+
 module.exports = router;
