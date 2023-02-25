@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Profile() {
-
   const [img, setImg] = useState(null);
   const [email, useEmail] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -23,7 +22,7 @@ export default function Profile() {
           },
         })
         .then((res) => {
-          window.location.href = window.location.href
+          window.location.href = window.location.href;
         });
     }
     SelectedDashBoardImage();
@@ -35,16 +34,19 @@ export default function Profile() {
       try {
         const data = new FormData();
         data.append("Images", img!);
-        await axios.post("http://localhost:8080/profile/image", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: email,
-          },
-        }).then(res => {
-          window.location.href = window.location.href
-        }).catch(err => {
-          alert(err.message)
-        })
+        await axios
+          .post("http://localhost:8080/profile/image", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: email,
+            },
+          })
+          .then((res) => {
+            window.location.href = window.location.href;
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
       } catch (error: any) {
         console.log(error);
       }
@@ -63,21 +65,22 @@ export default function Profile() {
       } else {
         useName(localStorage.getItem("name")!);
         useEmail(res.data.token.email);
-        axios.get(`http://localhost:8080/images/${email}.png`)
-          .then(res => {
-            setAvatar(`http://localhost:8080/images/${email}.png`)
-          }).catch(err => {
-            setAvatar(`https://placeimg.com/380/230/nature`)
+        axios
+          .get(`http://localhost:8080/images/${email}.png`)
+          .then((res) => {
+            setAvatar(`http://localhost:8080/images/${email}.png`);
           })
+          .catch((err) => {
+            setAvatar(`https://placeimg.com/380/230/nature`);
+          });
       }
     });
   }
-  let classes = "flex justify-content-center items-center w-full rounded-full cursor-poniter"
+  let classes =
+    "flex justify-content-center items-center w-full rounded-full cursor-poniter";
   return (
     <div>
-      <div
-        className="flex w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl"
-      >
+      <div className="flex w-full dashboard  img items-end h-[95px]  justify-content-between  m-2 rounded-xl">
         <ul className="flex justigy-between w-24 items-end mb-4">
           <li className="p-2">
             <div className="flex items-end">
@@ -256,11 +259,25 @@ export default function Profile() {
               <h1 className="border h-full"></h1>
             </li>
             <li className={classes}>
-              <Link className="inline-flex px-3 items-center" to={"/profile/saved"}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+              <Link
+                className="inline-flex px-3 items-center"
+                to={"/profile/saved"}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
                 </svg>
-                Saved video
+                Saved posts
               </Link>
             </li>
           </ul>

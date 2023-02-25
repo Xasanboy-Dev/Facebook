@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 import { Posts } from "./../Ts_files/types";
 export async function postLikee(postId: number, email: string) {
   if (!email) {
@@ -119,5 +118,18 @@ export async function deleteComment(
   }
 }
 
-export async function getAllSavedVideos(email: string){
+export async function getAllSavedVideos(email: string) {
+  try {
+    const result = await axios.get("http://localhost:8080/post/savePosts", {
+      headers: { Authorization: email },
+    });
+    if (result.data) {
+      return await result.data.posts;
+    } else {
+      return "Not given";
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
 }

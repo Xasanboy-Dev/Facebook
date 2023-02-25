@@ -1,3 +1,4 @@
+import { Posts } from "@prisma/client";
 import e, { Request, Response } from "express";
 import { CheckUserExist } from "../Database/user";
 import { updateVideoText, Videos } from "../Database/videos";
@@ -187,5 +188,31 @@ export async function savePost_Or_Unsave(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "Internall Error" });
+  }
+}
+
+export async function getAllSavedPosts(req: Request, res: Response) {
+  try {
+    const email = req.headers.authorization;
+    if (email) {
+      const user = await CheckUserExist(email!);
+      if (user) {
+        let arr = user.userFavorites;
+        let posts: Posts[] = [];
+        for (let i in arr) {
+          const post = await checkPostExist(arr[i]);
+          if (post) {
+            posts.push(post);
+          }
+        }
+        return res
+          .status(200)
+          .json({ message: "All your saved posts!", posts });
+      }
+      res.status(409).json({ message: "You must to login!" });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    res.status(500).json({ message: "internal error" });
   }
 }

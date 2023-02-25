@@ -176,14 +176,6 @@ export function Publics() {
                 placeholder={`Anything new ?`}
               />
             </div>
-
-            {/* <div className="flex justify-center">
-              <h4 onClick={() => setShowEmoji(true)}><span style={{ display: showEmoji ? 'none' : 'flex' }}>Add some emoji</span></h4>
-              <div className="rounded text-2xl fixed z-2 border " style={{ display: showEmoji ? 'flex' : 'none' }}>
-                <Emoji  setimegFromOtgerPage={setLetter} setShowEmoji={setShowEmoji}></Emoji>
-              </div>
-            </div> */}
-
             <div className="text-red-900  items-center flex justify-content-center mb-2">
               <div className="w-75 drop-shadow-2xl h-50 img text-center  flex mx-auto mt-[10px] mb-[10px] border m-5">
                 <div className="flex">

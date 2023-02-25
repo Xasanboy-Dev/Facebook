@@ -12,7 +12,7 @@ import {
   deleteDislike,
   deleteLikee,
 } from "../Database/post";
-import { savePost_Or_Unsave } from "../Functions/Posts";
+import { getAllSavedPosts, savePost_Or_Unsave } from "../Functions/Posts";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -113,4 +113,5 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
 
 router.post("/checkSaved/:postId", savePost_Or_Unsave);
 
+router.get("/savePosts", getAllSavedPosts);
 module.exports = router;

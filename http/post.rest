@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/post/7
+DELETE http://localhost:8080/post/1
 Content-Type: application/json
 
 {

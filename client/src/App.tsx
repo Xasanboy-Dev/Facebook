@@ -11,7 +11,7 @@ import Photos from "./Posts/Photos";
 import Friends from "./Posts/Friends";
 import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
-import SavedVideos from "./Posts/Search";
+import SavedVideos from "./Posts/SavedPosts";
 import POSTS from "./Post/postVideo_and_Photo";
 function App() {
   return (
