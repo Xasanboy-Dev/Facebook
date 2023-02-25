@@ -72,17 +72,7 @@ export default function Profile() {
       }
     });
   }
-  let split = window.location.href.split("/");
-  function linkClasses(type: string) {
-    let classes =
-      "flex justify-content-center items-center w-full rounded-full cursor-poniter";
-    if (type === split[split.length - 1]) {
-      classes += " bg-blue-900 text-white ";
-    }
-    return classes;
-  }
-
-
+  let classes = "flex justify-content-center items-center w-full rounded-full cursor-poniter"
   return (
     <div>
       <div
@@ -134,7 +124,7 @@ export default function Profile() {
       <div>
         <div className="border mx-5 mt-3 rounded-full">
           <ul className="p-2 justify-content-center flex gap-14 mx-5 text-center">
-            <li className={linkClasses("")}>
+            <li className={classes}>
               <Link to={"/profile"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +146,7 @@ export default function Profile() {
             <li>
               <h1 className="border h-full"></h1>
             </li>
-            <li className={linkClasses("information")}>
+            <li className={classes}>
               <Link className="inline-flex p-2" to={"/profile/information"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +168,7 @@ export default function Profile() {
             <li>
               <h1 className="border h-full"></h1>
             </li>
-            <li className={linkClasses("friends")}>
+            <li className={classes}>
               <Link to={"/profile/friends"} className=" p-2 inline-flex">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +190,7 @@ export default function Profile() {
             <li>
               <h1 className="border h-full"></h1>
             </li>
-            <li className={linkClasses("photos")}>
+            <li className={classes}>
               <Link className="inline-flex p-2" to={"/profile/photos"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +212,7 @@ export default function Profile() {
             <li>
               <h1 className="h-full border"></h1>
             </li>
-            <li className={linkClasses("videos")}>
+            <li className={classes}>
               <Link className="inline-flex p-2" to={"/profile/videos"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +233,7 @@ export default function Profile() {
             <li>
               <h1 className="border h-full"></h1>
             </li>
-            <li className={linkClasses("likes")}>
+            <li className={classes}>
               <Link className="inline-flex p-2" to={"/profile/likes"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -265,23 +255,12 @@ export default function Profile() {
             <li>
               <h1 className="border h-full"></h1>
             </li>
-            <li className={linkClasses("search")}>
-              <Link className="inline-flex p-2" to={"/profile/search"}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                  />
+            <li className={classes}>
+              <Link className="inline-flex px-3 items-center" to={"/profile/saved"}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                 </svg>
-                Search
+                Saved video
               </Link>
             </li>
           </ul>

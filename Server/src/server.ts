@@ -39,8 +39,10 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT;
-server.use("/post", require("./postImages"));
+server.use("/post", require("./../router/postImages"));
+server.use("/posts", require("./../router/postImages"));
 
+server.use("/comment", require("./../router/comment"));
 server.use("/posts", express.static("./postImages"));
 
 server.use("/images", express.static("./profileImages"));
@@ -73,7 +75,6 @@ server.get("/users", SeeAllPublishedUsers);
 server.get("/image/:email", GetImageOfProfile);
 
 server.get("/data/:token", FindUserByEmail);
-
 
 server.delete("/removePost/:id", removePostById);
 

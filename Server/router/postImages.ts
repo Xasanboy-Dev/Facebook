@@ -1,7 +1,4 @@
-import {
-  storageForPost,
-  uploadForVideos,
-} from "./../MiddleWares/MiddleWare";
+import { storageForPost, uploadForVideos } from "../MiddleWares/MiddleWare";
 import multer from "multer";
 import { Request, Response } from "express";
 import { Router } from "express";
@@ -11,13 +8,11 @@ import {
   addDislikee,
   addLike,
   checkPostExist,
-  checkSaved,
   checkUserLikedOrDisliked,
   deleteDislike,
   deleteLikee,
 } from "../Database/post";
 import { savePost_Or_Unsave } from "../Functions/Posts";
-import { addComment, getAllCoomentsdByPostId } from "../Functions/comment";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -116,11 +111,6 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/comment/:postID", addComment);
-
-router.get("/comment/:postID", getAllCoomentsdByPostId);
-
-router.delete('/comment/:commentID')
 router.post("/checkSaved/:postId", savePost_Or_Unsave);
 
 module.exports = router;

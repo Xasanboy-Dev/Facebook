@@ -11,9 +11,8 @@ import Photos from "./Posts/Photos";
 import Friends from "./Posts/Friends";
 import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
-import Search from "./Posts/Search";
+import SavedVideos from "./Posts/Search";
 import POSTS from "./Post/postVideo_and_Photo";
-import Hamburger from "./Settings/services";
 function App() {
   return (
     <div>
@@ -21,7 +20,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/post" element={<POSTS />} />
-        <Route path="/service" element={<Hamburger />} />
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>
@@ -31,7 +29,7 @@ function App() {
             <Route path="/profile/friends" element={<Friends />} />
             <Route path="/profile/information" element={<Information />} />
             <Route path="/profile/likes" element={<ClickOnLikes />} />
-            <Route path="/profile/search" element={<Search />} />
+            <Route path="/profile/saved" element={<SavedVideos />} />
           </Route>
         </Route>
       </Routes>

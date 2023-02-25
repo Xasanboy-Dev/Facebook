@@ -61,6 +61,8 @@ model Posts {
   dislikes_of_this_Post Int[]
   text                  String
   createdAt             DateTime @default(now())
+  commentsID            Int[]
+  savedUser             String[] 
 }
 
 model comments_of_posts {

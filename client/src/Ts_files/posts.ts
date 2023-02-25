@@ -76,6 +76,48 @@ export async function writeAcomment(
 }
 
 export async function sendSavedOrUnsaved(userEmail: string, postId: number) {
-  const response = await axios.post(`http://localhost:8080/post/checkSaved/${postId}`, { email: userEmail })
-  return response.data.message
+  const response = await axios.post(
+    `http://localhost:8080/post/checkSaved/${postId}`,
+    { email: userEmail }
+  );
+  return response.data.message;
+}
+
+export async function addComment(
+  postID: number,
+  email: string,
+  letter: string
+) {
+  if (!email || !letter || !postID) {
+    alert("You must to login!");
+    return (window.location.href = "/login");
+  }
+  const response = await axios.post(`http://localhost:8080/comment/${postID}`, {
+    email,
+    letter,
+  });
+  if (response.status == 200) {
+    alert(response.data.message);
+    return;
+  }
+  return alert(response.data.message);
+}
+
+export async function deleteComment(
+  postId: number,
+  commentID: number,
+  email: string
+) {
+  try {
+    const result = await axios.delete(
+      `http://localhost:8080/comment/${commentID}`,
+      { headers: { Authorization: email } }
+    );
+    console.log(result.data);
+  } catch (error: any) {
+    alert(error.message);
+  }
+}
+
+export async function getAllSavedVideos(email: string){
 }

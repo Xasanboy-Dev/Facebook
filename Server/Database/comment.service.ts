@@ -12,7 +12,7 @@ export async function createComment(
     const post = await checkPostExist(postId);
     const user = await CheckUserExist(userEmail);
     if (post && user) {
-      return await prisma.comments_of_posts.create({
+      const createdComment = await prisma.comments_of_posts.create({
         data: {
           postId: post.id,
           typeOfPost: "TEXT",
@@ -21,6 +21,7 @@ export async function createComment(
           texts: letter,
         },
       });
+      return createdComment;
     }
     return false;
   } catch (error: any) {
@@ -28,14 +29,11 @@ export async function createComment(
   }
 }
 
-export async function getAllCommentsByPostID(
-  postId: number,
-  userEmail: string
-) {
+export async function getAllCommentsByPostID(postId: number) {
   try {
-    const user = await CheckUserExist(userEmail);
     const comment = await prisma.comments_of_posts.findMany({
       where: { postId },
+      orderBy: { createdDate: "desc" },
     });
     return comment;
   } catch (error: any) {
@@ -57,6 +55,19 @@ export async function removeComment(ID: number) {
   try {
     return await prisma.comments_of_posts.delete({ where: { id: ID } });
   } catch (error: any) {
+    return false;
+  }
+}
+
+export async function Comments() {
+  return await prisma.comments_of_posts.findMany();
+}
+
+export async function getCommentByID(id: number) {
+  try {
+    return await prisma.comments_of_posts.findUnique({ where: { id } });
+  } catch (error: any) {
+    console.log(error.message);
     return false;
   }
 }

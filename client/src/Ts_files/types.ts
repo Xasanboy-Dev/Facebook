@@ -24,6 +24,7 @@ export interface Posts {
   dislikes_of_this_Post: number[];
   text: string;
   createdAt: number;
+  savedUser: string[];
 }
 
 export interface Images {
@@ -51,4 +52,14 @@ export interface User {
   userFavorites: number[];
   imageUrl: string;
   friends: number[];
+}
+
+export interface Comments {
+  id: number;
+  postId: number;
+  typeOfPost: string;
+  userId: number;
+  userEmail: string;
+  texts: string;
+  createdDate: string;
 }

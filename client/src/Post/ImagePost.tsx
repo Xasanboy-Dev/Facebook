@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
+import { addComment, postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
 import { Posts } from "./../Ts_files/types";
 import CommentOfPost from "./comments";
 import logos from "./../pages/logo.png";
@@ -33,7 +33,6 @@ export default function ImagePost({
     console.log(error.message);
   }
 
-  let [saved, setSaved] = useState(Boolean)
   let [classes, setClasses] = useState("");
   async function Saved() {
     if (!localStorage.getItem("email")) {
@@ -45,10 +44,8 @@ export default function ImagePost({
     const anythingElse: string = await sendSavedOrUnsaved(userEmail!, postId)
     if (anythingElse == "Saved succesfully!") {
       setClasses("bg-dark text-light")
-      setSaved(true)
     } else {
       setClasses("")
-      setSaved(false)
     }
   }
 
@@ -59,6 +56,11 @@ export default function ImagePost({
     if (+i > 10 && +i < data.length - 5) {
       time += data[i];
     }
+  }
+  let savedUsersFromPost = result.savedUser
+  let email = localStorage.getItem("email")
+  if (email && savedUsersFromPost.includes(email)) {
+    classes = ("bg-dark text-light")
   }
   if (PostBio.type_of_post == "Photo") {
     let [postImage, setPostImage] = useState("");
@@ -74,6 +76,11 @@ export default function ImagePost({
       .catch((err) => {
         setPostImage(logos);
       });
+    let [bool, setBool] = useState(false)
+    let letter: string = ""
+    if (text.length > 0) {
+      letter = "  btn border border-dark"
+    }
     return (
       <div className="w-full">
         <div className="text justify-between flex  text-dark bold">
@@ -131,7 +138,7 @@ export default function ImagePost({
           />
         </div>
         <div className="w-full h-full  m-5" style={{ display: bool ? 'flex' : 'none' }}>
-          <CommentOfPost letter={text} setShowCooment={setBool} />
+          <CommentOfPost bool={bool} POST={result} setShowCooment={setBool} />
         </div>
         <hr className="border border-dark" />
         <div className="text w-full flex items-center m-2 ">
@@ -139,12 +146,11 @@ export default function ImagePost({
             <div className="justify-content-center items-center">
               <textarea
                 onChange={(e: any) => setText(e.target.value)}
-                className=" comment text-xl text-center p-2  border border-dark w-[80%] rounded-[10px]"
+                className=" resize-none overflow-scroll h-[80%]  comment text-xl text-center p-2  border border-dark w-[80%] rounded-[10px]"
                 placeholder="Write here somthing!"
-              >
-              </textarea>
+              />
               <div className=" justify-start">
-                <button className="  btn border border-dark" >Send</button>
+                <button style={{ display: letter.length > 0 ? "inline-flex" : 'none' }} onClick={() => addComment(result.id, localStorage.getItem("email")!, text)} className={`${letter}`} >Send</button>
               </div>
             </div>
             <div className="flex justify-content-center gap-5">
@@ -198,9 +204,13 @@ export default function ImagePost({
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   } else if (PostBio.type_of_post == "Video") {
+    let letter: string = ""
+    if (text.length > 0) {
+      letter = "  btn border border-dark"
+    }
     return (
       <div className="w-full rounded-[25px]">
         <div className="text justify-between flex  text-dark bold">
@@ -222,7 +232,6 @@ export default function ImagePost({
             className="gap-1 items-center flex mr-[2%]"
             onClick={() => Saved()}
           >
-
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -253,7 +262,7 @@ export default function ImagePost({
             </svg>
           </div>
         </div>
-        <div className="w-full  border  border-dark">
+        <div style={{ display: bool ? 'none' : 'flex' }} className="w-full  border  border-dark">
           <video
             autoPlay
             controls
@@ -262,11 +271,17 @@ export default function ImagePost({
           />
         </div>
         <div className="text w-full flex items-center m-2 ">
-          <div className="w-[80%]">
-            <textarea
+          <div className="w-[100%]">
+            <div className=" w-full h-full  m-5" style={{ display: bool ? 'flex' : 'none' }}>
+              <CommentOfPost bool={bool} POST={result} setShowCooment={setBool} />
+            </div>
+            <textarea onChange={(e: any) => setText(e.target.value)}
               className="text-xl text-center p-2  border border-dark w-[80%] rounded-[10px]"
               placeholder="Write here somthing!"
             />
+            <div className=" m-2 justify-start">
+              <button style={{ display: letter.length > 0 ? "inline-flex" : 'none' }} onClick={() => addComment(result.id, localStorage.getItem("email")!, text)} className={`${letter}`} >Send</button>
+            </div>
             <div className="flex justify-content-center gap-5">
               <ul className="flex gap-[15px] ml-[5%]">
                 <li className="bg-green-700 cursor-pointer">
@@ -312,7 +327,7 @@ export default function ImagePost({
                     {result.dislikes_of_this_Post.length}
                   </button>
                 </li>
-                <button className="btn border border-dark">Comment</button>
+                <button onClick={() => setBool(true)} className="btn border border-dark">Comment</button>
               </ul>
             </div>
           </div>

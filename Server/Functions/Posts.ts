@@ -2,13 +2,16 @@ import e, { Request, Response } from "express";
 import { CheckUserExist } from "../Database/user";
 import { updateVideoText, Videos } from "../Database/videos";
 import {
+  addCommentID,
   checkPostExist,
   checkPostSave,
   deleteWithId,
   getPosts_WhereLikeMore,
   postText,
   removeSaved,
+  removeUserToPost,
   savePost,
+  saveUserToPost,
   writeComment,
 } from "./../Database/post";
 import { GetPosts, removerPostById } from "./../Database/post";
@@ -140,7 +143,11 @@ export async function postComment(req: Request, res: Response) {
         .json({ message: "You must to login or SELECT exist post!" });
     }
     const comment = await writeComment(user.id, post.id, text);
-    res.status(201).json({ message: "Added succesfully", comment });
+    if (comment) {
+      const added = await addCommentID(post.id, comment?.id);
+      return res.status(201).json({ message: "Added succesfully", comment });
+    }
+    res.status(500).json({ message: "Internal error" });
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "Internal error" });
@@ -158,16 +165,18 @@ export async function savePost_Or_Unsave(req: Request, res: Response) {
     }
     const isTrue = await checkPostSave(user.email, post.id);
     if (!isTrue) {
-      let saved = await savePost(user.email, post.id);
-      if (saved) {
+      let savedUser = await savePost(user.email, post.id);
+      let savedPost = await saveUserToPost(user.email, post.id);
+      if (savedUser && savedPost) {
         return res
           .status(201)
-          .json({ message: "Saved succesfully!", user: saved });
+          .json({ message: "Saved succesfully!", user: savedUser });
       }
       return res.status(409).json({ message: "You have some problems!" });
     } else {
       let unsaved = await removeSaved(user.email, post.id);
-      if (unsaved) {
+      let unsavedFromPosts = await removeUserToPost(user.email, post.id);
+      if (unsaved && unsavedFromPosts) {
         return res
           .status(201)
           .json({ message: "Unsaved succesfully!", user: unsaved });

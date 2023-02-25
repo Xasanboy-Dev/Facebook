@@ -1,6 +1,7 @@
 import { Posts } from "@prisma/client";
 import { prisma } from "./db";
 import { CheckUserExist } from "../Database/user";
+import { getCommentByID } from "./comment.service";
 export async function GetPosts() {
   return prisma.posts.findMany();
 }
@@ -180,7 +181,10 @@ export async function checkPostSave(userEmail: string, postId: number) {
 export async function savePost(userEmail: string, postId: number) {
   try {
     const user = await CheckUserExist(userEmail);
-    if (user) {
+    const post = await prisma.posts.findUnique({ where: { id: postId } });
+    if (user && post) {
+      let postSaved = post.savedUser;
+
       let arr = user.userFavorites;
       arr.push(postId);
       return await prisma.user.update({
@@ -206,5 +210,87 @@ export async function removeSaved(userEmail: string, postId: number) {
     }
   } catch (error: any) {
     return "Internal Error";
+  }
+}
+
+export async function addCommentID(postID: number, commentID: number) {
+  try {
+    const comment = await getCommentByID(commentID);
+    const existPost = await checkPostExist(postID);
+    if (comment && existPost) {
+      let arr = existPost.commentsID;
+      arr.push(comment.id);
+      const added = await prisma.posts.update({
+        where: { id: postID },
+        data: { commentsID: arr },
+      });
+      return added;
+    }
+    return false;
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function deleteCommentID(postID: number, commentID: number) {
+  try {
+    const post = await prisma.posts.findUnique({ where: { id: postID } });
+    if (post) {
+      let arr = post.commentsID;
+      arr = arr.filter((ids) => ids !== commentID);
+      const result = await prisma.posts.update({
+        where: { id: post.id },
+        data: { commentsID: arr },
+      });
+      return result;
+    }
+    return false;
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
+  }
+}
+
+export async function saveUserToPost(email: string, postID: number) {
+  try {
+    const post = await checkPostExist(postID);
+    const user = await CheckUserExist(email);
+    if (post && user) {
+      let savedUsers = post.savedUser;
+      if (!savedUsers.includes(user.email)) {
+        savedUsers.push(user.email);
+        const result = await prisma.posts.update({
+          where: { id: postID },
+          data: { savedUser: savedUsers },
+        });
+        return result;
+      }
+    }
+    return false;
+  } catch (error: any) {
+    console.log(error.message);
+    return error.message;
+  }
+}
+export async function removeUserToPost(email: string, postID: number) {
+  try {
+    const post = await checkPostExist(postID);
+    const user = await CheckUserExist(email);
+    if (post && user) {
+      let savedUsers = post.savedUser;
+      if (savedUsers.includes(user.email)) {
+        savedUsers = savedUsers.filter((emails) => emails !== user.email);
+        const result = await prisma.posts.update({
+          where: { id: postID },
+          data: { savedUser: savedUsers },
+        });
+        return result;
+      }
+    }
+    return false;
+  } catch (error: any) {
+    console.log(error.message);
+    return false;
   }
 }
