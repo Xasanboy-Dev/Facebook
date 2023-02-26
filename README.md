@@ -4,7 +4,16 @@ git clone https://github.com/Xasanboy-Dev/Facobook.git
 ```
 And then open with ```Vidual studio code```
 ```shell
-cd Server
+cd /Server
 npm i
+npx prisma db push
+npm run dev
 ```
 And then open other termial this file with another terminal:
+```
+cd /client
+npm i
+npm run dev
+```
+
+An then you cn work with this project→
