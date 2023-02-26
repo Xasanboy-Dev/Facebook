@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import {
   CheckUserExist,
+  FindUser,
   removePostFromUser,
   UnsavePost,
 } from "../Database/user";
@@ -50,5 +51,19 @@ export async function removeSavedFromUser(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function getAboutUserWithEmail(req: Request, res: Response) {
+  try {
+    const { email } = req.params
+    const user = await FindUser(email)
+    if (!user) {
+      return res.status(409).json({ message: "You have some problems!" })
+    }
+    res.status(200).json({ message: "All good", user })
+  } catch (error: any) {
+    console.log(error.message)
+    res.status(500).json({ mesage: "internal error" })
   }
 }

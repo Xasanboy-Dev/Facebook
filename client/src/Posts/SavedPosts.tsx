@@ -1,7 +1,6 @@
 import { Posts } from "./../Ts_files/types";
 import { useEffect, useState } from "react";
 import { getAllSavedVideos } from "../Ts_files/posts";
-import logo from "./../pages/logo.png";
 export default function SavedVideos() {
   let email = localStorage.getItem("email");
   let [posts, setPosts] = useState([]);
@@ -10,7 +9,7 @@ export default function SavedVideos() {
       const result = getAllSavedVideos(email!);
       result.then((res) => {
         setPosts(res);
-      });
+      })
     }, []);
     let POST: Posts[] = posts;
     return (
@@ -18,17 +17,12 @@ export default function SavedVideos() {
         {POST.map((post: Posts) => {
           if (post.type_of_post == "Photo") {
             return (
-              <div className="border h-[65%] border-dark rounded">
+              <div className="div border h-[95%] border-dark rounded">
                 <img
-                  className="w-full h-[65%]"
-                  src={`http://localhost:8080/posts/${
-                    post.title + "_" + post.email
-                  }.png`}
+                  className="w-full h-[100%]"
+                  src={`http://localhost:8080/posts/${post.title + "_" + post.email
+                    }.png`}
                 />
-                <h4 className=" text-bold text-2xl  flex justify-center">
-                  {post.text}
-                </h4>
-                <div className="border">{post.email}</div>
               </div>
             );
           } else if (post.type_of_post == "Video") {

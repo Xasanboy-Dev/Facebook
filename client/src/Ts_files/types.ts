@@ -52,6 +52,12 @@ export interface User {
   userFavorites: number[];
   imageUrl: string;
   friends: number[];
+  description: string
+  phoneNumber: string
+  address: string
+  company: string
+  Profession: string
+  Country: string
 }
 
 export interface Comments {

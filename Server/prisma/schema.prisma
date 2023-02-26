@@ -21,6 +21,12 @@ model user {
   userFavorites   Int[]
   imageUrl        String?
   friends         Int[]
+  description     String?
+  phoneNumber     String?
+  address         String?
+  company         String?
+  Profession      String?
+  Country         String?
 }
 
 model Images {
@@ -62,7 +68,7 @@ model Posts {
   text                  String
   createdAt             DateTime @default(now())
   commentsID            Int[]
-  savedUser             String[] 
+  savedUser             String[]
 }
 
 model comments_of_posts {

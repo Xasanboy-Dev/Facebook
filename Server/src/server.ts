@@ -34,11 +34,12 @@ import { removeSavedFromUser, SavePost } from "../Functions/User";
 dotenv.config();
 const router = Router();
 const server = express();
+const PORT = process.env.PORT;
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-const PORT = process.env.PORT;
+server.use('/user', require("./../router/user"))
 server.use("/post", require("./../router/postImages"));
 server.use("/posts", require("./../router/postImages"));
 
