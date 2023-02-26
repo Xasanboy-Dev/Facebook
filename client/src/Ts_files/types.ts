@@ -58,6 +58,7 @@ export interface User {
   company: string
   Profession: string
   Country: string
+  Bio: string
 }
 
 export interface Comments {

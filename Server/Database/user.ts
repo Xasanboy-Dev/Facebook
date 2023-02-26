@@ -99,3 +99,37 @@ export async function removePostFromUser(userId: number, postID: number) {
     return false;
   }
 }
+
+export async function updateUserByID(
+  userEmail: string,
+  id: number,
+  name: string,
+  lastname: string,
+  email: string,
+  phoneNumber: string,
+  address: string,
+  country: string,
+  bio: string) {
+  try {
+    return await prisma.user.update(
+      {
+        where:
+        {
+          id
+        },
+        data:
+        {
+          name,
+          lastname,
+          email,
+          phoneNumber,
+          address,
+          Country: country,
+          Bio: bio
+        }
+      }
+    )
+  } catch (error: any) {
+    return false
+  }
+}

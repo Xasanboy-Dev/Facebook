@@ -1,8 +1,9 @@
 import { Router } from "express";
-import {  getAboutUserWithEmail } from "../Functions/User";
+import { editUserByEmail, getAboutUserWithEmail } from "../Functions/User";
 const router = Router()
 
 router.get('/:email', getAboutUserWithEmail)
 
+router.put('/:email',editUserByEmail)
 
 module.exports = router

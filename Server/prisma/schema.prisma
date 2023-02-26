@@ -27,6 +27,7 @@ model user {
   company         String?
   Profession      String?
   Country         String?
+  Bio             String?
 }
 
 model Images {
