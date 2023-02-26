@@ -1,29 +1,10 @@
-
-```
-First you nedd to run server of Backend
-### Terminal
+You can wirk with my projct when you download this:
 ``` shell
+git clone https://github.com/Xasanboy-Dev/Facobook.git
+```
+And then open with ```Vidual studio code```
+```shell
+cd Server
 npm i
 ```
-
-``` shell
-cd Server/
-```
-``` shell
-npm run dev
-```
-# And then you need to path here:
-``` shel
-cd clent/
-```
-``` shell
-npm run dev
-```
-```shell
-And after more days you can to POST and LOGIN and others
-And you can to   POST  a new VIDIO and a new POST
-```
-And then relax 👍
-```shell
-You can download it!
-```
+And then open other termial this file with another terminal:
