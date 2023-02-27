@@ -25,6 +25,7 @@ export default function Login() {
         localStorage.setItem('token', token)
         localStorage.setItem('name', res.data.user.name)
         localStorage.setItem('email', res.data.user.email)
+        localStorage.setItem('userID', res.data.user.id)
         return window.location.href = "/profile"
       })
       .catch((error) => {

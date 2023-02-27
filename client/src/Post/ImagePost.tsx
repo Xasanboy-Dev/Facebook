@@ -3,6 +3,7 @@ import { useState } from "react";
 import { addComment, postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
 import { Posts } from "./../Ts_files/types";
 import CommentOfPost from "./comments";
+import Service from "../Settings/serviceOfPost";
 import logos from "./../pages/logo.png";
 export default function ImagePost({
   PostBio,
@@ -13,6 +14,7 @@ export default function ImagePost({
   let [logo, setLogo] = useState("");
   let [text, setText] = useState("");
   let [bool, setBool] = useState(false)
+  let [click, setClick] = useState(false)
   let result: Posts = PostBio;
   let data: any = PostBio.createdAt.toString();
   let date = "";
@@ -82,7 +84,7 @@ export default function ImagePost({
       letter = "  btn border border-dark"
     }
     return (
-      <div className="w-full">
+      <div className="w-full" >
         <div className="text justify-between flex  text-dark bold">
           <div className="w-[75px] h-[20%] mb-[10px] justify-content-center flex rounded-full">
             <div className="">
@@ -113,7 +115,7 @@ export default function ImagePost({
                 d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
               />
             </svg>
-            <svg
+            <svg onClick={() => setClick(true)}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -131,6 +133,9 @@ export default function ImagePost({
         </div>
         <hr className="border border-dark " />
         <div style={{ display: bool ? 'none' : 'flex' }} className="flex p-2 justify-content-center">
+          <div style={{ display: click ? 'flex' : 'none' }} className={"mt-[10%]   position-absolute "}>
+            <Service setShow={setClick} postId={result.id} userId={+localStorage.getItem("userID")!} />
+          </div>
           <img
             className="w-full rounded-[10px] bg-auto"
             style={{ width: "45%", height: "100%" }}

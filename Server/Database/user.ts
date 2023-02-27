@@ -109,27 +109,32 @@ export async function updateUserByID(
   phoneNumber: string,
   address: string,
   country: string,
-  bio: string) {
+  bio: string
+) {
   try {
-    return await prisma.user.update(
-      {
-        where:
-        {
-          id
-        },
-        data:
-        {
-          name,
-          lastname,
-          email,
-          phoneNumber,
-          address,
-          Country: country,
-          Bio: bio
-        }
-      }
-    )
+    return await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        lastname,
+        email,
+        phoneNumber,
+        address,
+        Country: country,
+        Bio: bio,
+      },
+    });
   } catch (error: any) {
-    return false
+    return false;
+  }
+}
+
+export async function userId(userId: number) {
+  try {
+    return await prisma.user.findUnique({ where: { id: userId } });
+  } catch (error: any) {
+    return false;
   }
 }

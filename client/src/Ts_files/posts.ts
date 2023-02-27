@@ -133,3 +133,11 @@ export async function getAllSavedVideos(email: string) {
     return false;
   }
 }
+
+export async function deletePost(postID: number, userID: number) {
+  try {
+    alert(postID);
+  } catch (error: any) {
+    return (window.location.href = "/login");
+  }
+}

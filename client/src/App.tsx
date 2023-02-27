@@ -6,6 +6,7 @@ import IndexPage from "./pages/IndexPage";
 import Layot from "./pages/Layout";
 import { Publics } from "./Posts/publics";
 import ProfileLayout from "./pages/LayoutProfile";
+import Service from "./Settings/serviceOfPost";
 import Videos from "./Posts/Videos";
 import Photos from "./Posts/Photos";
 import Friends from "./Posts/Friends";

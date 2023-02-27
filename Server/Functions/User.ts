@@ -6,6 +6,7 @@ import {
   removePostFromUser,
   UnsavePost,
   updateUserByID,
+  userId,
 } from "../Database/user";
 import { checkPostExist, checkSaved } from "../Database/post";
 import { SavePOST } from "../Database/user";
@@ -57,26 +58,26 @@ export async function removeSavedFromUser(req: Request, res: Response) {
 
 export async function getAboutUserWithEmail(req: Request, res: Response) {
   try {
-    const { email } = req.params
-    const user = await FindUser(email)
+    const { email } = req.params;
+    const user = await FindUser(email);
     if (!user) {
-      return res.status(409).json({ message: "You have some problems!" })
+      return res.status(409).json({ message: "You have some problems!" });
     }
-    res.status(200).json({ message: "All good", user })
+    res.status(200).json({ message: "All good", user });
   } catch (error: any) {
-    console.log(error.message)
-    res.status(500).json({ mesage: "internal error" })
+    console.log(error.message);
+    res.status(500).json({ mesage: "internal error" });
   }
 }
 export async function editUserByEmail(req: Request, res: Response) {
   try {
-    const { email } = req.params
-    const body: user = req.body
-    const user = await CheckUserExist(email)
+    const { email } = req.params;
+    const body: user = req.body;
+    const user = await CheckUserExist(email);
     if (!user) {
-      return res.status(409).json({ message: "Your email is not valid!" })
+      return res.status(409).json({ message: "Your email is not valid!" });
     }
-    const checkEmail = await CheckUserExist(body.email)
+    const checkEmail = await CheckUserExist(body.email);
     if (!checkEmail || email == body.email) {
       const updatedUser = await updateUserByID(
         user.email,
@@ -88,13 +89,29 @@ export async function editUserByEmail(req: Request, res: Response) {
         body.address!,
         body.Country!,
         body.description!
-      )
-      return res.status(201).json({ message: "Updated succesfully!" })
+      );
+      return res.status(201).json({ message: "Updated succesfully!" });
     } else {
-      return res.status(409).json({ message: "Your email is already exist. Please write down another one!" })
+      return res.status(409).json({
+        message: "Your email is already exist. Please write down another one!",
+      });
     }
   } catch (err: any) {
-    console.log(err.mesage)
-    res.status(500).json({ message: "Internal error" })
+    console.log(err.mesage);
+    res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function getUserById(req: Request, res: Response) {
+  try {
+    const { userID } = req.params;
+    const user = await userId(+userID);
+    if (!user) {
+      return res.status(409).json({ message: "You must to login!" });
+    }
+    res.status(200).json({ message: "User bio", user });
+  } catch (error: any) {
+    console.log(error.mesage);
+    return res.status(500).json({ message: "Internal error" });
   }
 }
