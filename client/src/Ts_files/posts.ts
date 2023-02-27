@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Posts } from "./../Ts_files/types";
+import { Posts, User } from "./../Ts_files/types";
 export async function postLikee(postId: number, email: string) {
   if (!email) {
     alert("You must to login!");
@@ -134,9 +134,23 @@ export async function getAllSavedVideos(email: string) {
   }
 }
 
-export async function deletePost(postID: number, userID: number) {
+export async function deletePost(post: Posts, user: User) {
   try {
-    alert(postID);
+    axios
+      .delete(`http://localhost:8080/post/${post.id}`, {
+        headers: { Authorization: user.email },
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          alert("Deleted succesfully!");
+          return (window.location.href = "/");
+        } else {
+          alert("You have some problems!");
+        }
+      })
+      .catch((err) => {
+        console.log(err.mesage);
+      });
   } catch (error: any) {
     return (window.location.href = "/login");
   }

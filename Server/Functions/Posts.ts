@@ -76,19 +76,20 @@ export async function postLetter(req: Request, res: Response) {
 
 export async function deletePostById(req: Request, res: Response) {
   try {
-    let { id } = req.params;
-    let { email } = req.body;
-    let checkedEmail = await CheckUserExist(email);
+    let { postID } = req.params;
+    let email = req.headers.authorization;
+
+    let checkedEmail = await CheckUserExist(email!);
     if (!checkedEmail) {
       return res.status(400).json({ message: "You must register!" });
     }
-    let checkedPost = checkPostExist(+id);
+    let checkedPost = checkPostExist(+postID);
     if (!checkedPost) {
       return res.status(400).json({
         message: "Your posts isn't exist. Please check and try again!",
       });
     }
-    const deletedPost = await deleteWithId(+id);
+    const deletedPost = await deleteWithId(+postID);
     res.status(200).json({ message: "Deleted succesfully", post: deletedPost });
   } catch (error: any) {
     console.log(error.message);

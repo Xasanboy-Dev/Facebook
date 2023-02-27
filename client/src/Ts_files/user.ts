@@ -58,11 +58,11 @@ export async function editUserData(
 
 export async function getUsrById(userId: number) {
   try {
-    const reponse = await axios.get(`http://localhost:8080/user/${userId}`);
-    if (reponse.status !== 200) {
+    const response = await axios.get(`http://localhost:8080/user/id/${userId}`);
+    if (response.status !== 200) {
       return (window.location.href = "/login");
     }
-    console.log(reponse.data);
+    return response.data.user;
   } catch (error: any) {
     return (window.location.href = "/login");
   }

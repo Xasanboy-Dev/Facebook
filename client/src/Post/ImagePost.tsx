@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { addComment, postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
-import { Posts } from "./../Ts_files/types";
+import { Posts, User } from "./../Ts_files/types";
 import CommentOfPost from "./comments";
 import Service from "../Settings/serviceOfPost";
 import logos from "./../pages/logo.png";
+import { getUsrById } from "../Ts_files/user";
 export default function ImagePost({
   PostBio,
 }: {
@@ -19,7 +20,11 @@ export default function ImagePost({
   let data: any = PostBio.createdAt.toString();
   let date = "";
   let time = "";
-
+  let [user, setUser] = useState<User>()
+  let userBio = getUsrById(+localStorage.getItem("userID")!)
+  userBio.then(res => {
+    setUser(res)
+  })
   try {
     if (!logo) {
       axios
@@ -134,7 +139,7 @@ export default function ImagePost({
         <hr className="border border-dark " />
         <div style={{ display: bool ? 'none' : 'flex' }} className="flex p-2 justify-content-center">
           <div style={{ display: click ? 'flex' : 'none' }} className={"mt-[10%]   position-absolute "}>
-            <Service setShow={setClick} postId={result.id} userId={+localStorage.getItem("userID")!} />
+            <Service setShow={setClick} post={result} user={user} />
           </div>
           <img
             className="w-full rounded-[10px] bg-auto"

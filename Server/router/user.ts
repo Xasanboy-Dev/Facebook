@@ -10,5 +10,5 @@ router.get("/:email", getAboutUserWithEmail);
 
 router.put("/:email", editUserByEmail);
 
-router.get("/:userID", getUserById);
+router.get("/id/:userID", getUserById);
 module.exports = router;
