@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-<<<<<<< HEAD
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -12,7 +11,7 @@ const wss = new WebSocketServer({ port: 1234 });
 wss.on("connection", (ws) => {
   ws.on("message", (data: any) => {
     let user: { name: string; lastname: string } = JSON.parse(data.toString());
-    console.log(`Recieved data from clicnt: ${user.name}`);
+    console.log(`Recieved data from clicnt: ${user.}`);
     ws.send("How are you?");
   });
 
@@ -22,21 +21,6 @@ wss.on("connection", (ws) => {
     console.log(`User gone out!`);
     ws.send("Bye!");
   });
-=======
-dotenv.config();
-const PORT = process.env.PORT;
-import express from "express";
-import WebSocket from "ws";
-const ws = new WebSocket(`ws://localhost:${5000}`);
-
-ws.on("open", () => {
-  console.log(`Client connected!`);
-  ws.send(`Hi how are you!`);
-});
-
-ws.on("message", (data: any) => {
-  console.log(`Recieved message: ${data}`);
->>>>>>> 6f7af1611922ad0c2aa7128623e9622a822c09cb
 });
 
 import { Router } from "express";
@@ -70,19 +54,13 @@ import {
   postComment,
 } from "../Functions/Posts";
 import { removeSavedFromUser, SavePost } from "../Functions/User";
-<<<<<<< HEAD
 
-=======
->>>>>>> 6f7af1611922ad0c2aa7128623e9622a822c09cb
 const router = Router();
 const server = express();
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-<<<<<<< HEAD
 
-=======
->>>>>>> 6f7af1611922ad0c2aa7128623e9622a822c09cb
 server.use("/user", require("./../router/user"));
 server.use("/post", require("./../router/postImages"));
 server.use("/posts", require("./../router/postImages"));
