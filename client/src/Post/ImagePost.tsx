@@ -240,9 +240,9 @@ export default function ImagePost({
           </div>
           <div
             className="gap-1 items-center flex mr-[2%]"
-            onClick={() => Saved()}
           >
             <svg
+              onClick={() => Saved()}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -256,7 +256,7 @@ export default function ImagePost({
                 d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
               />
             </svg>
-            <svg
+            <svg onClick={() => setClick(true)}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -279,6 +279,9 @@ export default function ImagePost({
             className=" text-auto h-[720px] w-full"
             src={`http://localhost:8080/videos/${result.title}_${result.email}.mp4`}
           />
+        <div style={{ display: click ? 'flex' : 'none' }} className={"mt-[10%] mx-[35%]  position-absolute "}>
+          <Service setShow={setClick} post={result} user={user} />
+        </div>
         </div>
         <div className="text w-full flex items-center m-2 ">
           <div className="w-[100%]">

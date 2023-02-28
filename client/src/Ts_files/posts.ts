@@ -143,7 +143,7 @@ export async function deletePost(post: Posts, user: User) {
       .then((res) => {
         if (res.status == 200) {
           alert("Deleted succesfully!");
-          return (window.location.href = "/");
+          return (window.location.href = window.location.href);
         } else {
           alert("You have some problems!");
         }
@@ -153,5 +153,31 @@ export async function deletePost(post: Posts, user: User) {
       });
   } catch (error: any) {
     return (window.location.href = "/login");
+  }
+}
+
+export async function getAllVideosByUserId(id: number) {
+  try {
+    if (!id) {
+      alert("You must to enter only number!");
+      return;
+    }
+    const response = await axios.get(`http://localhost:8080/post/videos/${id}`);
+    return response.data.videos;
+  } catch (error: any) {
+    alert(error.mesage);
+  }
+}
+
+export async function getAllPhotosByUserId(id: number) {
+  try {
+    if (!id) {
+      console.log("You must to enter only number!");
+      return false;
+    }
+    const response = await axios.get(`http://localhost:8080/post/photos/${id}`);
+    return response.data
+  } catch (error: any) {
+    return false;
   }
 }

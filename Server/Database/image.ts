@@ -69,10 +69,23 @@ export async function postVideoFromUser(
       title: name,
       authorEmail: User!.email,
       authorId: User!.id,
-      VideoName:name,
+      VideoName: name,
       text: letter,
       postId: post.id,
     },
   });
   return { Post: await newPost };
+}
+
+export async function getAllPhotosUserId(userId: number) {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      return false;
+    }
+    return await prisma.images.findMany({ where: { authorId: userId } });
+  } catch (error: any) {
+    console.log(error.mesage);
+    return false;
+  }
 }

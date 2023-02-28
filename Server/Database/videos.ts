@@ -22,3 +22,15 @@ export async function updateVideoText(id: number, body: Videos) {
   const video = await prisma.videos.findMany();
   console.log(video);
 }
+
+export async function getVideosByUserID(id: number) {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      return false;
+    }
+    return await prisma.videos.findMany({ where: { authorId: id } });
+  } catch (error: any) {
+    return false;
+  }
+}

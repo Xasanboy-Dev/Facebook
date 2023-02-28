@@ -17,6 +17,8 @@ import {
   getAllSavedPosts,
   savePost_Or_Unsave,
 } from "../Functions/Posts";
+import { getAllUserVideosByID } from "../Functions/videos";
+import { getAllPhotosByUserId } from "../Functions/Photos";
 const router = Router();
 const uploadForImages = multer({ storage: storageForPost });
 router.post(
@@ -120,5 +122,9 @@ router.post("/checkSaved/:postId", savePost_Or_Unsave);
 router.get("/savePosts", getAllSavedPosts);
 
 router.delete("/:postID", deletePostById);
+
+router.get("/videos/:userID", getAllUserVideosByID);
+
+router.get("/photos/:postID", getAllPhotosByUserId);
 
 module.exports = router;
