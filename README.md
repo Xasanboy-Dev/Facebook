@@ -15,5 +15,7 @@ cd /client
 npm i
 npm run dev
 ```
-
+```ts
+let randomImage = "https://placeimg.com/380/230/nature"
+```
 An then you cn work with this project→
