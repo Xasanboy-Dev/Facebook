@@ -22,5 +22,9 @@ export default function Photos() {
         })}
       </div >
     );
+  } else {
+    return (
+      <div> Error</div>
+    )
   }
 }

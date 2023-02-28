@@ -127,7 +127,9 @@ export async function EditUser(name: string) {
   const user = await prisma.user.findMany({ where: { name } });
   if (user.length !== 0) {
     const { id } = user[0];
-    await prisma.user.update({ where: { id }, data: { published: true } });
-    console.log("Updated Succesfully");
+    let data =  await prisma.user.update({ where: { id }, data: { published: true } });
+    return data
+  }else{
+    return false
   }
 }

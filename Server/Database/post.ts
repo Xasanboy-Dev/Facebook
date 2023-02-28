@@ -1,6 +1,6 @@
 import { Posts } from "@prisma/client";
 import { prisma } from "./db";
-import { CheckUserExist } from "../Database/user";
+import { CheckUserExist, userId } from "../Database/user";
 import { getCommentByID } from "./comment.service";
 export async function GetPosts() {
   return prisma.posts.findMany();
@@ -291,6 +291,26 @@ export async function removeUserToPost(email: string, postID: number) {
     return false;
   } catch (error: any) {
     console.log(error.message);
+    return false;
+  }
+}
+
+export async function getLikesPostsByUserId(id: number) {
+  try {
+    const user = await userId(id);
+    if (!user) {
+      return false;
+    }
+    let arr = user.userLike;
+    let posts: Posts[] = [];
+    for (let i in arr) {
+      let post = await checkPostExist(arr[i]);
+      if (post) {
+        posts.push(post);
+      }
+    }
+    return posts;
+  } catch (error: any) {
     return false;
   }
 }

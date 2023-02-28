@@ -17,9 +17,6 @@ export default function ImagePost({
   let [bool, setBool] = useState(false)
   let [click, setClick] = useState(false)
   let result: Posts = PostBio;
-  let data: any = PostBio.createdAt.toString();
-  let date = "";
-  let time = "";
   let [user, setUser] = useState<User>()
   let userBio = getUsrById(+localStorage.getItem("userID")!)
   userBio.then(res => {
@@ -42,10 +39,6 @@ export default function ImagePost({
 
   let [classes, setClasses] = useState("");
   async function Saved() {
-    if (!localStorage.getItem("email")) {
-      alert("You most to login!")
-      return window.location.href = '/login'
-    }
     const userEmail = localStorage.getItem("email")
     const postId = result.id
     const anythingElse: string = await sendSavedOrUnsaved(userEmail!, postId)
@@ -53,15 +46,6 @@ export default function ImagePost({
       setClasses("bg-dark text-light")
     } else {
       setClasses("")
-    }
-  }
-
-  for (let i in data) {
-    if (+i < 10) {
-      date += data[i];
-    }
-    if (+i > 10 && +i < data.length - 5) {
-      time += data[i];
     }
   }
   let savedUsersFromPost = result.savedUser
@@ -274,14 +258,13 @@ export default function ImagePost({
         </div>
         <div style={{ display: bool ? 'none' : 'flex' }} className="w-full  border  border-dark">
           <video
-            autoPlay
             controls
             className=" text-auto h-[720px] w-full"
             src={`http://localhost:8080/videos/${result.title}_${result.email}.mp4`}
           />
-        <div style={{ display: click ? 'flex' : 'none' }} className={"mt-[10%] mx-[35%]  position-absolute "}>
-          <Service setShow={setClick} post={result} user={user} />
-        </div>
+          <div style={{ display: click ? 'flex' : 'none' }} className={"mt-[10%] mx-[35%]  position-absolute "}>
+            <Service setShow={setClick} post={result} user={user} />
+          </div>
         </div>
         <div className="text w-full flex items-center m-2 ">
           <div className="w-[100%]">
@@ -348,6 +331,8 @@ export default function ImagePost({
       </div>
     );
   } else {
-    return <div></div>;
+    return <div>
+      This is for text posts!
+    </div>;
   }
 }

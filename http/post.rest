@@ -45,8 +45,9 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/post/1
+DELETE http://localhost:8080/post/25
 Content-Type: application/json
+Authorization: hasan@gmail.com
 
 {
   "email":"hasan@gmail.com"

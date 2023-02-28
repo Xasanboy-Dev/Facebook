@@ -16,9 +16,6 @@ export default function CommentOfPost({ bool, setShowCooment, POST }: { bool: bo
     }
     if (arr.length !== 0) {
         let show = false
-        async function setShow(bool: boolean) {
-            show = true
-        }
         return (
             <div className="border shadow-xl border-dark w-[90%] h-full rounded p-2">
                 <button onClick={() => setShowCooment(false)} className={'flex justify-start'}>

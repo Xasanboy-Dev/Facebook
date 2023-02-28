@@ -7,6 +7,7 @@ import {
   checkPostExist,
   checkPostSave,
   deleteWithId,
+  getLikesPostsByUserId,
   getPosts_WhereLikeMore,
   postText,
   removeSaved,
@@ -215,5 +216,22 @@ export async function getAllSavedPosts(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error.message);
     res.status(500).json({ message: "internal error" });
+  }
+}
+
+export async function getAllLikesPosts(req: Request, res: Response) {
+  try {
+    const { userID } = req.params;
+    if (!userID) {
+      return res.status(409).json({ message: "Please enter user id!" });
+    }
+    const posts = await getLikesPostsByUserId(+userID);
+    if (!posts) {
+      return res.status(409).json({ message: "You have some problems!" });
+    }
+    res.status(200).json({ message: "All good", posts });
+  } catch (error: any) {
+    console.log(error.mesage);
+    res.status(500).json({ message: "Internal error" });
   }
 }

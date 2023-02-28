@@ -128,10 +128,13 @@ export async function SeeAllPublishedUsers(req: Request, res: Response) {
   try {
     const { name } = req.body;
     const Users = await SeeAllUsers(name);
-    console.log(Users);
     const UpdatdUser = await EditUser(name);
+    if (UpdatdUser) {
+      return res.status(200).json({ message: "Good", users: UpdatdUser });
+    }
+    res.status(409).json({ message: "You havesome problems!" });
   } catch (error: any) {
-    console.log(error);
+    console.log(error.mesage);
     res.status(500).json({ message: "Internal error" });
   }
 }

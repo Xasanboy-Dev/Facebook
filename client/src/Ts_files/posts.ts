@@ -176,8 +176,20 @@ export async function getAllPhotosByUserId(id: number) {
       return false;
     }
     const response = await axios.get(`http://localhost:8080/post/photos/${id}`);
-    return response.data
+    return response.data;
   } catch (error: any) {
+    return false;
+  }
+}
+
+export async function getAllLikedVideos(userID: number) {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/user/liked/${userID}`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log(error.mesage);
     return false;
   }
 }

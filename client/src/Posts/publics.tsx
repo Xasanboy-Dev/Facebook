@@ -122,14 +122,6 @@ export function Publics() {
   } catch (error: any) {
     console.log(error.message);
   }
-
-  function getAllPostsOfUser(email: string) {
-    axios.get(`http://localhost:8080/posts/${email}`).then((res) => {
-      console.log(res.data)
-    });
-  }
-  getAllPostsOfUser(email);
-
   let postImageSrc: any = document.getElementById("postImage");
   let postVideoSrc: any = document.getElementById(`postVideo`);
   let postingImagetoServer: any;

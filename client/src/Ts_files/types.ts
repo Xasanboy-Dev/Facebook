@@ -12,7 +12,7 @@ export interface Video {
   postId: number;
 }
 
-export interface Posts {
+export interface  Posts {
   id: number;
   published: boolean;
   title: string;

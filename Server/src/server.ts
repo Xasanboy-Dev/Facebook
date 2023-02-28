@@ -1,7 +1,30 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+const PORT = process.env.PORT;
+
 import express from "express";
+
+import { WebSocketServer } from "ws";
+const wss = new WebSocketServer({ port: 1234 });
+
+wss.on("connection", (ws) => {
+  ws.on("message", (data: any) => {
+    let user: { name: string; lastname: string } = JSON.parse(data.toString());
+    console.log(`Recieved data from clicnt: ${user.name}`);
+    ws.send("How are you?");
+  });
+
+  ws.send(`Some message from server`);
+
+  ws.on("close", (reason: any) => {
+    console.log(`User gone out!`);
+    ws.send("Bye!");
+  });
+});
+
 import { Router } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import createImagePost, {
   aboutAllUser,
   createDashboardImage,
@@ -31,15 +54,14 @@ import {
   postComment,
 } from "../Functions/Posts";
 import { removeSavedFromUser, SavePost } from "../Functions/User";
-dotenv.config();
+
 const router = Router();
 const server = express();
-const PORT = process.env.PORT;
 server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-server.use('/user', require("./../router/user"))
+server.use("/user", require("./../router/user"));
 server.use("/post", require("./../router/postImages"));
 server.use("/posts", require("./../router/postImages"));
 

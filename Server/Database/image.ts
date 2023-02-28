@@ -42,7 +42,7 @@ export async function postPhotoFromUser(
       authorEmail: email,
       authorId: User!.id,
       postId: (await newPost).id,
-      title: "new Photo",
+      title: name,
     },
   });
   return { Post: await newPost };
