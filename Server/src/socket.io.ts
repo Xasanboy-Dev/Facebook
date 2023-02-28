@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import WebSocket from "ws";
 
 const port = 1234;
@@ -14,4 +15,12 @@ ws.on("open", () => {
 
 ws.on("message", (data) => {
   console.log(`Recieved message from server:${data}`);
+=======
+import express from "express";
+const PORT = 5000;
+const server = express();
+
+server.listen(PORT, () => {
+  console.log(`ws://localhost:${PORT}`);
+>>>>>>> 6f7af1611922ad0c2aa7128623e9622a822c09cb
 });
