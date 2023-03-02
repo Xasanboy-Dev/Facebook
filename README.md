@@ -18,4 +18,10 @@ npm run dev
 ```ts
 let randomImage = "https://placeimg.com/380/230/nature"
 ```
+
+
+Work with SVELTE:
+```shell
+npx degit sveltejs/template .
+```
 An then you cn work with this project→
