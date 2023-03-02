@@ -58,7 +58,22 @@ export async function editUserData(
 
 export async function getUsrById(userId: number) {
   try {
+    if (!userId) {
+      return;
+    }
     const response = await axios.get(`http://localhost:8080/user/id/${userId}`);
     return response.data.user;
   } catch (error: any) {}
+}
+
+export async function getDataAboutThisUser(id: number) {
+  try {
+    if (!id) {
+      return false;
+    }
+    const user = await axios.get(`http://localhost:8080/chat/user/${id}`);
+    return user.data;
+  } catch (error: any) {
+    return false;
+  }
 }

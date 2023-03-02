@@ -11,7 +11,7 @@ const wss = new WebSocketServer({ port: 1234 });
 wss.on("connection", (ws) => {
   ws.on("message", (data: any) => {
     let user: { name: string; lastname: string } = JSON.parse(data.toString());
-    console.log(`Recieved data from clicnt: ${user.}`);
+    console.log(`Recieved data from clicnt: ${user.name}`);
     ws.send("How are you?");
   });
 
@@ -61,6 +61,7 @@ server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
+server.use("/chat", require("./../router/chat"));
 server.use("/user", require("./../router/user"));
 server.use("/post", require("./../router/postImages"));
 server.use("/posts", require("./../router/postImages"));

@@ -8,7 +8,7 @@ import {
   updateUserByID,
   userId,
 } from "../Database/user";
-import { checkPostExist, checkSaved } from "../Database/post";
+import { checkPostExist, checkPostSaved } from "../Database/post";
 import { SavePOST } from "../Database/user";
 const prisma = new PrismaClient();
 
@@ -22,9 +22,9 @@ export async function SavePost(req: Request, res: Response) {
       return res.status(500).json({ message: "Please try again!" });
     }
 
-    const checkSavedOrNo = await checkSaved(user.id, post.id);
+    const checkSavedOrNo = await checkPostSaved(user.id, post.id);
     let savedUser: any;
-    if (!checkSavedOrNo) {
+    if (checkSavedOrNo == "Yoq") {
       savedUser = await SavePOST(user.id, post.id);
     } else {
       savedUser = await UnsavePost(user.id, post.id);
@@ -113,5 +113,19 @@ export async function getUserById(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error.mesage);
     return res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function getAllDataAboutUser(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const user = await userId(+id);
+    if (!user) {
+      return res.status(500).json({ message: "You have some problems!" });
+    }
+    res.status(200).json({ message: "Succes", user });
+  } catch (error: any) {
+    console.log(error.mesage);
+    res.status(500).json({ message: "Internal error" });
   }
 }

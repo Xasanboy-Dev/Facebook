@@ -5,7 +5,7 @@ import { updateVideoText, Videos } from "../Database/videos";
 import {
   addCommentID,
   checkPostExist,
-  checkPostSave,
+  checkPostSaved,
   deleteWithId,
   getLikesPostsByUserId,
   getPosts_WhereLikeMore,
@@ -17,14 +17,6 @@ import {
   writeComment,
 } from "./../Database/post";
 import { GetPosts, removerPostById } from "./../Database/post";
-export async function GetAllPostsByUserEmail(req: Request, res: Response) {
-  try {
-    let { email } = req.params;
-  } catch (error: any) {
-    console.log(error.message);
-    res.status(500).json({ message: "Interal error" });
-  }
-}
 
 export async function GetAllPosts(req: Request, res: Response) {
   try {
@@ -166,8 +158,8 @@ export async function savePost_Or_Unsave(req: Request, res: Response) {
     if (!user || !post) {
       return res.status(409).json({ message: "You have some problems!" });
     }
-    const isTrue = await checkPostSave(user.email, post.id);
-    if (!isTrue) {
+    const isTrue = await checkPostSaved(user.id, post.id);
+    if (isTrue == "Yoq") {
       let savedUser = await savePost(user.email, post.id);
       let savedPost = await saveUserToPost(user.email, post.id);
       if (savedUser && savedPost) {

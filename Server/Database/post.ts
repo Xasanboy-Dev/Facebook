@@ -30,6 +30,23 @@ export async function postText(text: string, email: string) {
   });
 }
 
+export async function checkPostSaved(userID: number, postID: number) {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userID } });
+    if (!user) {
+      return false;
+    }
+    if (user.userFavorites.includes(postID)) {
+      return true;
+    } else {
+      return "Yoq";
+    }
+  } catch (error: any) {
+    console.log(error.mesage);
+    return false;
+  }
+}
+
 export async function checkPostExist(id: number) {
   try {
     return await prisma.posts.findUnique({ where: { id } });
@@ -163,21 +180,6 @@ export async function addDislikee(userId: number, postID: number) {
     return false;
   }
 }
-
-export async function checkSaved(userId: number, postId: number) {
-  const result = await prisma.user.findUnique({ where: { id: userId } });
-  return result!.userFavorites.includes(postId);
-}
-
-export async function checkPostSave(userEmail: string, postId: number) {
-  try {
-    const user = await prisma.user.findUnique({ where: { email: userEmail } });
-    return user?.userFavorites.includes(postId);
-  } catch (error: any) {
-    return "Internal Error";
-  }
-}
-
 export async function savePost(userEmail: string, postId: number) {
   try {
     const user = await CheckUserExist(userEmail);

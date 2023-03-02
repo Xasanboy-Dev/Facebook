@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Context } from "../main";
+import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
+const Login = () => {
 
-export default function Login() {
+  const { auth } = useContext(Context)
+  const [user, setUser] = useState<any>()
+  const login = async () => {
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider()
+    signInWithPopup(auth, provider)
+      .then(res => {
+        setUser(res.user)
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+  }
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -71,6 +86,9 @@ export default function Login() {
                   placeholder="Password"
                 />
               </li>
+              <li onClick={login} className="mt-2 text-light cursor-pointer">
+                <a className="border bg-red-900 text-2xl flex justify-content-center  p-2 rounded-full border-dark ">Login with Google</a>
+              </li>
               <li>
                 <button
                   onClick={Submit}
@@ -96,3 +114,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login

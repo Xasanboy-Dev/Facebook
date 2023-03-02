@@ -67,15 +67,23 @@ router.post("/likee/:PostsId", async (req: Request, res: Response) => {
       if (!deletedLiking) {
         return res.status(500).json({ message: "You have some problems!" });
       }
-      return res.status(200);
+      return res.status(200).json({ message: "Added succesfully!" });
     } else if (result == "DISLIKED") {
-      const addingLike = await addLike(existUser.id, existPost.id);
-      if (!addingLike) {
+      const removeDisliked = await deleteDislike(existUser.id, existPost.id);
+      if (!removeDisliked) {
+        return res.status(500).json({ message: "You have some problems!" });
+      }
+      const added = await addLike(existUser.id, existPost.id);
+      if (!added) {
         return res.status(500).json({ message: "You have some problems!" });
       }
       res.status(200).json({ message: "Added succesfully!" });
     } else {
       const added = await addLike(existUser.id, existPost.id);
+      if (!added) {
+        return res.status(500).json({ message: "You have some problems!" });
+      }
+      res.status(200).json({ message: "Added succesfully!" });
     }
   } catch (error: any) {
     console.log(error.message);
@@ -105,10 +113,16 @@ router.post("/dislikee/:PostsId", async (req: Request, res: Response) => {
       if (!removeLike) {
         return res.status(409).json({ message: "You have some problems!" });
       }
-      await addDislikee(existUser.id, existPost.id);
+      const added = await addDislikee(existUser.id, existPost.id);
+      if (!added) {
+        return res.status(409).json({ message: "You have some problems!" });
+      }
       return res.status(200).json({ message: "Added succesfully" });
     } else {
-      const result = await addDislikee(existUser.id, existPost.id);
+      const added = await addDislikee(existUser.id, existPost.id);
+      if (!added) {
+        return res.status(409).json({ message: "You have some problems!" });
+      }
       res.status(200).json({ message: "Added succesfully!" });
     }
   } catch (error: any) {

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
     "@prisma/client": "^4.10.0",
     "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",

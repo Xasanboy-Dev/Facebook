@@ -8,16 +8,16 @@ datasource db {
 }
 
 model user {
-  id              Int      @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   name            String
-  email           String   @unique
+  email           String  @unique
   lastname        String
   password        String
-  published       Boolean  @default(false)
+  published       Boolean @default(false)
   publishedPhotos Int[]
   publishedVideos Int[]
   userLike        Int[]
-  userDislike     String[]
+  userDislike     Int[]
   userFavorites   Int[]
   imageUrl        String?
   friends         Int[]

@@ -159,7 +159,6 @@ export async function deletePost(post: Posts, user: User) {
 export async function getAllVideosByUserId(id: number) {
   try {
     if (!id) {
-      alert("You must to enter only number!");
       return;
     }
     const response = await axios.get(`http://localhost:8080/post/videos/${id}`);
@@ -172,7 +171,6 @@ export async function getAllVideosByUserId(id: number) {
 export async function getAllPhotosByUserId(id: number) {
   try {
     if (!id) {
-      console.log("You must to enter only number!");
       return false;
     }
     const response = await axios.get(`http://localhost:8080/post/photos/${id}`);
