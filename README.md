@@ -24,4 +24,9 @@ Work with SVELTE:
 ```shell
 npx degit sveltejs/template .
 ```
+
+for other colors in TERMINAL you must to install:
+```shell
+npm i chai
+```
 An then you cn work with this project→
