@@ -29,5 +29,5 @@ For other colors in TERMINAL you must to install:
 ```shell
 npm i chai
 ```
-And then work
-An then you cn work with this project→
+And then work with this
+## An then you cn work with this project→
