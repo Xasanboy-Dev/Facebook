@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import {
   CheckUserExist,
   FindUser,
+  getAllUsers,
   removePostFromUser,
   UnsavePost,
   updateUserByID,
@@ -127,5 +128,20 @@ export async function getAllDataAboutUser(req: Request, res: Response) {
   } catch (error: any) {
     console.log(error.mesage);
     res.status(500).json({ message: "Internal error" });
+  }
+}
+
+export async function getAllUsersForChatting(req: Request, res: Response) {
+  try {
+    const id = req.header("useid")
+    const user = await userId(+id!)
+    if (!user) {
+      return res.status(404).json({ message: "You must to login!" })
+    }
+    const getUsers = await getAllUsers()
+    res.status(200).json({ message: "All users!", users: getUsers })
+  } catch (error: any) {
+    console.log(error.mesage)
+    res.status(500).json({ message: 'Internal error' })
   }
 }

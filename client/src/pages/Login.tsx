@@ -4,7 +4,10 @@ import { Link } from "react-router-dom";
 import { Context } from "../main";
 import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth"
 const Login = () => {
-
+  localStorage.removeItem("email")
+  localStorage.removeItem("name")
+  localStorage.removeItem("userID")
+  localStorage.removeItem("anotherUser")
   const { auth } = useContext(Context)
   const [user, setUser] = useState<any>()
   const login = async () => {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addComment, postDisLikee, postLikee, saveThePost, sendSavedOrUnsaved } from "../Ts_files/posts";
 import { Posts, User } from "./../Ts_files/types";
 import CommentOfPost from "./comments";
@@ -18,9 +18,11 @@ export default function ImagePost({
   let [click, setClick] = useState(false)
   let result: Posts = PostBio;
   let [user, setUser] = useState<User>()
-  let userBio = getUsrById(+localStorage.getItem("userID")!)
-  userBio.then(res => {
-    setUser(res)
+  useEffect(() => {
+    let userBio = getUsrById(+localStorage.getItem("userID")!)
+    userBio.then(res => {
+      setUser(res)
+    })
   })
   try {
     if (!logo) {

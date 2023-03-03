@@ -138,3 +138,7 @@ export async function userId(userId: number) {
     return false;
   }
 }
+
+export async function getAllUsers() {
+  return await prisma.user.findMany()
+}

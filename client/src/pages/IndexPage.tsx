@@ -1,21 +1,22 @@
 import axios from "axios";
 import ImagePost from "../Post/ImagePost";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function IndexPage() {
   let [arr, setArr] = useState([]);
   let showIcon: boolean = false;
   function show() {
     showIcon = true;
   }
-
-  axios
-    .get("http://localhost:8080/posts")
-    .then((res) => {
-      setArr(res.data.posts);
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/posts")
+      .then((res) => {
+        setArr(res.data.posts);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  })
   return (
     <div className="mx-auto text-center ">
       {arr.map((numbers: any) => (

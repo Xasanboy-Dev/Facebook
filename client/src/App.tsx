@@ -13,10 +13,8 @@ import Information from "./Posts/Information";
 import ClickOnLikes from "./Posts/ClickOnLikes";
 import SavedVideos from "./Posts/SavedPosts";
 import POSTS from "./Post/postVideo_and_Photo";
-import Messages from "./pages/LayoutMassege";
 import ChatUser from "./Messages/ChatUsers";
-import UserMessages from "./pages/Message"
-import UseMessagePage from "./Messages/User";
+import User from "./Messages/User"
 function App() {
   return (
     <div>
@@ -24,11 +22,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/post" element={<POSTS />} />
-        <Route path="/messages" element={<ChatUser />}>
-          <Route index element={<Messages />} />
-          <Route path="/messages/users" element={<ChatUser />} />
-          <Route path="/messages/chat" element={<UserMessages />} />
-        </Route>
+        <Route path="/messages" element={<User />} />
+        <Route path="/messages/chat" element={<ChatUser />} />
         <Route path="/" element={<Layot />}>
           <Route index element={<IndexPage />} />
           <Route path="/profile" element={<ProfileLayout />}>
