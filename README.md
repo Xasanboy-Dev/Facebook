@@ -29,5 +29,8 @@ For other colors in TERMINAL you must to install:
 ```shell
 npm i chai
 ```
+```shell
+Chat  GPT = "https://t.me/chat_gpt_unlimbot"
+```
 And then work with this
 ## An then you cn work with this project→
