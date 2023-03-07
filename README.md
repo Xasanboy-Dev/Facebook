@@ -33,5 +33,5 @@ npm i chai
 Chat  GPT = "https://t.me/chat_gpt_unlimbot"
 ```
 And then work with this
-Vey interesting
+I must to do DARKMODE
 ## An then you cn work with this project→
