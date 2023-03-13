@@ -16,7 +16,7 @@ npm i
 npm run dev
 ```
 ```ts
-let randomImage = "https://placeimg.com/380/230/nature"
+let randomImage = "https://picsum.photos/500/500"
 ```
 
 
