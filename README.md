@@ -35,4 +35,9 @@ Chat  GPT = "https://t.me/chat_gpt_unlimbot"
 And then work with this
 I must to do DARKMODE and LIGHTMODE
 ## An then you cn work with this project→
-For my future
+
+VITE_OPEN_AI_Key=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
+
+// Qoshimcha API kalit:
+// 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
+// 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
